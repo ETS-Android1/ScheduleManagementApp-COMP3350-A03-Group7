@@ -1,0 +1,1 @@
+# Schedule Management App - Group7 - COMP3350 - A03
