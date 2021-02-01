@@ -1,6 +1,5 @@
-## Desciption:
+## Description:
 
-(summary the feature desciption)
 
 ## User Stories: 
     [](url)
