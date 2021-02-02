@@ -1,5 +1,4 @@
 # Schedule Management App - Group7 - COMP3350 - A03
-#
 ## Vision
 The Schedule management application will be used to plan out the activities of the user on a by-day or by-week basis. The application will be accessible via Android device so that the user would be able to access it at any point given that they have access to their Android device. The application can display the user’s schedule (previous, current and future) as well as allow the user to make changes to their schedule.
 
