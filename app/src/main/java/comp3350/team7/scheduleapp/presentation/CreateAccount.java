@@ -44,7 +44,7 @@ public class CreateAccount extends AppCompatActivity {
                 confirmPassword = confirmPasswordInput.getText().toString();
 
                 if(firstname != null && lastname!=null && username!=null && password.equals(confirmPassword)) {
-                    //does something
+                    newUser = new User(firstname,lastname,username,password);
                 }
                 else{
                     if(firstname == null){
