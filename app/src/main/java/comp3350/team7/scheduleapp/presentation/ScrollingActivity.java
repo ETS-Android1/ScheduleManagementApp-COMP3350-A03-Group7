@@ -1,13 +1,10 @@
 package comp3350.team7.scheduleapp.presentation;
 
+import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.objects.RecyclerViewItem;
@@ -29,11 +25,11 @@ public class ScrollingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_layout);
 //        setSupportActionBar(toolbar);
 //        CollapsingToolbarLayout toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
 //        toolBarLayout.setTitle(getTitle());
-//
+
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -42,7 +38,13 @@ public class ScrollingActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 //            }
 //        });
-
+        View fba = findViewById(R.id.include);
+        fba.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchEditItent();
+            }
+        });
         initRecyclerView();
     }
     @Override
@@ -66,10 +68,9 @@ public class ScrollingActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void initRecyclerView(){
+    private void initRecyclerView(){
         recyclerView = findViewById(R.id.recylerview);
         list = new ArrayList<>();
-        for
         list.add(new RecyclerViewItem("Appointment #1","4:30", R.drawable.ic_launcher_background,false));
         list.add(new RecyclerViewItem("Appointment #2","4:30", R.drawable.ic_launcher_background,false));
         list.add(new RecyclerViewItem("Appointment #3", "4:30",R.drawable.ic_launcher_background,false));
@@ -97,6 +98,20 @@ public class ScrollingActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
+        // Setup onItemTouchHandler
+        ItemTouchHelper.Callback callback = new RecyclerViewOnItemtouchHelper(adapter,(View) findViewById(R.id.ScrollingLayout));
+        ItemTouchHelper helper = new ItemTouchHelper(callback);
+        helper.attachToRecyclerView(recyclerView);
+
+    }
+
+    private void launchEditItent(){
+        Bundle bundle = new Bundle();
+        bundle.putString("WELCOME","Welcome to a new activity");
+        Intent createEvent = new Intent(ScrollingActivity.this, EventCreationActivity.class);
+        createEvent.putExtra("BUNDLE",bundle);
+        startActivityForResult(createEvent,100);
 
     }
 }

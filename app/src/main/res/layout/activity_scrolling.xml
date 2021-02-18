@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ConstrainstLayout"
+    android:id="@+id/ScrollingLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_layout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginBottom="4dp"
@@ -19,11 +19,26 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recylerview"
-        android:layout_width="453dp"
-        android:layout_height="1111dp"
-        android:visibility="visible"
+        android:layout_width="452dp"
+        android:layout_height="715dp"
+        android:layout_marginBottom="26dp"
 
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/include"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_layout">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/floating_action_button"
+        android:layout_width="49dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recylerview" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

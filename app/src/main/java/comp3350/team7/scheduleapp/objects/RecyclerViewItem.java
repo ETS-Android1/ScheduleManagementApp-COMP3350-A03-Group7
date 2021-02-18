@@ -2,16 +2,16 @@ package comp3350.team7.scheduleapp.objects;
 
 public class RecyclerViewItem {
     private String title;
-    private boolean showMenu = false;
+    private boolean showOption = false;
     private String time;
     private int image;
 
     public RecyclerViewItem() {
     }
 
-    public RecyclerViewItem(String title,String time, int image, boolean showMenu) {
+    public RecyclerViewItem(String title,String time, int image, boolean showOption) {
         this.title = title;
-        this.showMenu = showMenu;
+        this.showOption = showOption;
         this.image = image;
         this.time = time;
     }
@@ -28,14 +28,14 @@ public class RecyclerViewItem {
     }
 
     public boolean isShowMenu() {
-        return showMenu;
+        return showOption;
     }
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public void setShowMenu(boolean showMenu) {
-        this.showMenu = showMenu;
+    public void setShowMenu(boolean showOption) {
+        this.showOption = showOption;
     }
 
     public String getTime() {

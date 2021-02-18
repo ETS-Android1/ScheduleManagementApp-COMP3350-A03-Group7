@@ -1,26 +1,39 @@
 package comp3350.team7.scheduleapp.presentation;
 
 import android.content.Context;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.objects.RecyclerViewItem;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    ArrayList<RecyclerViewItem> list;
-    Context context;
+    private ArrayList<RecyclerViewItem> list;
+    private Context context;
 
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView textView3;
+        public TextView textView4;
+        public View holder,foreGround, backGround;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            textView3 = itemView.findViewById(R.id.textView3);
+            textView4 = itemView.findViewById(R.id.textView4);
+            foreGround =itemView.findViewById(R.id.foreGround);
+            backGround =itemView.findViewById(R.id.backGround);
+            holder = itemView.findViewById(R.id.holder);
+        }
+
+    }
     public RecyclerViewAdapter(Context context, ArrayList<RecyclerViewItem> eventList) {
         this.list = eventList;
         this.context = context;
@@ -40,7 +53,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (holder instanceof MyViewHolder) {
             ((MyViewHolder) holder).textView3.setText(entity.getTitle());
             ((MyViewHolder) holder).textView4.setText(entity.getTime());
-//            ((MyViewHolder) holder).imageView.setImageDrawable(context.getResources().getDrawable(entity.getImage()));
         }
     }
 
@@ -48,8 +60,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public int getItemCount() {
         return list.size();
     }
+    public RecyclerViewItem getItem(int adaptivePos){
+        return this.list.get(adaptivePos);
+    }
     public void remove(int position) {
         list.remove(position);
+        // NOTE: don't call notifyDataSetChanged(
+        //       It will cancel any animation
         notifyItemRemoved(position);
     }
 
@@ -57,17 +74,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         Collections.swap(list, firstPosition, secondPosition);
         notifyItemMoved(firstPosition, secondPosition);
     }
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView textView3;
-        TextView textView4;
 
-
-        public MyViewHolder(View itemView) {
-            super(itemView);
-            textView3 = itemView.findViewById(R.id.textView3);
-            textView4 = itemView.findViewById(R.id.textView4);
-//            imageView = itemView.findViewById(R.id.imageView);
-//            container = itemView.findViewById(R.id.container);
-        }
+    public void undo(RecyclerViewItem item, int position) {
+        list.add(position, item);
+        // notify item added by position
+        notifyItemInserted(position);
     }
 }
