@@ -7,7 +7,7 @@ public class User {
     private String lastName;
     //private Schedule my_schedule;
 
-    public User(String userId, String password, String firstName, String lastName) {
+    public User(String firstName, String lastName, String userId, String password) {
         this.userId = userId;
         this.password = password;
         this.firstName = firstName;
