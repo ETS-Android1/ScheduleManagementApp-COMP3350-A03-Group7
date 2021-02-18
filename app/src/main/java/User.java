@@ -1,4 +1,3 @@
-
 public class User {
 
     private String userId;
@@ -57,7 +56,7 @@ public class User {
     }
     */
 
-    protected void passwordLengthCheck(String p) throws Exception{
+    protected static void passwordLengthCheck(String p) throws Exception{
         if ((p.length() < 8)|| (p.length() > 16)){
             throw new Exception("Your password needs to be 8-16 characters");
         }
