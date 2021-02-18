@@ -1,18 +1,20 @@
 package comp3350.team7.scheduleapp.presentation;
-
+//C:\Users\FatCave\Desktop\Bailey's\School\COMP3350\Team-7\app\src\main\res\layout
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
+import android.widget.*;
+
+import comp3350.team7.scheduleapp.R;
 
 import static android.widget.Toast.*;
 
 public class CreateAccount extends AppCompatActivity {
-    private Button createAccount;
-    private String firstname, lastname, username, password, confirmPassword;
+    protected String firstname, lastname, username, password, confirmPassword;
 
+    Button createAccount;
     EditText firstNameInput;
     EditText lastNameInput;
     EditText usernameInput;
@@ -31,7 +33,7 @@ public class CreateAccount extends AppCompatActivity {
         passwordInput = (EditText) findViewById(R.id.newPassword);
         confirmPasswordInput = (EditText) findViewById(R.id.confirmPassword);
 
-        createAccount = (Button) findViewById(R.id.CreateAccount);
+        createAccount = (Button) findViewById(R.id.Create_Account);
         createAccount.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,7 +41,7 @@ public class CreateAccount extends AppCompatActivity {
                 lastname = lastNameInput.getText().toString();
                 username = usernameInput.getText().toString();
                 password = passwordInput.getText().toString();
-                confirmpassword = confirmPasswordInput.getText().toString();
+                confirmPassword = confirmPasswordInput.getText().toString();
 
                 if(firstname != null && lastname!=null && username!=null && password.equals(confirmPassword)) {
                     //does something
