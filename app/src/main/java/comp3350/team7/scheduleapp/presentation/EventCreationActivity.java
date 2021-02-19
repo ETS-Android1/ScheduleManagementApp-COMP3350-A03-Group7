@@ -116,4 +116,5 @@ public class EventCreationActivity extends AppCompatActivity {
         setResult(RESULT_OK, i);
         finish();
     }
+
 }
