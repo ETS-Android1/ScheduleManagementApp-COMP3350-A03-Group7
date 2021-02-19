@@ -2,9 +2,11 @@ package comp3350.team7.scheduleapp.presentation;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -22,21 +24,33 @@ public class EventCreationActivity extends AppCompatActivity {
     EditText datePickerText;
     EditText eventNameText;
     EditText timePickerText;
+    Button saveButton;
     Calendar calendar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_creation_activity);
+
+        eventNameText = (EditText) findViewById(R.id.event_name_text);
+        datePickerText= (EditText) findViewById(R.id.date_picker_text);
+        timePickerText =(EditText) findViewById(R.id.time_picker_text);
+        saveButton = (Button) findViewById(R.id.save_event_button);
+
+
+
+
         Bundle bundle;
         if ((bundle = getIntent().getBundleExtra("BUNDLE")) != null) {
             String welcome = bundle.getString("WELCOME");
-            eventNameText = (EditText) findViewById(R.id.event_name_text);
             eventNameText.setText(welcome);
             System.out.println("AAA");
         }else{
             System.out.println("BBB");
         }
-        datePickerText= (EditText) findViewById(R.id.date_picker_text);
+
+
+        // date picker listener
         datePickerText.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -57,7 +71,7 @@ public class EventCreationActivity extends AppCompatActivity {
             }
         });
 
-        timePickerText =(EditText) findViewById(R.id.time_picker_text);
+        // time picker listener
         timePickerText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,5 +91,29 @@ public class EventCreationActivity extends AppCompatActivity {
             }
         });
 
+        // Save button listener
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                 try {
+//
+//                 }catch()
+            }
+        });
+
+
+    }
+
+    private void returnResult() {
+        Bundle bundle = new Bundle();
+
+        //TODO: Init Event userEvent
+        bundle.putParcelable("EVENT", userEvent);
+        Intent i = new Intent();
+        i.putExtra("RETURN_DATA", bundle);
+
+        setResult(RESULT_OK, i);
+        finish();
     }
 }

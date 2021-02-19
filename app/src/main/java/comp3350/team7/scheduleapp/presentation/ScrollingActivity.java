@@ -11,13 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.EventObject;
 
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.objects.RecyclerViewItem;
 
 public class ScrollingActivity extends AppCompatActivity {
+    private final static int REQUEST_CODE =100;
     RecyclerView recyclerView;
     ArrayList<RecyclerViewItem> list;
     RecyclerViewAdapter adapter;
@@ -111,7 +114,20 @@ public class ScrollingActivity extends AppCompatActivity {
         bundle.putString("WELCOME","Welcome to a new activity");
         Intent createEvent = new Intent(ScrollingActivity.this, EventCreationActivity.class);
         createEvent.putExtra("BUNDLE",bundle);
-        startActivityForResult(createEvent,100);
+        startActivityForResult(createEvent,REQUEST_CODE);
 
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE && data != null) {
+                Bundle bundle = data.getBundleExtra("RETURN_DATA");
+                // TODO: Create event object
+                Event text = data.getExtras().getParcelable("EVENT");
+
+                Toast.makeText(ScrollingActivity.this, "Event Object Received : " + text, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

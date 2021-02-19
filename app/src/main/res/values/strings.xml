@@ -123,4 +123,6 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="event_name">"Event name "</string>
+    <string name="dialog_invalid_input">Missing/Invalid Input</string>
+    <string name="cancel">CANCEL</string>
 </resources>
