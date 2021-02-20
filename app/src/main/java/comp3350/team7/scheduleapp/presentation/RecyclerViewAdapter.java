@@ -1,22 +1,26 @@
 package comp3350.team7.scheduleapp.presentation;
 
 import android.content.Context;
+import android.os.Build;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.objects.RecyclerViewItem;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<RecyclerViewItem> list;
+    private ArrayList<Event> list;
+
     private Context context;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -34,7 +38,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
     }
-    public RecyclerViewAdapter(Context context, ArrayList<RecyclerViewItem> eventList) {
+    public RecyclerViewAdapter(Context context, ArrayList<Event> eventList) {
         this.list = eventList;
         this.context = context;
     }
@@ -49,10 +53,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     // bind view holder with a given position in RecyclerView
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        RecyclerViewItem entity = list.get(position);
+        Event entity = list.get(position);
         if (holder instanceof MyViewHolder) {
             ((MyViewHolder) holder).textView3.setText(entity.getTitle());
-            ((MyViewHolder) holder).textView4.setText(entity.getTime());
+            ((MyViewHolder) holder).textView4.setText(entity.geteventStart());
         }
     }
 
@@ -60,9 +64,25 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public int getItemCount() {
         return list.size();
     }
-    public RecyclerViewItem getItem(int adaptivePos){
+    public Event getItem(int adaptivePos){
         return this.list.get(adaptivePos);
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void addAscending(Event e){
+        if (list != null) {
+            list.add(e);
+            list.sort(new Comparator<Event>() {
+                @Override
+                public int compare(Event e, Event r) {
+                    return e.geteventStart().compareTo(r.geteventStart());
+                }
+            });
+        }
+        notifyDataSetChanged();
+    }
+
+
     public void remove(int position) {
         list.remove(position);
         // NOTE: don't call notifyDataSetChanged(
@@ -75,7 +95,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         notifyItemMoved(firstPosition, secondPosition);
     }
 
-    public void undo(RecyclerViewItem item, int position) {
+    public void undo(Event item, int position) {
         list.add(position, item);
         // notify item added by position
         notifyItemInserted(position);

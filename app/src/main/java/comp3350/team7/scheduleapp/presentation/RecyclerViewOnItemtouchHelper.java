@@ -71,7 +71,7 @@ public class RecyclerViewOnItemtouchHelper extends ItemTouchHelper.SimpleCallbac
     @Override
     public void onSwiped(RecyclerView.ViewHolder swipped, int direction) {
         final int viewHolderPosition = swipped.getAdapterPosition();
-        final RecyclerViewItem deletedItem = Adapter.getItem(viewHolderPosition);
+        final Event deletedItem = Adapter.getItem(viewHolderPosition);
         switch (direction) {
             case ItemTouchHelper.LEFT:
                 //Remove item

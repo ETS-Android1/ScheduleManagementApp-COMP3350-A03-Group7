@@ -8,10 +8,15 @@ import androidx.fragment.app.DialogFragment;
 import comp3350.team7.scheduleapp.R;
 
 public class InvalidInputDialogFragment extends DialogFragment {
+    private String displayMessage;
+    public InvalidInputDialogFragment(String message) {
+        displayMessage = message;
+    }
+
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.dialog_invalid_input)
+        builder.setMessage(displayMessage)
 //                    .setPositiveButton(R.string.fire, new DialogInterface.OnClickListener() {
 //                        public void onClick(DialogInterface dialog, int id) {
 //                            // FIRE ZE MISSILES!

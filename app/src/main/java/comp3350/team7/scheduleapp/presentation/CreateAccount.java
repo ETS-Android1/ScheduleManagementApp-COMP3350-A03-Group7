@@ -69,8 +69,8 @@ public class CreateAccount extends AppCompatActivity {
                     }
 
                 }catch (Exception e){
-                    InvalidInputDialogFragment dialog = new InvalidInputDialogFragment();
-                    dialog.show(getSupportFragmentManager(),"Missing/Invalid input");
+                    InvalidInputDialogFragment dialog = new InvalidInputDialogFragment("Missing/Invalid Input");
+                    dialog.show(getSupportFragmentManager(),"invalid_input");
                 }
 
             }
