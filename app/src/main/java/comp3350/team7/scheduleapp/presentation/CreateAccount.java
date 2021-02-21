@@ -66,6 +66,7 @@ public class CreateAccount extends AppCompatActivity {
         if(firstname != null && lastname!=null && username!=null && password!=null && password.equals(confirmPassword)) {
             newUser = new User(firstname,lastname,username,password);
             makeText(CreateAccount.this, "your account has been successfully created", LENGTH_SHORT).show();
+            launchUserHomePage();
         }
 
         else{
