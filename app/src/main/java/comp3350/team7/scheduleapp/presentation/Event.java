@@ -171,23 +171,21 @@ public class Event implements EventInterface, Parcelable {
 
     private int Priority;
 
-    public Event(String title, String description, Calendar eventStart, Calendar eventEnd, Event next) {
+    public Event(String title, String description, Calendar eventStart, Calendar eventEnd){
         setTitle(title);
         setDescription(description);
         setID();
         setStart(eventStart);
         setEnd(eventEnd);
-        setNext(next);
 
     }
 
-    public Event(String title, String description, Calendar eventStart, Event next) {
+    public Event(String title, String description, Calendar eventStart) {
         setTitle(title);
         setDescription(description);
         setID();
         setStart(eventStart);
         setEnd(null);
-        setNext(next);
 
     }
     private String timeDisplayHelper(Calendar calendar)

@@ -161,7 +161,7 @@ public class EventCreationActivity extends AppCompatActivity {
 
 
     private void returnResult() {
-        Event newUserEvent = new Event(eventNameText.getText().toString(), "description", ourCalendar, null);
+        Event newUserEvent = new Event(eventNameText.getText().toString(), "description", ourCalendar);
         Intent i = new Intent();
         i.putExtra("RETURN_DATA", newUserEvent);
 

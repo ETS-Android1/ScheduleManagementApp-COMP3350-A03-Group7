@@ -11,6 +11,11 @@ import com.google.android.material.snackbar.Snackbar;
 
 import comp3350.team7.scheduleapp.objects.RecyclerViewItem;
 
+/*
+ * Created By Thai Tran on 22 February,2021
+ *
+ */
+
 public class RecyclerViewOnItemtouchHelper extends ItemTouchHelper.SimpleCallback {
     private RecyclerViewAdapter Adapter;
     private View view;

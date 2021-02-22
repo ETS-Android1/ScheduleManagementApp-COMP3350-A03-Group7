@@ -90,7 +90,6 @@ public class CreateAccount extends AppCompatActivity {
             }
         }
     }
-    }
     void launchUserHomePage(){
         Bundle bundle = new Bundle();
         bundle.putString("WELCOME","Welcome to user home page activity");

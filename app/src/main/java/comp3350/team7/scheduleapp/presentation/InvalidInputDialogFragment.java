@@ -7,6 +7,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import comp3350.team7.scheduleapp.R;
 
+/*
+ * Created By Thai Tran on 22 February,2021
+ *
+ */
+
 public class InvalidInputDialogFragment extends DialogFragment {
     private String displayMessage;
     public InvalidInputDialogFragment(String message) {

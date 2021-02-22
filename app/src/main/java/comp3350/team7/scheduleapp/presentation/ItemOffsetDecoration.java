@@ -8,6 +8,11 @@ import androidx.annotation.DimenRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+/*
+ * Created By Thai Tran on 22 February,2021
+ *
+ */
+
 public class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
 
     private int mItemOffset;

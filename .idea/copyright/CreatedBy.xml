@@ -1,6 +1,6 @@
 <component name="CopyrightManager">
   <copyright>
-    <option name="notice" value="Created By Thai Tran on &amp;#36;today&#10;" />
+    <option name="notice" value="Created By Thai Tran on &amp;#36;today.format(&quot;dd MMMM,YYYY&quot;)&#10;" />
     <option name="myName" value="CreatedBy" />
   </copyright>
 </component>
