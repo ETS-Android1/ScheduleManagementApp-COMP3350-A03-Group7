@@ -148,10 +148,11 @@ public class EventCreationActivity extends AppCompatActivity {
     }
 
     private boolean isValidateBeforeSave() {
-        Pattern pattern = Pattern.compile("(\\w)+(\\s)*");
+        Pattern pattern = Pattern.compile("[\\w\\s*]+");
         Matcher matcher = pattern.matcher(eventNameText.getText().toString());
         if (!matcher.matches()) {
-            InvalidInputDialogFragment invalidEventName = new InvalidInputDialogFragment("Invalid Event Name ");
+            InvalidInputDialogFragment invalidEventName = new InvalidInputDialogFragment("Invalid Event Name" +
+                    "\nOnly accept any combination of Word character,number and white space");
             invalidEventName.show(getSupportFragmentManager(), "event name");
         } else {
             isEventNameValid = true;
