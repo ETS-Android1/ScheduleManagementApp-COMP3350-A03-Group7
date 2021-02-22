@@ -9,11 +9,15 @@ import android.widget.*;
 
 
 import comp3350.team7.scheduleapp.R;
+import static android.widget.Toast.*;
 
 public class Login extends AppCompatActivity implements View.OnClickListener{
     static Button newUser;
     static Button login;
-
+    static EditText ClientID, ClientPassword;
+    static String userID;
+    static String userPAC; //Personal access code aka password
+    static User dummyAccount = new User("John", "Doe", "testing123", "123testing");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +46,38 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                 startActivity(goToCreateAccount);
                 break;
             case R.id.loginButton:
-                launchUserHomePage();
+                getData();
+                if(loginCheck(userID,userPAC)) {
+                    launchUserHomePage();
+                }//if successful, go to user homepage, else do nothing
                 break;
         }//end switch
     }//end onclick
+    
+    void getData(){
+        userID = ClientID.getText().toString();
+        userPAC = ClientPassword.getText().toString();
+    }
 
+    boolean loginCheck(String username, String password){
+        if(dummyAccount.getPassword().equals(password) && dummyAccount.getUserId().equals(username)){
+            makeText(Login.this, "Login Success", LENGTH_SHORT).show();
+            return true;
+        }
+        else if(!dummyAccount.getUserId().equals(username) && dummyAccount.getPassword().equals(userPAC)){
+            makeText(Login.this, "Invalid username", LENGTH_SHORT).show();
+            return false;
+        }
+        else if(dummyAccount.getUserId().equals(username) && !dummyAccount.getPassword().equals(userPAC)) {
+            Toast.makeText(Login.this, "Incorrect password", LENGTH_SHORT).show();
+            return false;
+        }
+        else {
+            Toast.makeText(Login.this, "Enter Required fields", LENGTH_SHORT).show();
+            return false;
+        }
+    }
+    
     void launchUserHomePage() {
         Bundle bundle = new Bundle();
         bundle.putString("WELCOME", "Welcome to user home page activity");
