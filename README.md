@@ -11,3 +11,9 @@ The target audience would be everyone since people usually planning out how they
 This app would allow the users to manage their time more efficiently and effectively by allowing the users to plan out their week/day and communicate it to others if needed. The app will also help avoid conflicts that may arise from 2 or more events happening at the same time.
 
 The app would be considered successful based on three criteria. First, how easy and intuitive it is to learn and use the application. Second, how easy it would be to implement or adapt the app into their daily lives. Finally, how effective and helpful is the app for managing or scheduling their time or tracking their progress. If the first two of the criteria are met, the app would be considered a successful app.
+## Branching Strategy
+The branching Strategy we decide to use as a group was the GitHub Flow.
+
+We started off by each group member creating their own branch that was derived off the master branch. This helped each of the group members to focus on the tasks they each picked up or were assigned. Since all the files and code we have on the master branch is considered deployable, we also added a extra branch after master that would allow all the team members to see all the group work put together in one place before submission this branch we called it deployment.
+
+Deployment branch is where all the group members merged their branches after they had finished their tasks, since Master branch was our stable branch, we did not want to mess it up. So that why we used a development branch to do all the final reviewing as a group before merging it with master before the release.
