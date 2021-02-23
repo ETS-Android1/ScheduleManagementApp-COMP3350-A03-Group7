@@ -21,10 +21,6 @@ import comp3350.team7.scheduleapp.objects.Event;
 import comp3350.team7.scheduleapp.presentation.fragment.InvalidInputDialogFragment;
 
 /*
- * Created By Thai Tran on 20/02/21
- */
-
-/*
  * Created By Thai Tran on 23 February,2021
  *
  */

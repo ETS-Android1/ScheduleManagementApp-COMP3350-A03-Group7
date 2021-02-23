@@ -17,11 +17,6 @@ import comp3350.team7.scheduleapp.presentation.adapter.RecyclerViewAdapter;
  *
  */
 
-/*
- * Created By Thai Tran on 23 February,2021
- *
- */
-
 public class RecyclerViewOnItemtouchHelper extends ItemTouchHelper.SimpleCallback {
     private RecyclerViewAdapter Adapter;
     private View view;

@@ -4,11 +4,6 @@ import java.util.Calendar;
 
 import comp3350.team7.scheduleapp.objects.Event;
 
-/*
- * Created By Thai Tran on 23 February,2021
- *
- */
-
 public interface EventInterface {
 
     public int getID();

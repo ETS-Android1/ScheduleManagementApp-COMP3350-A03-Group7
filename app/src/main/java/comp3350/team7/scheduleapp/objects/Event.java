@@ -11,11 +11,6 @@ import java.util.Calendar;
 
 //@RequiresApi(api = Build.VERSION_CODES.O)
 
-/*
- * Created By Thai Tran on 23 February,2021
- *
- */
-
 public class Event implements EventInterface, Parcelable {
 
     private static int id_count = 0;

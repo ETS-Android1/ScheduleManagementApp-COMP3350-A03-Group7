@@ -13,21 +13,6 @@ import comp3350.team7.scheduleapp.objects.User;
 
 import static android.widget.Toast.*;
 
-/*
- * Created By Thai Tran on 23 February,2021
- *
- */
-
-/*
- * Created By Thai Tran on 23 February,2021
- *
- */
-
-/*
- * Created By Thai Tran on 23 February,2021
- *
- */
-
 public class Login extends AppCompatActivity implements View.OnClickListener{
     static Button newUser;
     static Button login;

@@ -13,11 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
  *
  */
 
-/*
- * Created By Thai Tran on 23 February,2021
- *
- */
-
 public class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
 
     private int mItemOffset;

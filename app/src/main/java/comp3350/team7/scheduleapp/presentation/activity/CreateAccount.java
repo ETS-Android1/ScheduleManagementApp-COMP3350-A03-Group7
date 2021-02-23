@@ -9,11 +9,6 @@ import android.widget.*;
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.objects.User;
 
-/*
- * Created By Thai Tran on 23 February,2021
- *
- */
-
 public class CreateAccount extends AppCompatActivity {
     static protected User newUser;
 

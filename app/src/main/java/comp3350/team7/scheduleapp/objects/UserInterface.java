@@ -1,10 +1,5 @@
 package comp3350.team7.scheduleapp.objects;
 
-/*
- * Created By Thai Tran on 23 February,2021
- *
- */
-
 public interface UserInterface {
     public String getUserId();
 

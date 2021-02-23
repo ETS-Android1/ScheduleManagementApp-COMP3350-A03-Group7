@@ -1,11 +1,6 @@
 package comp3350.team7.scheduleapp.objects;
 import java.lang.*;
 
-/*
- * Created By Thai Tran on 23 February,2021
- *
- */
-
 public class User {
 
     private String userId;
