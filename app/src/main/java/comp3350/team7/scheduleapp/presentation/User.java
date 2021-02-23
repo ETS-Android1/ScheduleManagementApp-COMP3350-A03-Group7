@@ -17,19 +17,19 @@ public class User {
         //this.my_schedule = null;
     }
 
-    protected String getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    protected void setUserId(String userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    protected String getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    protected void setPassword(String password) {
+    public void setPassword(String password) {
         try {
             passwordLengthCheck(password);
             this.password = password;
@@ -39,46 +39,46 @@ public class User {
         }
     }
 
-    protected String getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
-    protected void setFirstName(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    protected String getLastName() {
+    public String getLastName() {
         return lastName;
     }
 
-    protected void setLastName(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
     /*
-    protected Schedule getMy_schedule() {
+    public Schedule getMy_schedule() {
         return my_schedule;
     }
 
-    protected void setMy_schedule(Schedule my_schedule) {
+    public void setMy_schedule(Schedule my_schedule) {
         this.my_schedule = my_schedule;
     }
     */
 
-    protected static void passwordLengthCheck(String p) throws Exception{
+    public static void passwordLengthCheck(String p) throws Exception{
         if ((p.length() < 8)|| (p.length() > 16)){
             throw new Exception("Your password needs to be 8-16 characters");
         }
     }
 
-    protected void checkIfUsernameExists(String user_id) {
+    public void checkIfUsernameExists(String user_id) {
         if (checkInUserData(user_id)) {
             System.out.println("Username already exists, please try another username!");
         }
     }
 
     // this method would return true if username already exists in the database.
-    protected Boolean checkInUserData(String u) {
+    public Boolean checkInUserData(String u) {
         Boolean answer = false;
         // going to be a search ability to go thought the data structure to find if the username exists in the database.
         return answer;
