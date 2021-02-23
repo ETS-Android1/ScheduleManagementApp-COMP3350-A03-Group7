@@ -1,17 +1,20 @@
-package comp3350.team7.scheduleapp.presentation;
+package comp3350.team7.scheduleapp.objects;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 
 //@RequiresApi(api = Build.VERSION_CODES.O)
+
+/*
+ * Created By Thai Tran on 23 February,2021
+ *
+ */
 
 public class Event implements EventInterface, Parcelable {
 

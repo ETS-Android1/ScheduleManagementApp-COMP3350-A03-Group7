@@ -1,10 +1,9 @@
-package comp3350.team7.scheduleapp.presentation;
+package comp3350.team7.scheduleapp.presentation.activity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -18,9 +17,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.objects.Event;
+import comp3350.team7.scheduleapp.presentation.fragment.InvalidInputDialogFragment;
 
 /*
  * Created By Thai Tran on 20/02/21
+ */
+
+/*
+ * Created By Thai Tran on 23 February,2021
+ *
  */
 
 public class EventCreationActivity extends AppCompatActivity {

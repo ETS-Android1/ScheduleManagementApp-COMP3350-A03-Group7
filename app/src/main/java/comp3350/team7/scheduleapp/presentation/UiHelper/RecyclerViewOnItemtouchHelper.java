@@ -1,4 +1,4 @@
-package comp3350.team7.scheduleapp.presentation;
+package comp3350.team7.scheduleapp.presentation.UiHelper;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,10 +9,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import comp3350.team7.scheduleapp.objects.RecyclerViewItem;
+import comp3350.team7.scheduleapp.objects.Event;
+import comp3350.team7.scheduleapp.presentation.adapter.RecyclerViewAdapter;
 
 /*
  * Created By Thai Tran on 22 February,2021
+ *
+ */
+
+/*
+ * Created By Thai Tran on 23 February,2021
  *
  */
 

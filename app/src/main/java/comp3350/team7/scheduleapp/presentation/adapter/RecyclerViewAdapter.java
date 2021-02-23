@@ -1,8 +1,7 @@
-package comp3350.team7.scheduleapp.presentation;
+package comp3350.team7.scheduleapp.presentation.adapter;
 
 import android.content.Context;
 import android.os.Build;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +15,15 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import comp3350.team7.scheduleapp.R;
-import comp3350.team7.scheduleapp.objects.RecyclerViewItem;
+import comp3350.team7.scheduleapp.objects.Event;
 
 /*
  * Created By Thai Tran on 22 February,2021
+ *
+ */
+
+/*
+ * Created By Thai Tran on 23 February,2021
  *
  */
 

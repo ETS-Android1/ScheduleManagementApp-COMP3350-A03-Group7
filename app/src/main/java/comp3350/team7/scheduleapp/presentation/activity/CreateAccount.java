@@ -1,16 +1,18 @@
-package comp3350.team7.scheduleapp.presentation;
+package comp3350.team7.scheduleapp.presentation.activity;
 //C:\Users\FatCave\Desktop\Bailey's\School\COMP3350\Team-7\app\src\main\res\layout
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.*;
 
 import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.objects.User;
 
-import static android.widget.Toast.*;
+/*
+ * Created By Thai Tran on 23 February,2021
+ *
+ */
 
 public class CreateAccount extends AppCompatActivity {
     static protected User newUser;

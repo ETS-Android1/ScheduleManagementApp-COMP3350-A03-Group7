@@ -1,4 +1,4 @@
-package comp3350.team7.scheduleapp.presentation;
+package comp3350.team7.scheduleapp.presentation.activity;
 
 import android.content.Intent;
 import android.os.Build;
@@ -11,18 +11,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Adapter;
 import android.widget.Toast;
 
-import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.List;
 
 import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.objects.Event;
 import comp3350.team7.scheduleapp.objects.RecyclerViewItem;
+import comp3350.team7.scheduleapp.presentation.UiHelper.ItemOffsetDecoration;
+import comp3350.team7.scheduleapp.presentation.adapter.RecyclerViewAdapter;
+import comp3350.team7.scheduleapp.presentation.UiHelper.RecyclerViewOnItemtouchHelper;
 
 
 

@@ -1,4 +1,4 @@
-package comp3350.team7.scheduleapp.presentation;
+package comp3350.team7.scheduleapp.presentation.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,7 +9,24 @@ import android.widget.*;
 
 
 import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.objects.User;
+
 import static android.widget.Toast.*;
+
+/*
+ * Created By Thai Tran on 23 February,2021
+ *
+ */
+
+/*
+ * Created By Thai Tran on 23 February,2021
+ *
+ */
+
+/*
+ * Created By Thai Tran on 23 February,2021
+ *
+ */
 
 public class Login extends AppCompatActivity implements View.OnClickListener{
     static Button newUser;
@@ -53,7 +70,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                 break;
         }//end switch
     }//end onclick
-    
+
     void getData(){
         userID = ClientID.getText().toString();
         userPAC = ClientPassword.getText().toString();
@@ -77,7 +94,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
             return false;
         }
     }
-    
+
     void launchUserHomePage() {
         Bundle bundle = new Bundle();
         bundle.putString("WELCOME", "Welcome to user home page activity");

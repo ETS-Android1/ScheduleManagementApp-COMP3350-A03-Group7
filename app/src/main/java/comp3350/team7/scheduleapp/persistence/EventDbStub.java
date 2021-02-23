@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.logic.exceptions.RandomException;
-import comp3350.team7.scheduleapp.presentation.Event;
+import comp3350.team7.scheduleapp.objects.Event;
 
 /*
  * Created By Thai Tran on 22/02/21 10:57 AM
@@ -115,20 +116,22 @@ public class EventDbStub implements EventDB {
     public List<Event> removeEvent(Event e) throws DbErrorException {
         int index = eventList.indexOf(e);
         if (index < 0) {
-            throw new DbErrorException("Event not exist in the database.");
+            throw new DbErrorException(String.format("Event: ",e.toString(),"not exist in the database."));
         }
         eventList.remove(index);
         return eventList;
     }
 
     @Override
-    public List<Event> updateEvent(Event e) throws DbErrorException {
-        int index = eventList.indexOf(e);
+    public List<Event> updateEvent(Event old,Event fresh) throws DbErrorException {
+        int index = eventList.indexOf(old);
         if (index < 0) {
-            throw new DbErrorException("Event not exist in the database.");
+            throw new DbErrorException(String.format("Event: ",old.toString(),"not exist in the database."));
         }
-        eventList.set(index, e);
+        eventList.set(index, fresh);
         return eventList;
     }
+
+
 }
 

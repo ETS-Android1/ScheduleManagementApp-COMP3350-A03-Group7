@@ -6,7 +6,8 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import comp3350.team7.scheduleapp.presentation.InvalidInputDialogFragment;
+import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
+import comp3350.team7.scheduleapp.objects.Event;
 
 /*
  * Created By Thai Tran on 22 February,2021
@@ -15,6 +16,14 @@ import comp3350.team7.scheduleapp.presentation.InvalidInputDialogFragment;
 
 public class EventValidator {
 
+
+    public static boolean valid(Event e) throws InvalidEventException{
+        if (e==null){
+            throw new InvalidEventException();
+        }
+        return true;
+
+    }
     /*
     * Return true if eName match combination of
     * word character,
@@ -40,4 +49,5 @@ public class EventValidator {
     public static boolean eventEndTimeValidation(Calendar eEnd, Calendar eStart, Calendar now){
         return eEnd.after(eStart) && eEnd.after(now);
     }
+
 }

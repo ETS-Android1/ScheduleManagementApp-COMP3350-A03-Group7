@@ -7,7 +7,7 @@ package comp3350.team7.scheduleapp.logic.comparators;
 
 import java.util.Comparator;
 
-import comp3350.team7.scheduleapp.presentation.Event;
+import comp3350.team7.scheduleapp.objects.Event;
 
 public class EventStartAscendingComparator implements Comparator<Event> {
 
