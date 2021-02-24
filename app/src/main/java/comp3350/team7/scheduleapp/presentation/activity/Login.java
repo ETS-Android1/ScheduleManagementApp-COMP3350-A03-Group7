@@ -42,6 +42,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
+        getData();
+        
         switch (v.getId()) {
             case R.id.Create_Account:
                 Intent goToCreateAccount = new Intent(this, CreateAccount.class);
@@ -59,7 +61,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     void getData(){
         userID = ClientID.getText().toString();
         userPAC = ClientPassword.getText().toString();
-    }
+
+        //check if required fields are empty
+        if(TextUtils.isEmpty(userID)){
+            ClientID.setError("Username is required.");
+        }
+        if(TextUtils.isEmpty(userPAC)){
+            ClientPassword.setError("Password is required.");
+        }
 
     boolean loginCheck(String username, String password){
         if(dummyAccount.getPassword().equals(password) && dummyAccount.getUserId().equals(username)){
