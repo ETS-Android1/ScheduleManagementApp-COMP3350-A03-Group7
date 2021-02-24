@@ -31,7 +31,6 @@ public class CreateAccount extends AppCompatActivity {
         setContentView(R.layout.activity_create_account);
 
         getView();
-        getData();
         onClickListenerHelper();
     }
 
@@ -78,6 +77,8 @@ public class CreateAccount extends AppCompatActivity {
 
     @Override
     public void onClick(View v) {
+        getData();
+        
         if (password.equals(confirmPassword)) {
             newUser = new User(firstname, lastname, username, password);
             makeText(CreateAccount.this, "your account has been successfully created.", LENGTH_SHORT).show();
