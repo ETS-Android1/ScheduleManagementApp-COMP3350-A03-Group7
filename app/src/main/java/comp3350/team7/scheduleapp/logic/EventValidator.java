@@ -19,7 +19,7 @@ public class EventValidator {
 
     public static boolean valid(Event e) throws InvalidEventException{
         if (e==null){
-            throw new InvalidEventException();
+            throw new InvalidEventException("Null Event");
         }
         return true;
 

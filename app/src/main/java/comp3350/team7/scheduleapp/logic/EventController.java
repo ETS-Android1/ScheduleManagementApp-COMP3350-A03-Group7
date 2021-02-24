@@ -77,6 +77,7 @@ public class EventController {
             return eventStub.addEvent(e);
 
         }
+
         // return this for testing
         return getEventList();
     }
