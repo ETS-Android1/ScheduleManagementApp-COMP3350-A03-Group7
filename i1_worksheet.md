@@ -34,3 +34,7 @@ For EventController, We would need to test the validity of the event the user wa
 
 Branching
 ------
+[Branching Strategy](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/development/Iter1%20worksheet%20references/Branching%20Strategy.md)
+
+![Branch Development image](Iter1 worksheet references/Branch development for Iter1.JPG)
+
