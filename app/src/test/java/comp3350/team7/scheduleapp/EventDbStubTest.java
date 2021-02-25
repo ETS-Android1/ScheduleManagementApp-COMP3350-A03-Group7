@@ -33,6 +33,7 @@ public class EventDbStubTest {
         assertTrue(2 == eventDbStub.getEventListLength());
         System.out.println("\nFinished testEventDbStub");
     }
+    
     @Test
     public void testAddEvent() {
         System.out.println("\nStarting testAddEvent");
