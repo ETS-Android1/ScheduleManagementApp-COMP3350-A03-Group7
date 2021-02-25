@@ -38,3 +38,20 @@ Branching
 
 ![Branch Development image](Iter1 worksheet references/Branch development for Iter1.JPG)
 
+
+SOLID
+----
+
+
+Agile Planning
+----
+As a group, we discussed that we needed a UserDatabase for the LoginActivity to validate whether the user is trying to login to an account that exists in our database. Currently we have it set to use a built-in dummy User to test the UI flow and we would need to build a UserDatabase for this in iteration 2. We are also going to be pushing a part of View Schedule to Iteration 2 as we still have to work on the User Story for viewing details of a single event.
+
+<h5>Feature/User Story Changes:</h5>
+
+[User Story: Account Login](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/issues/27/)
+- Changed description from "i want to be able to save my schedule for future viewing" to "i want to be able to view my schedules from anywhere".
+- Wording changed to be non-technical
+[User Story: Viewing Details of a Single Event](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/issues/5)
+- Pushed to Iteration 2
+
