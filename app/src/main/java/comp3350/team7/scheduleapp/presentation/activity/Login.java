@@ -13,7 +13,7 @@ import comp3350.team7.scheduleapp.objects.User;
 
 import static android.widget.Toast.*;
 
-public class Login extends AppCompatActivity implements View.OnClickListener{
+public class Login extends AppCompatActivity{
     static Button newUser;
     static Button login;
     static EditText ClientID, ClientPassword;
@@ -27,38 +27,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         setContentView(R.layout.activity_login);
 
         getView();
-        onClickListenerHelper();
     }
 
     protected void getView(){
-        newUser = (Button) findViewById(R.id.Create_Account);
-        login = (Button) findViewById(R.id.loginButton);
+        ClientID = (EditText) findViewById(R.id.LoginUsernameInput);
+        ClientPassword = (EditText) findViewById(R.id.LoginPasswordInput);
 
     }
-    protected void onClickListenerHelper(){
-        newUser.setOnClickListener(this);
-        login.setOnClickListener(this);
-    }
 
-    @Override
-    public void onClick(View v) {
-        getData();
-        
-        switch (v.getId()) {
-            case R.id.Create_Account:
-                Intent goToCreateAccount = new Intent(this, CreateAccount.class);
-                startActivity(goToCreateAccount);
-                break;
-            case R.id.loginButton:
-                getData();
-                if(loginCheck(userID,userPAC)) {
-                    launchUserHomePage();
-                }//if successful, go to user homepage, else do nothing
-                break;
-        }//end switch
-    }//end onclick
-
-    void getData(){
+    public void getData(){
         userID = ClientID.getText().toString();
         userPAC = ClientPassword.getText().toString();
 
@@ -69,6 +46,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         if(TextUtils.isEmpty(userPAC)){
             ClientPassword.setError("Password is required.");
         }
+    }
 
     boolean loginCheck(String username, String password){
         if(dummyAccount.getPassword().equals(password) && dummyAccount.getUserId().equals(username)){
@@ -95,6 +73,17 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         Intent createEvent = new Intent(Login.this, ScrollingActivity.class);
         createEvent.putExtra("BUNDLE", bundle);
         startActivityForResult(createEvent, 200);
-
     }//end launchUserHomePage
+
+    public void goToCreateAccount(View v){
+        Intent goToCreateAccount = new Intent(this, CreateAccount.class);
+        startActivity(goToCreateAccount);
+    }
+
+    public void logOn(View v) {
+        getData();
+        if (loginCheck(userID, userPAC)) {
+            launchUserHomePage();
+        }
+    }
 }
