@@ -48,6 +48,12 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     boolean loginCheck(String username, String password){
+        /*Once database is made
+        boolean loginCheck(User user){
+            db.validate(User) to check if the account exists in database
+            then setErrors based on whether the account exists and why?
+        }
+        */
         if(dummyAccount.getPassword().equals(password) && dummyAccount.getUserId().equals(username)){
             makeText(LoginActivity.this, "Login Success", LENGTH_SHORT).show();
             return true;

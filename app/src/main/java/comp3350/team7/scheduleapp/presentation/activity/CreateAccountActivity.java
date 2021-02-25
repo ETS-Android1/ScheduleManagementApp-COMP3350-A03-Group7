@@ -85,6 +85,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         getData();
         if (password.equals(confirmPassword)) {
             newUser = new User(firstname, lastname, username, password);
+            //Add database.create(user) when database is implemented
             makeText(CreateAccountActivity.this, "your account has been successfully created.", LENGTH_SHORT).show();
             launchUserHomePage();
         }
