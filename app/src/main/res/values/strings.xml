@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="username">username:</string>
-    <string name="password">password:</string>
-    <string name="johndoe123">johndoe123</string>
-    <string name="passwordTextInput">**********</string>
     <string name="first_name">First name:</string>
     <string name="last_name">Last name:</string>
-    <string name="Newusername">Username:</string>
-    <string name="newpassword">Password:</string>
     <string name="confirm_password">Confirm password:</string>
     <string name="your_first_name">Your First name</string>
     <string name="your_last_name">Your Last name</string>
@@ -15,9 +9,6 @@
     <string name="reenter_the_password">Reenter the password</string>
     <string name="create_account">Create Account</string>
     <string name="login">Login</string>
-    <string name="first_name_john">First name (john)</string>
-    <string name="last_name_doe">Last name (doe)</string>
-    <string name="username_johndoe123">Username (johndoe123)</string>
     <string name="confirmPassword">Confirm password</string>
     <string name="enter_a_password">Enter a password</string>
     <string name="your_username">Your Username</string>
@@ -125,4 +116,6 @@
     <string name="event_name">"Event name "</string>
     <string name="dialog_invalid_input">Missing/Invalid Input</string>
     <string name="cancel">CANCEL</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
 </resources>
