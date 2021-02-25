@@ -4,10 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.*;
 
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.objects.User;
+
+import static android.widget.Toast.*;
 
 public class CreateAccount extends AppCompatActivity {
     static protected User newUser;
