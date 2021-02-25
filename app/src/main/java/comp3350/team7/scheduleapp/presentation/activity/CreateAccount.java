@@ -31,14 +31,7 @@ public class CreateAccount extends AppCompatActivity {
         setContentView(R.layout.activity_create_account);
 
         getView();
-//        onClickListenerHelper();
     }
-
-
-
-//    private void onClickListenerHelper() {
-//        createAccount.setOnClickListener(this);
-//    }
 
     protected void getView(){
         firstNameInput = (EditText) findViewById(R.id.Firstname);
@@ -50,45 +43,31 @@ public class CreateAccount extends AppCompatActivity {
         createAccount = (Button) findViewById(R.id.Create_Account);
     }
     
-//    public void getData(){
-//        firstname = firstNameInput.getText().toString();
-//        lastname = lastNameInput.getText().toString();
-//        username = usernameInput.getText().toString();
-//       password = passwordInput.getText().toString();
-//        confirmPassword = confirmPasswordInput.getText().toString();
+    public void getData(){
+        firstname = firstNameInput.getText().toString();
+        lastname = lastNameInput.getText().toString();
+        username = usernameInput.getText().toString();
+        password = passwordInput.getText().toString();
+        confirmPassword = confirmPasswordInput.getText().toString();
 
         //check if required fields are empty
-//        if(TextUtils.isEmpty(firstname)){
-//            firstNameInput.setError("Enter your first name.");
-//        }
-//        if(TextUtils.isEmpty(lastname)){
-//            lastNameInput.setError("Enter your first name.");
-//        }
-//        if(TextUtils.isEmpty(username)){
-//            usernameInput.setError("Enter your first name.");
-//        }
-//        if(TextUtils.isEmpty(password)){
-//            passwordInput.setError("Enter your first name.");
-//        }
-//        if(TextUtils.isEmpty(confirmPassword)){
-//            confirmPasswordInput.setError("Enter your first name.");
-//        }
-//    }
+        if(TextUtils.isEmpty(firstname)){
+            firstNameInput.setError("Enter your first name.");
+        }
+        if(TextUtils.isEmpty(lastname)){
+            lastNameInput.setError("Enter your first name.");
+        }
+        if(TextUtils.isEmpty(username)){
+            usernameInput.setError("Enter your first name.");
+        }
+        if(TextUtils.isEmpty(password)){
+            passwordInput.setError("Enter your first name.");
+        }
+        if(TextUtils.isEmpty(confirmPassword)){
+            confirmPasswordInput.setError("Enter your first name.");
+        }
+    }
 
-//    @Override
-//    public void onClick(View v) {
-//        getData();
-//        
-//        if (password.equals(confirmPassword)) {
-//            newUser = new User(firstname, lastname, username, password);
-//           makeText(CreateAccount.this, "your account has been successfully created.", LENGTH_SHORT).show();
-//            launchUserHomePage();
-//        }
-//        else{
-//            confirmPasswordInput.setError("Must match the password entered.");
-//        }
-//    }
-    
     void launchUserHomePage(){
         Bundle bundle = new Bundle();
         bundle.putString("WELCOME","Welcome to user home page activity");
@@ -97,5 +76,16 @@ public class CreateAccount extends AppCompatActivity {
         startActivityForResult(createEvent,200);
 
     }
-
+    
+    public void createOnClick(View v) {
+        getData();
+        if (password.equals(confirmPassword)) {
+            newUser = new User(firstname, lastname, username, password);
+            makeText(CreateAccount.this, "your account has been successfully created.", LENGTH_SHORT).show();
+            launchUserHomePage();
+        }
+        else{
+            confirmPasswordInput.setError("Must match the password entered.");
+        }
+    }
 }
