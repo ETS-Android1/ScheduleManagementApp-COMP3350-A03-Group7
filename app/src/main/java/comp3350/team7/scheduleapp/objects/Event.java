@@ -13,43 +13,47 @@ import java.util.Calendar;
 
 public class Event implements EventInterface, Parcelable {
 
+
+    private static final int MAX_DESCRIPTON_LENGTH = 240;
+    private static final int MAX_TITLE_LENGTH = 30;
+
     private static int id_count = 0;
 
     private int Event_id;
     private String Event_title;
     private String Event_description;
-    private String Event_location;
+//    private String Event_location;
     //    private LocalDateTime Event_start;
 //    private LocalDateTime Event_end;
 //    private Duration duration;
-    private Event next_ptr;
+//    private Event next_ptr;
 
+//
+//    public Event() {
+//        Event_id = -1;
+//        Event_title = "unknown";
+//        Event_description = "unknown";
+//        Event_location = "unknown";
+////        Event_start = null;
+////        Event_end = null;
+////        duration = null;
+//        next_ptr = null;
+//    }
 
-    public Event() {
-        Event_id = -1;
-        Event_title = "unknown";
-        Event_description = "unknown";
-        Event_location = "unknown";
-//        Event_start = null;
-//        Event_end = null;
-//        duration = null;
-        next_ptr = null;
-    }
-
-    public Event createEvent(String title, String desc, String location, Event next,
-                             int s_year, int s_month, int s_day, int s_hour, int s_minute,
-                             int e_year, int e_month, int e_day, int e_hour, int e_minute) {
-        Event new_Event = new Event();
-        setID();
-        setTitle(title);
-        setDescription(desc);
-        setLocation(location);
-//        setStart(s_year, s_month, s_day, s_hour, s_minute);
-//        setEnd(e_year, e_month, e_day, e_hour, e_minute);
-//        setDuration();
-        setNext(next);
-        return new_Event;
-    }
+//    public Event createEvent(String title, String desc, String location, Event next,
+//                             int s_year, int s_month, int s_day, int s_hour, int s_minute,
+//                             int e_year, int e_month, int e_day, int e_hour, int e_minute) {
+//        Event new_Event = new Event();
+//        setID();
+//        setTitle(title);
+//        setDescription(desc);
+//        setLocation(location);
+////        setStart(s_year, s_month, s_day, s_hour, s_minute);
+////        setEnd(e_year, e_month, e_day, e_hour, e_minute);
+////        setDuration();
+//        setNext(next);
+//        return new_Event;
+//    }
 
     public int getID() {
         return Event_id;
@@ -63,15 +67,21 @@ public class Event implements EventInterface, Parcelable {
         return Event_description;
     }
 
-    public String getLocation() {
-        return Event_location;
-    }
+//    public String getLocation() {
+//        return Event_location;
+//    }
 
-    public String geteventStart(){
+    public Calendar getEventStart(){
+        return eventStart;
+    }
+    public String getEventStartToString(){
         return timeDisplayHelper(eventStart);
 
     }
-    public String geteventEnd(){
+    public Calendar getEventEnd(){
+        return eventEnd;
+    }
+    public String getEventEndToString(){
        return timeDisplayHelper(eventEnd);
     }
 
@@ -86,10 +96,10 @@ public class Event implements EventInterface, Parcelable {
 //    public Duration getDuration() {
 //        return duration;
 //    }
-
-    public Event getNext() {
-        return next_ptr;
-    }
+//
+//    public Event getNext() {
+//        return next_ptr;
+//    }
 
     private void setID() {
         Event_id = id_count;
@@ -102,7 +112,7 @@ public class Event implements EventInterface, Parcelable {
         //returns true if successful
         if (title.length() <= 0) {
             throw new ArithmeticException("ERROR: Title must have minimum length of 1 character.");
-        } else if (title.length() > 30) {
+        } else if (title.length() > MAX_TITLE_LENGTH) {
             throw new ArithmeticException("ERROR: Title must have maximum length of 30 characters.");
         } else {
             Event_title = title;
@@ -113,23 +123,23 @@ public class Event implements EventInterface, Parcelable {
         //sets the Event description to "desc"
         //max length of 60
         //returns true if successful
-        if (desc.length() > 60) {
+        if (desc.length() > MAX_DESCRIPTON_LENGTH) {
             throw new ArithmeticException("ERROR: Description must have maximum length of 60 characters.");
         } else {
             Event_description = desc;
         }
     }
 
-    public void setLocation(String location) throws ArithmeticException {
-        //sets the Event location to "location"
-        //max length of 30
-        //returns true if successful
-        if (location.length() > 30) {
-            throw new ArithmeticException("ERROR: Location must have maximum length of 30 characters.");
-        } else {
-            Event_location = location;
-        }
-    }
+//    public void setLocation(String location) throws ArithmeticException {
+//        //sets the Event location to "location"
+//        //max length of 30
+//        //returns true if successful
+//        if (location.length() > 30) {
+//            throw new ArithmeticException("ERROR: Location must have maximum length of 30 characters.");
+//        } else {
+//            Event_location = location;
+//        }
+//    }
 
 //    public void setStart(int year, int month, int day, int hour, int minute) throws DateTimeException {
 //        try {
@@ -152,9 +162,9 @@ public class Event implements EventInterface, Parcelable {
 //        duration = Duration.between(Event_start, Event_end);
 //    }
 
-    public void setNext(Event next) {
-        next_ptr = next;
-    }
+//    public void setNext(Event next) {
+//        next_ptr = next;
+//    }
 
 
     /*** Start Modify or Extend by Thai Tran ***/
@@ -206,10 +216,8 @@ public class Event implements EventInterface, Parcelable {
         Event_id = in.readInt();
         Event_title = in.readString();
         Event_description = in.readString();
-        Event_location = in.readString();
-        next_ptr = (Event) in.readValue(Event.class.getClassLoader());
-        eventStart = (Calendar) in.readValue(Calendar.class.getClassLoader());
-        eventEnd = (Calendar) in.readValue(Calendar.class.getClassLoader());
+//        eventStart = (Calendar) in.readValue(Calendar.class.getClassLoader());
+//        eventEnd = (Calendar) in.readValue(Calendar.class.getClassLoader());
         if (in.readByte() == 0x01) {
             taskList = new ArrayList<Task>();
             in.readList(taskList, Task.class.getClassLoader());
@@ -230,8 +238,8 @@ public class Event implements EventInterface, Parcelable {
         dest.writeInt(Event_id);
         dest.writeString(Event_title);
         dest.writeString(Event_description);
-        dest.writeString(Event_location);
-        dest.writeValue(next_ptr);
+//        dest.writeString(Event_location);
+//        dest.writeValue(next_ptr);
         dest.writeValue(eventStart);
         dest.writeValue(eventEnd);
         if (taskList == null) {

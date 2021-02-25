@@ -13,6 +13,6 @@ public class EventEndDescendingComparator implements Comparator<Event> {
 
 
     public int compare(Event e1, Event e2) {
-        return e2.geteventEnd().compareTo(e1.geteventEnd());
+        return e2.getEventEnd().compareTo(e1.getEventEnd());
     }
 }

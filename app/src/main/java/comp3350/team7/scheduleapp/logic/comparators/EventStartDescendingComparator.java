@@ -12,6 +12,6 @@ import comp3350.team7.scheduleapp.objects.Event;
 public class EventStartDescendingComparator implements Comparator<Event> {
     @Override
     public int compare(Event e1, Event e2) {
-        return e2.geteventStart().compareTo(e1.geteventStart());
+        return e2.getEventStart().compareTo(e1.getEventStart());
     }
 }

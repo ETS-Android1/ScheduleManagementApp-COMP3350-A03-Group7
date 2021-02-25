@@ -70,8 +70,9 @@ public class EventDbStub implements EventDB {
         String To = "call,read,dress,buy,ring,hop,skip,jump,look,rob,find,fly,go,ask,raise,search";
         String And = "the,a,an,my,as,by,to,in,on,with";
         String Do = "dog,doctor,store,dance,jig,friend,enemy,business,bull,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday,Mom,Dad";
-        String capitalizeFirstLetter = Character.toUpperCase(randomWord(To).charAt(0)) + To.substring(1);
-        return capitalizeFirstLetter + randomWord(And) + randomWord(Do);
+        String randomTo = randomWord(To);
+        String capitalizeFirstLetter = Character.toUpperCase(randomTo.charAt(0)) + randomTo.substring(1);
+        return String.format("%s %s %s",capitalizeFirstLetter,randomWord(And),randomWord(Do));
 
 
     }
@@ -93,7 +94,7 @@ public class EventDbStub implements EventDB {
 
     private int randBetween(int start, int end) throws RandomException {
         int result = start + (int) Math.floor(Math.random() * (end - start));
-        if (result > start && result <= end)
+        if (result >= start && result <= end)
             return result;
         else {
             throw new RandomException("Error in generating random number");
@@ -116,7 +117,16 @@ public class EventDbStub implements EventDB {
     public List<Event> removeEvent(Event e) throws DbErrorException {
         int index = eventList.indexOf(e);
         if (index < 0) {
-            throw new DbErrorException(String.format("Event: ",e.toString(),"not exist in the database."));
+            throw new DbErrorException(String.format("%s %s %s", "Event: ",e.toString(),"not exist in the database."));
+        }
+        eventList.remove(index);
+        return eventList;
+    }
+
+    @Override
+    public List<Event> removeEvent(int index) throws DbErrorException {
+        if (index < 0) {
+            throw new DbErrorException(String.format("%s", "Invalid index"));
         }
         eventList.remove(index);
         return eventList;
@@ -126,7 +136,7 @@ public class EventDbStub implements EventDB {
     public List<Event> updateEvent(Event old,Event fresh) throws DbErrorException {
         int index = eventList.indexOf(old);
         if (index < 0) {
-            throw new DbErrorException(String.format("Event: ",old.toString(),"not exist in the database."));
+            throw new DbErrorException(String.format("%s %s %s","Event: ",old.toString(),"not exist in the database."));
         }
         eventList.set(index, fresh);
         return eventList;

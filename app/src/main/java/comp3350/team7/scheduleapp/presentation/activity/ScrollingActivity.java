@@ -3,6 +3,9 @@ package comp3350.team7.scheduleapp.presentation.activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,18 +13,16 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.logic.EventController;
+import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
+import comp3350.team7.scheduleapp.logic.logTag.TAG;
 import comp3350.team7.scheduleapp.objects.Event;
-import comp3350.team7.scheduleapp.objects.RecyclerViewItem;
 import comp3350.team7.scheduleapp.presentation.UiHelper.ItemOffsetDecoration;
-import comp3350.team7.scheduleapp.presentation.adapter.RecyclerViewAdapter;
 import comp3350.team7.scheduleapp.presentation.UiHelper.RecyclerViewOnItemtouchHelper;
+import comp3350.team7.scheduleapp.presentation.adapter.RecyclerViewAdapter;
 
 
 
@@ -38,19 +39,38 @@ public class ScrollingActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     View scrollingLayout;
     View fba;
+    /* View */
 
     RecyclerViewAdapter adapter;
     List<Event> eventList;
-    ArrayList<RecyclerViewItem> list;
+    EventController eventController;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
-
+        // Setting new Controller
+        init();
         getView();
         onClickListenerHelper();
         initRecyclerView();
+    }
+
+
+    private void getView() {
+        recyclerView = findViewById(R.id.recylerview);
+        scrollingLayout = (View) findViewById(R.id.ScrollingLayout);
+        fba = findViewById(R.id.include);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void init() {
+        eventController = new EventController();
+        eventList = eventController.getEventList();
+
+
     }
 
     private void onClickListenerHelper() {
@@ -62,43 +82,17 @@ public class ScrollingActivity extends AppCompatActivity {
         });
     }
 
-    private void getView() {
-        recyclerView = findViewById(R.id.recylerview);
-        scrollingLayout = (View) findViewById(R.id.ScrollingLayout);
-        fba = findViewById(R.id.include);
-    }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void initRecyclerView() {
-//        list = new ArrayList<>();
-//        list.add(new RecyclerViewItem("Appointment #1","4:30", R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #2","4:30", R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #3", "4:30",R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #4", "4:30",R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #5","4:30", R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #6","4:30", R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #6","4:30", R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #6","4:30", R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #6","4:30", R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #6","4:30", R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #6","4:30", R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #6","4:30", R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #6","4:30", R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #6","4:30", R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #6","4:30", R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #6","4:30", R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #6","4:30", R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #6","4:30", R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #6","4:30", R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #6","4:30", R.drawable.ic_launcher_background,false));
-//        list.add(new RecyclerViewItem("Appointment #6","4:30", R.drawable.ic_launcher_background,false));
-        intitEventList();
-        adapter = new RecyclerViewAdapter(this, (ArrayList<Event>) eventList);
+        adapter = new RecyclerViewAdapter(this, eventController);
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.item_offset);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
         // Setup onItemTouchHandler
+
         ItemTouchHelper.Callback callback = new RecyclerViewOnItemtouchHelper(adapter, scrollingLayout);
         ItemTouchHelper helper = new ItemTouchHelper(callback);
         helper.attachToRecyclerView(recyclerView);
@@ -122,7 +116,7 @@ public class ScrollingActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE && data != null) {
                 Event returnEvent = data.getParcelableExtra("RETURN_DATA");
-                addEvent(adapter,returnEvent);
+                addEventAndUpdateView(adapter, returnEvent);
                 Toast.makeText(ScrollingActivity.this, "Event Object Received :" + returnEvent.getTitle()
                         , Toast.LENGTH_LONG).show();
 
@@ -130,12 +124,18 @@ public class ScrollingActivity extends AppCompatActivity {
         }
     }
 
-    private void intitEventList() {
-        eventList = new ArrayList<Event>();
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void addEvent(RecyclerViewAdapter a, Event e) {
-        a.addAscending(e);
+    private void addEventAndUpdateView(RecyclerViewAdapter a, Event e) {
+        try {
+            eventController.addEvent(e);
+        } catch (InvalidEventException err) {
+            Log.e(TAG.ScrollingActivity.toString(),err.getMessage());
+            err.printStackTrace();
+        }
+        // force redraw
+        a.setList(eventController.getEventList());
+
+        recyclerView.setAdapter(a);
     }
 }

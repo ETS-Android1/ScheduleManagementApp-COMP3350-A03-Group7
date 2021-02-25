@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.logic.EventValidator;
 import comp3350.team7.scheduleapp.objects.Event;
 import comp3350.team7.scheduleapp.presentation.fragment.InvalidInputDialogFragment;
 
@@ -49,26 +50,6 @@ public class EventCreationActivity extends AppCompatActivity {
         saveButton = (Button) findViewById(R.id.save_event_button);
 
         ourCalendar = Calendar.getInstance();
-
-        // Event name input listener
-//        eventNameText.setOnKeyListener(new View.OnKeyListener() {
-//            public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-//                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-//                    // Perform action on key press
-//                    Pattern pattern = Pattern.compile("(\\w)+");
-//                    Matcher matcher = pattern.matcher(eventNameText.getText().toString());
-//                    if (!matcher.matches()) {
-//                        InvalidInputDialogFragment invalidEventName = new InvalidInputDialogFragment("Invalid Event Name ");
-//                        invalidEventName.show(getSupportFragmentManager(), "event name");
-//                    } else {
-//                        isEventNameValid = true;
-//                    }
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
 
         // date picker input listener
         datePickerText.setOnClickListener(new View.OnClickListener() {
@@ -150,9 +131,8 @@ public class EventCreationActivity extends AppCompatActivity {
     }
 
     private boolean isValidateBeforeSave() {
-        Pattern pattern = Pattern.compile("[\\w\\s*]+");
-        Matcher matcher = pattern.matcher(eventNameText.getText().toString());
-        if (!matcher.matches()) {
+
+        if (!EventValidator.validateEventName(eventNameText.getText().toString())) {
             InvalidInputDialogFragment invalidEventName = new InvalidInputDialogFragment("Invalid Event Name" +
                     "\nOnly accept any combination of Word character,number and white space");
             invalidEventName.show(getSupportFragmentManager(), "event name");

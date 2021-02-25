@@ -9,16 +9,16 @@ public interface EventInterface {
     public int getID();
     public String getTitle();
     public String getDescription();
-    public String getLocation();
+//    public String getLocation();
 //    public LocalDateTime getStart();
 //    public LocalDateTime getEnd();
-    public Event getNext();
+//    public Event getNext();
 
     public void setTitle(String title);
     public void setDescription(String desc);
     public void setStart(Calendar calendar);
-    public void setLocation(String location);
-    public void setNext(Event next);
+//    public void setLocation(String location);
+//    public void setNext(Event next);
 //    public void setStart(int year, int month, int day, int hour, int minute);
 //    public void setEnd(int year, int month, int day, int hour, int minute);
 //    public Duration getDuration();

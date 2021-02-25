@@ -13,6 +13,6 @@ public class EventEndAscendingComparator implements Comparator<Event> {
 
         @Override
         public int compare(Event e1, Event e2) {
-                return e1.geteventEnd().compareTo(e2.geteventEnd());
+                return e1.getEventEnd().compareTo(e2.getEventEnd());
         }
 }

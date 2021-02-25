@@ -14,5 +14,8 @@ public interface EventDB {
     List<Event> getEventList();
     List<Event> addEvent(Event e);
     List<Event> removeEvent(Event e) throws DbErrorException;
-    List<Event> updateEvent(Event old,Event fresh) throws DbErrorException;
+
+    List<Event> removeEvent(int index) throws DbErrorException;
+
+    List<Event> updateEvent(Event old, Event fresh) throws DbErrorException;
 }

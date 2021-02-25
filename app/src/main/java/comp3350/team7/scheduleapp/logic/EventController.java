@@ -98,6 +98,14 @@ public class EventController {
         return getEventList();
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
+    public List<Event> removeEvent(int position) throws DbErrorException{
+        eventStub.removeEvent(position);
+        // return this for testing
+        return getEventList();
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public List<Event> updateEvent(Event old,Event fresh) throws InvalidEventException{
         try {
             if(EventValidator.valid(old)){

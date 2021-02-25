@@ -30,7 +30,7 @@ public class EventValidator {
     * number,
     * white spaces
     */
-    public static boolean eventNameValidation(String eName){
+    public static boolean validateEventName(String eName){
         Pattern pattern = Pattern.compile("[\\w\\s*]+");
         Matcher matcher = pattern.matcher(eName);
         return matcher.matches();
@@ -39,14 +39,14 @@ public class EventValidator {
     /*
     * return true if the eStart is set after now
     */
-    public static boolean eventStartTimeValidation(Calendar eStart, Calendar now) {
+    public static boolean validateEventStartTime(Calendar eStart, Calendar now) {
         return eStart.after(now);
     }
 
     /*
     * return true if eEnd set after eStart and after now
     */
-    public static boolean eventEndTimeValidation(Calendar eEnd, Calendar eStart, Calendar now){
+    public static boolean validateEventEndTime(Calendar eEnd, Calendar eStart, Calendar now){
         return eEnd.after(eStart) && eEnd.after(now);
     }
 

@@ -13,6 +13,6 @@ public class EventStartAscendingComparator implements Comparator<Event> {
 
     @Override
     public int compare(Event e1, Event e2) {
-        return e1.geteventStart().compareTo(e2.geteventStart());
+        return e1.getEventStart().compareTo(e2.getEventStart());
     }
 }
