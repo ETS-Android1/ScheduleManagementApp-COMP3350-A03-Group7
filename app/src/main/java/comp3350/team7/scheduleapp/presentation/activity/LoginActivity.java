@@ -14,9 +14,7 @@ import comp3350.team7.scheduleapp.objects.User;
 
 import static android.widget.Toast.*;
 
-public class Login extends AppCompatActivity{
-    static Button newUser;
-    static Button login;
+public class LoginActivity extends AppCompatActivity{
     static EditText ClientID, ClientPassword;
     static String userID;
     static String userPAC; //Personal access code aka password
@@ -51,19 +49,19 @@ public class Login extends AppCompatActivity{
 
     boolean loginCheck(String username, String password){
         if(dummyAccount.getPassword().equals(password) && dummyAccount.getUserId().equals(username)){
-            makeText(Login.this, "Login Success", LENGTH_SHORT).show();
+            makeText(LoginActivity.this, "Login Success", LENGTH_SHORT).show();
             return true;
         }
         else if(!dummyAccount.getUserId().equals(username) && dummyAccount.getPassword().equals(userPAC)){
-            makeText(Login.this, "Invalid username", LENGTH_SHORT).show();
+            makeText(LoginActivity.this, "Invalid username", LENGTH_SHORT).show();
             return false;
         }
         else if(dummyAccount.getUserId().equals(username) && !dummyAccount.getPassword().equals(userPAC)) {
-            Toast.makeText(Login.this, "Incorrect password", LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Incorrect password", LENGTH_SHORT).show();
             return false;
         }
         else {
-            Toast.makeText(Login.this, "Enter Required fields", LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Enter Required fields", LENGTH_SHORT).show();
             return false;
         }
     }
@@ -71,13 +69,13 @@ public class Login extends AppCompatActivity{
     void launchUserHomePage() {
         Bundle bundle = new Bundle();
         bundle.putString("WELCOME", "Welcome to user home page activity");
-        Intent createEvent = new Intent(Login.this, ScrollingActivity.class);
+        Intent createEvent = new Intent(LoginActivity.this, ScrollingActivity.class);
         createEvent.putExtra("BUNDLE", bundle);
         startActivityForResult(createEvent, 200);
     }//end launchUserHomePage
 
     public void goToCreateAccount(View v){
-        Intent goToCreateAccount = new Intent(this, CreateAccount.class);
+        Intent goToCreateAccount = new Intent(this, CreateAccountActivity.class);
         startActivity(goToCreateAccount);
     }
 
