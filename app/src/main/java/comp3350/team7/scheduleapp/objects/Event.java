@@ -14,8 +14,7 @@ import java.util.Calendar;
 public class Event implements EventInterface, Parcelable {
 
 
-    private static final int MAX_DESCRIPTON_LENGTH = 240;
-    private static final int MAX_TITLE_LENGTH = 30;
+
 
     private static int id_count = 0;
 
@@ -123,7 +122,7 @@ public class Event implements EventInterface, Parcelable {
         //sets the Event description to "desc"
         //max length of 60
         //returns true if successful
-        if (desc.length() > MAX_DESCRIPTON_LENGTH) {
+        if (desc.length() > MAX_DESCRIPTION_LENGTH) {
             throw new ArithmeticException("ERROR: Description must have maximum length of 60 characters.");
         } else {
             Event_description = desc;
@@ -173,9 +172,6 @@ public class Event implements EventInterface, Parcelable {
     private ArrayList<Task> taskList;
     private boolean isRepeated;  //  false as default
     //    private Drawable backgroundImg;
-    public static final int PRIORITY_HIGH = 0;
-    public static final int PRIORITY_MEDIUM = 1;
-    public static final int PRIORITY_LOW = 2;
 
     private int Priority;
 
