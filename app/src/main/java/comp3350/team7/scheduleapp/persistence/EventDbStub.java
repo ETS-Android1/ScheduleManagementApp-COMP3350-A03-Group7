@@ -142,6 +142,9 @@ public class EventDbStub implements EventDB {
         return eventList;
     }
 
+    public int getEventListLength(){
+        return eventList.size();
+    }
 
 }
 

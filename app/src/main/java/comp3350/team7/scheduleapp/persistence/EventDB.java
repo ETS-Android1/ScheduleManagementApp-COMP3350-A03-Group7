@@ -18,4 +18,6 @@ public interface EventDB {
     List<Event> removeEvent(int index) throws DbErrorException;
 
     List<Event> updateEvent(Event old, Event fresh) throws DbErrorException;
+
+    int getEventListLength();
 }
