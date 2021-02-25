@@ -6,6 +6,7 @@ import comp3350.team7.scheduleapp.objects.User;
 import static org.junit.Assert.*;
 
 public class UserTest {
+    @Test
     public void testUser1() {
         User user;
         System.out.println("\nStarting testUser");
