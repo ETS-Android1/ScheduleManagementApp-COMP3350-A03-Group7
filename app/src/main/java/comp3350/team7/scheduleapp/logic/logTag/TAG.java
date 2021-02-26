@@ -9,7 +9,8 @@ package comp3350.team7.scheduleapp.logic.logTag;
 public enum TAG {
     ScrollingActivity("ScrollingActivity"),
     RecyclerViewOnItemtouchHelper("RecylerViewItemTouchHelper"),
-    RecyclerViewAdapter("RecyclerViewAdapter");
+    RecyclerViewAdapter("RecyclerViewAdapter"),
+    CreateEventActivity("CreateEventActivity");
     String text;
 
     TAG(String text) {

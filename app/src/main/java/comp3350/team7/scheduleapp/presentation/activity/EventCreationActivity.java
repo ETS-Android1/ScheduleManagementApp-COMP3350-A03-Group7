@@ -3,7 +3,9 @@ package comp3350.team7.scheduleapp.presentation.activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -19,6 +21,7 @@ import java.util.regex.Pattern;
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.logic.EventValidator;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
+import comp3350.team7.scheduleapp.logic.logTag.TAG;
 import comp3350.team7.scheduleapp.objects.Event;
 import comp3350.team7.scheduleapp.presentation.fragment.InvalidInputDialogFragment;
 
@@ -129,7 +132,7 @@ public class EventCreationActivity extends AppCompatActivity {
                 if (isValidateBeforeSave()){
 
                     returnResult();
-                    System.out.println("Clicked");
+                    Log.d(TAG.CreateEventActivity.toString(),"Clicked");
                 }
             }
         });
