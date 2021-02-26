@@ -29,7 +29,7 @@ Exceptional Code
 -----
 [EventController.java](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/development/app/src/main/java/comp3350/team7/scheduleapp/logic/EventController.java)
 
-For EventController, We would need to test the validity of the event the user wants to create and we would also need to test if the event exists in the database entry for the user such that they can update/remove it later on. If we are dealing with a valid event, We are updating the event entry in the database based on the changes that the user have made and return the updated event list. If it is the case that the event being updated is an invalid event, we would notify the user that they do not have that event and that they cannot make any changes to a non-existing event.
+For EventController, We would need to test the validity of the event the user wants to create and we would also need to test if the event exists in the database entry for the user such that they can update/remove it later on. Since the EventController class will mainly be dealing with the EventDatabase, We only should only be handling exceptions caused from the dabase entry errors and that we will be throwing out any other types of exceptions to another class to handle. If we are dealing with a valid event, We are updating the event entry in the database based on the changes that the user have made and return the updated event list. If it is the case that the event being updated is an invalid event, we would notify the user that they do not have that event and that they cannot make any changes to a non-existing event. 
 
 
 Branching
