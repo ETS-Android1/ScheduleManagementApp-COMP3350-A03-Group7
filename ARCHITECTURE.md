@@ -42,35 +42,47 @@
 
 ## Logic Layer 
 
-- [EventController]()
+- [logic/EventController]()
     - This is where we put the logic, the controller validate user input and ask data from persisten
     - when the data is available, control pass it to view 
     - Handle exception from database
-    - Throw exception to the presentation layer, if they are the caller and 
-- [EventValidator]()
-- [SORTNAME]()
+    - Throw exception to the presentation layer, if they are the caller and have given an invalid argument 
+- [logic/EventValidator]()
+    - validation for an event 
 
+- [logic/SORTNAME]()
+    - enum class, contains many way of sorting we want to use 
+   
 ### Comparators
 
-[EventEndAscendingComparator]()
-[EventEndDescendingComparator]()
-[EventStartAscendingComparator]()
-[EventStartDescendingComparator]()
+[comparators/EventEndAscendingComparator]()
+- sort base on event end time in ascending order
+[comparators/EventEndDescendingComparator]()
+- sort base on event end time in descending order
+[comparators/EventStartAscendingComparator]()
+- sort base on event start time in ascending order
+[Ecomparators/ventStartDescendingComparator]()
+- sort base on event start time in ascending order
 
 ### exceptions 
 
-[DbErrorException]()
-[InvalidEventException]()
-[RandomException]()
+[exceptions/DbErrorException]()
+- Custom Database exception
+[exceptions/InvalidEventException]()
+- Custom invalid event exception
+[exceptions/RandomException]()
+- this is special, for creating fake database, use only to create random event in EventDbStub
 
 ### logTag
 
-[TAG]()
-
-
-
+[logTag/TAG]()
+- Use to store all the Log tag
+- we use Log to store debug as well as error info, the tag contains the name of the class when it being call from
+- so when we see the log file, we know where log message come from  
 
 ## Persistent Layer
 
-[EventDB]()
-[EventDbStub]()
+[persistent/EventDB]()
+- interface for all event database 
+[persistent/EventDbStub]()
+- fake database, create random n number of fake event 
