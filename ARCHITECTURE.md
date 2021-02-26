@@ -1,5 +1,8 @@
 # Iteration 1 
 
+## Architecture diagram 
+
+![architecture](architecture-iter1.png)
 
 ## Presentation Layer
 
