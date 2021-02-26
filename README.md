@@ -17,3 +17,6 @@ The branching Strategy we decide to use as a group was the GitHub Flow.
 We started off by each group member creating their own branch that was derived off the master branch. This helped each of the group members to focus on the tasks they each picked up or were assigned. Since all the files and code we have on the master branch is considered deployable, we also added a extra branch after master that would allow all the team members to see all the group work put together in one place before submission this branch we called it deployment.
 
 Deployment branch is where all the group members merged their branches after they had finished their tasks. The development branch was then used for all the final reviewing as a group before merging it with master before the release. Since Master branch was our stable branch, we did not want to mess it up.
+
+
+## [worksheet](i1_worksheet.md)
