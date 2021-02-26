@@ -26,7 +26,7 @@ public class EventTest {
 
     @Test
     public void testAcceptableTitle() {
-        testEvent.setTitle("New title");
+        testEvent.setTitle("New Title");
         assertEquals("Both title should 'New Title'", "New Title", testEvent.getTitle());
     }
     @Test
@@ -41,7 +41,7 @@ public class EventTest {
     }
     @Test
     public void testAcceptableDescription() {
-        testEvent.setTitle("Event description");
+        testEvent.setDescription("Event description");
         assertEquals("Event description should change to 'Event Description'",
                 "Event description", testEvent.getDescription());
     }
