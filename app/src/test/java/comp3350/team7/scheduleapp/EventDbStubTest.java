@@ -52,6 +52,25 @@ public class EventDbStubTest {
     }
 
     @Test
+    public void testRemoveEventFromNonExistingPosition() {
+        System.out.println("\nStarting testRemoveEventFromNonExistingPosition");
+        assertThrows(DbErrorException.class,()-> {
+            eventDbStub.removeEvent(-1);
+        });
+        System.out.println("\nFinished testRemoveEventFromNonExistingPosition");
+    }
+
+    @Test
+    public void testRemoveFromEmptyEventLIst() {
+        System.out.println("\nStarting testRemoveEventFromNonExistingPosition");
+        EventDbStub eventDbStub1 = new EventDbStub(0);
+        assertThrows(IndexOutOfBoundsException.class,()-> {
+            eventDbStub1.removeEvent(1);
+        });
+        System.out.println("\nFinished testRemoveEventFromNonExistingPosition");
+    }
+
+    @Test
     public void testRemoveEventByEvent() throws DbErrorException {
         System.out.println("\nStarting testRemoveEvent");
         eventDbStub.addEvent(event);
@@ -59,6 +78,15 @@ public class EventDbStubTest {
         eventDbStub.removeEvent(event);
         assertTrue(2 == eventDbStub.getEventListLength());
         System.out.println("\nFinished testRemoveEvent");
+    }
+
+    @Test
+    public void testRemoveEventNotInList() {
+        System.out.println("\nStarting testRemoveEventNotInList");
+        assertThrows(DbErrorException.class,()-> {
+            eventDbStub.removeEvent(event);
+        });
+        System.out.println("\nFinished testRemoveEventNotInList");
     }
 
     @Test
