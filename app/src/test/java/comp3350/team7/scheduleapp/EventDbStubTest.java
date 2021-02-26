@@ -1,5 +1,6 @@
 package comp3350.team7.scheduleapp;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,6 +24,14 @@ public class EventDbStubTest {
         calendar = Calendar.getInstance();
         event = new Event("newEvent","this is just a test", calendar);
         freshEvent = new Event("freshEvent","this is the fresh event that we be used in replacing",calendar);
+    }
+
+    @After
+    public void teardown() {
+        eventDbStub = null;
+        calendar = null;
+        event = null;
+        freshEvent = null;
     }
 
     @Test
