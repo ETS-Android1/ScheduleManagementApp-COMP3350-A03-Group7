@@ -41,7 +41,7 @@ Branching
 
 SOLID
 ----
-
+[Open/close violation group 8](https://code.cs.umanitoba.ca/3350-winter-2021-a03/group8/-/issues/40)
 
 Agile Planning
 ----
