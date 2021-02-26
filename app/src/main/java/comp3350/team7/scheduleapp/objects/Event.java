@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -24,7 +25,7 @@ public class Event implements EventInterface, Parcelable {
     private String Event_description;
 //    private String Event_location;
     //    private LocalDateTime Event_start;
-//    private LocalDateTime Event_end;
+    private LocalDateTime Event_end;
 //    private Duration duration;
 //    private Event next_ptr;
 
