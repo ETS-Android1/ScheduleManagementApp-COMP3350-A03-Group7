@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.logic.EventValidator;
+import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
 import comp3350.team7.scheduleapp.objects.Event;
 import comp3350.team7.scheduleapp.presentation.fragment.InvalidInputDialogFragment;
 
@@ -39,12 +40,16 @@ public class EventCreationActivity extends AppCompatActivity {
     boolean isTimeValid = false;
     boolean isEventNameValid = false;
     boolean isDateSetOnSameDay= false;
+    final int maxTitleLength = 60;
+    final int maxDescriptionLength =120;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_creation_activity);
 
         eventNameText = (EditText) findViewById(R.id.event_name_text);
+
         datePickerText = (EditText) findViewById(R.id.date_picker_text);
         timePickerText = (EditText) findViewById(R.id.time_picker_text);
         saveButton = (Button) findViewById(R.id.save_event_button);
@@ -131,12 +136,17 @@ public class EventCreationActivity extends AppCompatActivity {
     }
 
     private boolean isValidateBeforeSave() {
-
-        if (!EventValidator.validateEventName(eventNameText.getText().toString())) {
+        String eventTitle = eventNameText.getText().toString();
+        int titleLength = eventTitle.length();
+        if (!EventValidator.validateEventName(eventTitle)) {
             InvalidInputDialogFragment invalidEventName = new InvalidInputDialogFragment("Invalid Event Name" +
                     "\nOnly accept any combination of Word character,number and white space");
             invalidEventName.show(getSupportFragmentManager(), "event name");
-        } else {
+        } else if(titleLength <4 || titleLength > maxTitleLength ) {
+            InvalidInputDialogFragment invalidEventName = new InvalidInputDialogFragment("Invalid Event Name" +
+                    "\nshould have at least 5 characters and no more than 60 characters");
+            invalidEventName.show(getSupportFragmentManager(), "title length");
+        }else{
             isEventNameValid = true;
         }
         return isDateValid && isTimeValid && isEventNameValid;
@@ -145,7 +155,7 @@ public class EventCreationActivity extends AppCompatActivity {
 
     private void returnResult() {
         Event newUserEvent = new Event(eventNameText.getText().toString(), "description", ourCalendar);
-        Intent i = new Intent();
+        Intent i = new Intent(EventCreationActivity.this,ScrollingActivity.class);
         i.putExtra("RETURN_DATA", newUserEvent);
 
 

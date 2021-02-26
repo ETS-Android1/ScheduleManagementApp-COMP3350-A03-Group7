@@ -115,6 +115,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE && data != null) {
+                Log.d(TAG.ScrollingActivity.toString(),"Got result back from CreateEvent");
                 Event returnEvent = data.getParcelableExtra("RETURN_DATA");
                 addEventAndUpdateView(adapter, returnEvent);
                 Toast.makeText(ScrollingActivity.this, "Event Object Received :" + returnEvent.getTitle()

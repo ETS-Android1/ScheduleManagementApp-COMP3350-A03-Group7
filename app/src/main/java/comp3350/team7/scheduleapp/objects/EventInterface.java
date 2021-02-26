@@ -2,6 +2,7 @@ package comp3350.team7.scheduleapp.objects;
 
 import java.util.Calendar;
 
+import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
 import comp3350.team7.scheduleapp.objects.Event;
 
 public interface EventInterface {
@@ -21,8 +22,8 @@ public interface EventInterface {
 //    public LocalDateTime getEnd();
 //    public Event getNext();
 
-    public void setTitle(String title);
-    public void setDescription(String desc);
+    public void setTitle(String title) throws InvalidEventException;
+    public void setDescription(String desc) throws InvalidEventException;
     public void setStart(Calendar calendar);
     public void setEnd(Calendar calendar);
 //    public void setLocation(String location);
