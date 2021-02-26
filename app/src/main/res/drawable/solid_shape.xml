@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape android:shape="rectangle" xmlns:android="http://schemas.android.com/apk/res/android">
+   <corners android:radius="@dimen/rad_10"/>
+   <gradient android:startColor="@color/primary"
+             android:endColor="@color/primary_dark"
+             android:gradientRadius="500"/>
+   <!--       android:centerX="@android:integer/config_shortAnimTime"-->
+<!--       android:centerY="@android:integer/config_mediumAnimTime"-->
+
+
+</shape>

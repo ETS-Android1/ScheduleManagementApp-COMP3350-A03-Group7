@@ -2,4 +2,11 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="item_offset">15dp</dimen>
+    <dimen name="activity_padding_horizontal">16dp</dimen>
+    <dimen name="padd_10">10dp</dimen>
+    <dimen name="rad_10">10dp</dimen>
+    <dimen name="rad_5">5dp</dimen>
+    <dimen name="rad_3">3dp</dimen>
+    <dimen name="ic_delete">25dp</dimen>
 </resources>
