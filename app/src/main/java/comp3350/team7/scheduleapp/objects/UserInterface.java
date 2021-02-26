@@ -17,11 +17,6 @@ public interface UserInterface {
 
     public void setLastName(String lastName);
 
-    /*
-    public Schedule getMy_schedule();
-
-    public void setMy_schedule(Schedule my_schedule);
-    */
 
     public void checkIfUsernameExists(String user_id);
 

@@ -7,14 +7,12 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
-    //private Schedule my_schedule;
 
     public User(String firstName, String lastName, String userId, String password) {
         this.userId = userId;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        //this.my_schedule = null;
     }
 
     public String getUserId() {
@@ -55,15 +53,6 @@ public class User {
         this.lastName = lastName;
     }
 
-    /*
-    public Schedule getMy_schedule() {
-        return my_schedule;
-    }
-
-    public void setMy_schedule(Schedule my_schedule) {
-        this.my_schedule = my_schedule;
-    }
-    */
 
     public static void passwordLengthCheck(String p) throws Exception{
         if ((p.length() < 8)|| (p.length() > 16)){
