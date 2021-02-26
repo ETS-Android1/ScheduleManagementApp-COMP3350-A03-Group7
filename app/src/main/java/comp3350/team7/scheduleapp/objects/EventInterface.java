@@ -6,6 +6,13 @@ import comp3350.team7.scheduleapp.objects.Event;
 
 public interface EventInterface {
 
+    final int MAX_DESCRIPTION_LENGTH = 240;
+    final int MAX_TITLE_LENGTH = 30;
+
+    final int PRIORITY_HIGH = 0;
+    final int PRIORITY_MEDIUM = 1;
+    final int PRIORITY_LOW = 2;
+
     public int getID();
     public String getTitle();
     public String getDescription();
@@ -17,6 +24,7 @@ public interface EventInterface {
     public void setTitle(String title);
     public void setDescription(String desc);
     public void setStart(Calendar calendar);
+    public void setEnd(Calendar calendar);
 //    public void setLocation(String location);
 //    public void setNext(Event next);
 //    public void setStart(int year, int month, int day, int hour, int minute);

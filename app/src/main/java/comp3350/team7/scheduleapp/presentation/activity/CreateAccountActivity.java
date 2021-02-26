@@ -13,7 +13,7 @@ import comp3350.team7.scheduleapp.objects.User;
 
 import static android.widget.Toast.*;
 
-public class CreateAccount extends AppCompatActivity {
+public class CreateAccountActivity extends AppCompatActivity {
     static protected User newUser;
 
     static Button createAccount;
@@ -75,7 +75,7 @@ public class CreateAccount extends AppCompatActivity {
     void launchUserHomePage(){
         Bundle bundle = new Bundle();
         bundle.putString("WELCOME","Welcome to user home page activity");
-        Intent createEvent = new Intent(CreateAccount.this, ScrollingActivity.class);
+        Intent createEvent = new Intent(CreateAccountActivity.this, ScrollingActivity.class);
         createEvent.putExtra("BUNDLE",bundle);
         startActivityForResult(createEvent,200);
 
@@ -85,7 +85,8 @@ public class CreateAccount extends AppCompatActivity {
         getData();
         if (password.equals(confirmPassword)) {
             newUser = new User(firstname, lastname, username, password);
-            makeText(CreateAccount.this, "your account has been successfully created.", LENGTH_SHORT).show();
+            //Add database.create(user) when database is implemented
+            makeText(CreateAccountActivity.this, "your account has been successfully created.", LENGTH_SHORT).show();
             launchUserHomePage();
         }
         else{
