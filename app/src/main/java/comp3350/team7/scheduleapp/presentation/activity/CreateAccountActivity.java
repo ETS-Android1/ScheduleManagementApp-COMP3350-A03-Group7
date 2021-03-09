@@ -61,23 +61,35 @@ public class CreateAccountActivity extends AppCompatActivity {
         username = usernameInput.getText().toString();
         password = passwordInput.getText().toString();
         confirmPassword = confirmPasswordInput.getText().toString();
+    }
 
-        //check if required fields are empty
-        if(TextUtils.isEmpty(firstname)){
+    public boolean checkValidity(){ //check if fields arent empty
+        boolean isValid = false;
+        if(firstname.trim().equals("")){
             firstNameInput.setError("Enter your first name.");
+            isValid = false;
         }
-        if(TextUtils.isEmpty(lastname)){
-            lastNameInput.setError("Enter your first name.");
+        else if(lastname.trim().equals("")){
+            lastNameInput.setError("Enter your last name.");
+            isValid = false;
         }
-        if(TextUtils.isEmpty(username)){
-            usernameInput.setError("Enter your first name.");
+        else if(username.trim().equals("")){
+            usernameInput.setError("Enter your username.");
+            isValid = false;
         }
-        if(TextUtils.isEmpty(password)){
-            passwordInput.setError("Enter your first name.");
+        else if(password.trim().equals("")){
+            passwordInput.setError("Enter a password.");
+            isValid = false;
         }
-        if(TextUtils.isEmpty(confirmPassword)){
-            confirmPasswordInput.setError("Enter your first name.");
+        else if(confirmPassword.trim().equals("")){
+            confirmPasswordInput.setError("re-enter your password.");
+            isValid = false;
         }
+        else{
+            isValid = true;
+        }
+        
+        return isValid;
     }
 
     void launchUserHomePage(){
@@ -91,16 +103,23 @@ public class CreateAccountActivity extends AppCompatActivity {
     
     public void createOnClick(View v) {
         getData();
-        if (password.equals(confirmPassword)) {
-            newUser = new User(firstname, lastname, username, password);
+        
+        if(checkValidity()){ //check if all the fields arent empty
+            if (password.equals(confirmPassword)) {
+                newUser = new User(firstname, lastname, username, password);
 
-            userDB.addUser(newUser);
+                userDB.addUser(newUser);
 
-            makeText(CreateAccountActivity.this, "your account has been successfully created.", LENGTH_SHORT).show();
-            launchUserHomePage();
+                makeText(CreateAccountActivity.this, "Account has been successfully created.", LENGTH_SHORT).show();
+                launchUserHomePage();
+            }
+            else{
+                confirmPasswordInput.setError("Must match the password entered.");
+            }
         }
         else{
-            confirmPasswordInput.setError("Must match the password entered.");
+            makeText(CreateAccountActivity.this, "Please Enter all required fields.", LENGTH_SHORT).show();
         }
     }
+
 }
