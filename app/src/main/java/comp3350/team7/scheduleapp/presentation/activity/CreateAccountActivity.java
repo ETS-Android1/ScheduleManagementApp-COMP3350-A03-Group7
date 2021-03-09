@@ -8,13 +8,20 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.*;
 
+import java.util.List;
+
 import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.objects.User;
+import comp3350.team7.scheduleapp.persistence.UserPersistence;
+import comp3350.team7.scheduleapp.persistence.UserPersistenceStub;
 
 import static android.widget.Toast.*;
 
 public class CreateAccountActivity extends AppCompatActivity {
     static protected User newUser;
+    static UserPersistence userDB;
+
 
     static Button createAccount;
     static EditText firstNameInput;
@@ -34,6 +41,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
+        userDB = new UserPersistenceStub();
         getView();
     }
 
@@ -85,7 +93,9 @@ public class CreateAccountActivity extends AppCompatActivity {
         getData();
         if (password.equals(confirmPassword)) {
             newUser = new User(firstname, lastname, username, password);
-            //Add database.create(user) when database is implemented
+
+            userDB.addUser(newUser);
+
             makeText(CreateAccountActivity.this, "your account has been successfully created.", LENGTH_SHORT).show();
             launchUserHomePage();
         }

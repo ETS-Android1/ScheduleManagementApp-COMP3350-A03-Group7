@@ -11,6 +11,8 @@ import android.widget.*;
 
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.objects.User;
+import comp3350.team7.scheduleapp.persistence.UserPersistence;
+import comp3350.team7.scheduleapp.persistence.UserPersistenceStub;
 
 import static android.widget.Toast.*;
 
@@ -18,13 +20,14 @@ public class LoginActivity extends AppCompatActivity{
     static EditText ClientID, ClientPassword;
     static String userID;
     static String userPAC; //Personal access code aka password
-    static User dummyAccount = new User("John", "Doe", "testing123", "123testing");
+    private UserPersistence userDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        userDB = new UserPersistenceStub();
         getView();
     }
 
@@ -47,30 +50,6 @@ public class LoginActivity extends AppCompatActivity{
         }
     }
 
-    boolean loginCheck(String username, String password){
-        /*Once database is made
-        boolean loginCheck(User user){
-            db.validate(User) to check if the account exists in database
-            then setErrors based on whether the account exists and why?
-        }
-        */
-        if(dummyAccount.getPassword().equals(password) && dummyAccount.getUserId().equals(username)){
-            makeText(LoginActivity.this, "Login Success", LENGTH_SHORT).show();
-            return true;
-        }
-        else if(!dummyAccount.getUserId().equals(username) && dummyAccount.getPassword().equals(userPAC)){
-            makeText(LoginActivity.this, "Invalid username", LENGTH_SHORT).show();
-            return false;
-        }
-        else if(dummyAccount.getUserId().equals(username) && !dummyAccount.getPassword().equals(userPAC)) {
-            Toast.makeText(LoginActivity.this, "Incorrect password", LENGTH_SHORT).show();
-            return false;
-        }
-        else {
-            Toast.makeText(LoginActivity.this, "Enter Required fields", LENGTH_SHORT).show();
-            return false;
-        }
-    }
 
     void launchUserHomePage() {
         Bundle bundle = new Bundle();
@@ -87,8 +66,11 @@ public class LoginActivity extends AppCompatActivity{
 
     public void logOn(View v) {
         getData();
-        if (loginCheck(userID, userPAC)) {
+        if (userDB.validLogin(userID, userPAC)) {
             launchUserHomePage();
+        }
+        else{
+            Toast.makeText(LoginActivity.this, "Invalid username/password.", LENGTH_SHORT).show();
         }
     }
 }
