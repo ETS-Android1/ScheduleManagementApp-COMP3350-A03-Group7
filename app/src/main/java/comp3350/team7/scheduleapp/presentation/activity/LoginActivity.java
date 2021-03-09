@@ -72,11 +72,11 @@ public class LoginActivity extends AppCompatActivity{
         startActivity(goToCreateAccount);
     }
 
-    public void logOn(View v) {
+    ppublic void logOn(View v) {
         getData();
 
         if(validInput()){
-            if (userDB.validLogin(userID, userPAC)) {
+            if (userDB.validLogin(userID, userPAC) != null) {
                 launchUserHomePage();
             }
             else{
