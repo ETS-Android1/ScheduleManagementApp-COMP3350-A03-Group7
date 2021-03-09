@@ -40,14 +40,22 @@ public class LoginActivity extends AppCompatActivity{
     public void getData(){
         userID = ClientID.getText().toString();
         userPAC = ClientPassword.getText().toString();
+    }
 
+    public boolean validInput(){
+        boolean isValid = false
         //check if required fields are empty
-        if(TextUtils.isEmpty(userID)){
+        if(userID.trim().equals("")){
             ClientID.setError("Username is required.");
         }
-        if(TextUtils.isEmpty(userPAC)){
+        else if(userPAC.trim().equals(""){
             ClientPassword.setError("Password is required.");
         }
+        else{
+            isValid = true;
+        }
+
+        return isValid;
     }
 
 
@@ -66,11 +74,17 @@ public class LoginActivity extends AppCompatActivity{
 
     public void logOn(View v) {
         getData();
-        if (userDB.validLogin(userID, userPAC)) {
-            launchUserHomePage();
+
+        if(validInput){
+            if (userDB.validLogin(userID, userPAC)) {
+                launchUserHomePage();
+            }
+            else{
+                Toast.makeText(LoginActivity.this, "Invalid username/password.", LENGTH_SHORT).show();
+            }
         }
         else{
-            Toast.makeText(LoginActivity.this, "Invalid username/password.", LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Please enter required fields.", LENGTH_SHORT).show();
         }
     }
 }
