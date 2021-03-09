@@ -43,12 +43,12 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     public boolean validInput(){
-        boolean isValid = false
+        boolean isValid = false;
         //check if required fields are empty
         if(userID.trim().equals("")){
             ClientID.setError("Username is required.");
         }
-        else if(userPAC.trim().equals(""){
+        else if(userPAC.trim().equals("")){
             ClientPassword.setError("Password is required.");
         }
         else{
@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity{
     public void logOn(View v) {
         getData();
 
-        if(validInput){
+        if(validInput()){
             if (userDB.validLogin(userID, userPAC)) {
                 launchUserHomePage();
             }
