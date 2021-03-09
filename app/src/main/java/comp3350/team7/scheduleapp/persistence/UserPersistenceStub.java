@@ -30,17 +30,17 @@ public class UserPersistenceStub implements UserPersistence {
         return Collections.unmodifiableList(userDB);
     }
 
-    public boolean validLogin(String username, String password){
+    public User validLogin(String username, String password){
         boolean result = false;
-        User user;
+        User user = null;
         for(int i = 0; i < userDB.size() && !result; i++){
             user = userDB.get(i);
             if(user.getUserId().equals(username) && user.getPassword().equals(password)){
-                result = true;
+                return user;
             }
         }
 
-        return result;
+        return null;
     }
 
     public User addUser(User newUser) throws DbErrorException {

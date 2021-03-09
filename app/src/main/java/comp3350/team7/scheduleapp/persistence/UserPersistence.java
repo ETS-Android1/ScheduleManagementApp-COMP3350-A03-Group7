@@ -12,9 +12,9 @@ import comp3350.team7.scheduleapp.objects.User;
 
 public interface UserPersistence {
    List<User> getUserDB();
-   boolean validLogin(String username, String password);
+   User validLogin(String username, String password);
 
-   User addUser(User newUser) throws DbErrorException;
+   User addUser(User newUser);
 
    User updateUser(User user);
 
