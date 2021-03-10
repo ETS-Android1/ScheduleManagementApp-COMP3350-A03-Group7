@@ -1,14 +1,12 @@
 package comp3350.team7.scheduleapp.persistence;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.objects.User;
 
-public class UserPersistenceStub implements UserPersistence {
+public class UserPersistenceStub implements UserPersistenceInterface {
     private List<User> userDB;
 
     public UserPersistenceStub(){
@@ -29,9 +27,9 @@ public class UserPersistenceStub implements UserPersistence {
     public List<User> getUserDB(){
         return Collections.unmodifiableList(userDB);
     }
-    
+
     @Override
-    public User addUser(User newUser) throws DbErrorException {
+    public User addUser(User newUser){
         boolean existingUser = false;
         User dbEntry;
 
@@ -45,9 +43,6 @@ public class UserPersistenceStub implements UserPersistence {
 
         if(existingUser) {
             userDB.add(newUser);
-        }
-        else{
-            throw new DbErrorException("Username is taken.");
         }
         return newUser;
 
@@ -70,7 +65,7 @@ public class UserPersistenceStub implements UserPersistence {
 
         return userExists;
     }
-    
+
     @Override
     public void deleteUser(User currentUser){
         int userIndex;

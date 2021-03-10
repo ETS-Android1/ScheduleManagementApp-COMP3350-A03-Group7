@@ -5,14 +5,14 @@ package comp3350.team7.scheduleapp.Application;
  *
  */
 
-import comp3350.team7.scheduleapp.persistence.UserPersistence;
+import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 import comp3350.team7.scheduleapp.persistence.hsqldb.UserPersistanceHSQLDB;
 
 public class Services {
 
     private static UserPersistence userDatabase = null;
 
-    public static synchronized UserPersistence getUserPersistence(){
+    public static synchronized UserPersistenceInterface getUserPersistence(){
 
         if(userDatabase == null){
             userDatabase = new UserPersistanceHSQLDB(Main.getDBPathName());

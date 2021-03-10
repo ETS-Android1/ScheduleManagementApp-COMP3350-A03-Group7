@@ -15,15 +15,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import comp3350.team7.scheduleapp.objects.User;
-import comp3350.team7.scheduleapp.persistence.UserPersistence;
+import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 
-public class UserPersistanceHSQLDB implements UserPersistence{
+public class UserPersistanceHSQLDB implements UserPersistenceInterface {
 
     private final String dbPath;
 
     public UserPersistanceHSQLDB(final String dbPath){
         this.dbPath = dbPath;
     }
+
 
     public Connection connection() throws  SQLException{
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
@@ -32,8 +33,8 @@ public class UserPersistanceHSQLDB implements UserPersistence{
     private User fromResultSet(final ResultSet rs) throws SQLException{
         final String firstName = rs.getString("Firstname");
         final String lastname = rs.getString("Lastname");
-        final String username = rs.getString("username");
-        final String password = rs.getString("password");
+        final String username = rs.getString("UserID");
+        final String password = rs.getString("Password");
 
         return new User(firstName,lastname,username,password);
     }
@@ -45,7 +46,7 @@ public class UserPersistanceHSQLDB implements UserPersistence{
 
         try(final Connection c =  connection()){
             final Statement msg = c.createStatement();
-            final ResultSet setResult =  msg.executeQuery("SELECT * FROM users");
+            final ResultSet setResult =  msg.executeQuery("SELECT * FROM UserDB");
             while(setResult.next()){
                 final User user = fromResultSet(setResult);
                 users.add(user);
@@ -55,16 +56,16 @@ public class UserPersistanceHSQLDB implements UserPersistence{
 
             return users;
         }catch (final SQLException e){
-            throw new DBException(e);
+            throw new UserDBException(e);
         }
     }
-    
+
     @Override
     public User getUser(String username){
         final User userExists;
 
         try(final Connection c = connection()){
-            final PreparedStatement msg = c.prepareStatement("SELECT * FROM userDB WHERE userID = ?");
+            final PreparedStatement msg = c.prepareStatement("SELECT * FROM UserDB WHERE UserID = ?");
             msg.setString(1, username);
 
             final ResultSet rs = msg.executeQuery();
@@ -83,7 +84,7 @@ public class UserPersistanceHSQLDB implements UserPersistence{
     @Override
     public User addUser(User newUser) {
         try(final Connection c = connection()){
-            final PreparedStatement msg = c.prepareStatement("INSERT INTO userDB VALUES(?,?,?,?)");
+            final PreparedStatement msg = c.prepareStatement("INSERT INTO UserDB VALUES(?,?,?,?)");
             msg.setString(1, newUser.getFirstName());
             msg.setString(2, newUser.getLastName());
             msg.setString(3, newUser.getUserId());
@@ -92,19 +93,19 @@ public class UserPersistanceHSQLDB implements UserPersistence{
 
             return newUser;
         }catch (final SQLException e){
-            throw new DBException(e);
+            throw new UserDBException(e);
         }
     }
 
     @Override
     public void deleteUser(User user) {
         try(final Connection c = connection()){
-            final PreparedStatement msg = c.prepareStatement("DELETE FROM userDB WHERE userID = ?");
+            final PreparedStatement msg = c.prepareStatement("DELETE FROM UserDB WHERE userID = ?");
             msg.setString(1, user.getUserId());
             msg.executeUpdate();
 
         }catch (final SQLException e){
-            throw new DBException(e);
+            throw new UserDBException(e);
         }
     }
 }
