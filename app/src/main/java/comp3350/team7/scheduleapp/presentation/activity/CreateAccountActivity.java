@@ -4,18 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.*;
 
-import java.util.List;
 
 import comp3350.team7.scheduleapp.Application.Services;
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.logic.UserValidator;
-import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.objects.User;
-import comp3350.team7.scheduleapp.persistence.UserPersistence;
+import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceStub;
 
 import static android.widget.Toast.*;
@@ -23,7 +20,7 @@ import static android.widget.Toast.*;
 public class CreateAccountActivity extends AppCompatActivity {
     static protected User newUser;
     static UserValidator validator;
-    static UserPersistence userDB;
+    static UserPersistenceInterface userDB;
 
 
     static Button createAccount;

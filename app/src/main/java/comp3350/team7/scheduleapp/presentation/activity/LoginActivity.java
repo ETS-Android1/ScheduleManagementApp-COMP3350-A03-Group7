@@ -4,17 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.*;
 
 
-import comp3350.team7.scheduleapp.Application.Services;
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.logic.UserValidator;
-import comp3350.team7.scheduleapp.objects.User;
-import comp3350.team7.scheduleapp.persistence.UserPersistence;
-import comp3350.team7.scheduleapp.persistence.UserPersistenceStub;
 
 import static android.widget.Toast.*;
 
@@ -59,7 +54,6 @@ public class LoginActivity extends AppCompatActivity{
 
     public void logOn(View v) {
         getData();
-        User userInfo;
 
         if(validator.validateLogin(userID, userPAC) != null){
             launchUserHomePage();
