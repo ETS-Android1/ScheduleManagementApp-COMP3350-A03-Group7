@@ -103,15 +103,18 @@ public class CreateAccountActivity extends AppCompatActivity {
     
     public void createOnClick(View v) {
         getData();
-        
+
         if(checkValidity()){ //check if all the fields arent empty
             if (password.equals(confirmPassword)) {
-                newUser = new User(firstname, lastname, username, password);
-
-                userDB.addUser(newUser);
-
-                makeText(CreateAccountActivity.this, "Account has been successfully created.", LENGTH_SHORT).show();
-                launchUserHomePage();
+                if(userDB.getUser(username) != null) {
+                    newUser = new User(firstname, lastname, username, password);
+                    userDB.addUser(newUser);
+                    makeText(CreateAccountActivity.this, "Account has been successfully created.", LENGTH_SHORT).show();
+                    launchUserHomePage();
+                }
+                else{
+                    makeText(CreateAccountActivity.this, "Username is already taken.", LENGTH_SHORT).show();
+                }
             }
             else{
                 confirmPasswordInput.setError("Must match the password entered.");

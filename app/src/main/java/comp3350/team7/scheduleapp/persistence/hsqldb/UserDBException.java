@@ -5,8 +5,8 @@ package comp3350.team7.scheduleapp.persistence.hsqldb;
  *
  */
 
-public class DBException extends RuntimeException{
-    public DBException(final Exception cause){
+public class UserDBException extends RuntimeException{
+    public UserDBException(final Exception cause){
         super(cause);
     }
 }

@@ -58,25 +58,25 @@ public class UserPersistanceHSQLDB implements UserPersistence{
             throw new DBException(e);
         }
     }
-
+    
     @Override
-    public User validLogin(String username, String password) {
-        User accExists;
+    public User getUser(String username){
+        final User userExists;
 
         try(final Connection c = connection()){
             final PreparedStatement msg = c.prepareStatement("SELECT * FROM userDB WHERE userID = ?");
             msg.setString(1, username);
 
-            final ResultSet setResult =  msg.executeQuery();
+            final ResultSet rs = msg.executeQuery();
 
-            accExists = fromResultSet(setResult);
+            userExists = fromResultSet(rs);
 
-            setResult.close();
+            rs.close();
             msg.close();
 
-            return accExists;
-        } catch (final SQLException e){
-            throw new DBException(e);
+            return userExists;
+        }catch (final SQLException e){
+            throw new UserDBException(e);
         }
     }
 
@@ -91,23 +91,6 @@ public class UserPersistanceHSQLDB implements UserPersistence{
             msg.executeUpdate();
 
             return newUser;
-        }catch (final SQLException e){
-            throw new DBException(e);
-        }
-    }
-
-    @Override
-    public User updateUser(User user) {
-
-        try(final Connection c = connection()){
-            final PreparedStatement msg = c.prepareStatement("UPDATE userDB SET firstname = ?, lastname = ?, password = ? WHERE userID = ?");
-            msg.setString(1, user.getFirstName());
-            msg.setString(2, user.getLastName());
-            msg.setString(3, user.getPassword());
-            msg.setString(4, user.getUserId());
-            msg.executeUpdate();
-
-            return user;
         }catch (final SQLException e){
             throw new DBException(e);
         }

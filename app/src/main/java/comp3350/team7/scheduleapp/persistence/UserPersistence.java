@@ -12,12 +12,11 @@ import comp3350.team7.scheduleapp.objects.User;
 
 public interface UserPersistence {
    List<User> getUserDB();
-   User validLogin(String username, String password);
 
    User addUser(User newUser);
 
-   User updateUser(User user);
-
+   User getUser(String username);
+   
    void deleteUser(User user);
 
 }

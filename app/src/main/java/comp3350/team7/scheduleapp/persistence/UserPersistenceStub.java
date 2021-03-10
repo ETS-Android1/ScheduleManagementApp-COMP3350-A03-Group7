@@ -29,20 +29,8 @@ public class UserPersistenceStub implements UserPersistence {
     public List<User> getUserDB(){
         return Collections.unmodifiableList(userDB);
     }
-
-    public User validLogin(String username, String password){
-        boolean result = false;
-        User user = null;
-        for(int i = 0; i < userDB.size() && !result; i++){
-            user = userDB.get(i);
-            if(user.getUserId().equals(username) && user.getPassword().equals(password)){
-                return user;
-            }
-        }
-
-        return null;
-    }
-
+    
+    @Override
     public User addUser(User newUser) throws DbErrorException {
         boolean existingUser = false;
         User dbEntry;
@@ -65,17 +53,25 @@ public class UserPersistenceStub implements UserPersistence {
 
     }
 
-    public User updateUser(User currentUser){
-        int userIndex;
+    @Override
+    public User getUser(String username){
+        User userCheck;
+        User userExists = null;
+        boolean userFound = false;
 
-        userIndex = userDB.indexOf(currentUser);
-        if(userIndex >= 0){
-            userDB.set(userIndex, currentUser);
+        for(int index = 0; index < userDB.size() && userFound; index++){
+            userCheck = userDB.get(index);
+
+            if(userCheck.getUserId().equals(username)){
+                userFound = true;
+                userExists = userCheck;
+            }
         }
 
-        return currentUser;
+        return userExists;
     }
-
+    
+    @Override
     public void deleteUser(User currentUser){
         int userIndex;
 

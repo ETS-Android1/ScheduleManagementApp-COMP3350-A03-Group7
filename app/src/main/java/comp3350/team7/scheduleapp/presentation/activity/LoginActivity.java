@@ -76,11 +76,17 @@ public class LoginActivity extends AppCompatActivity{
         getData();
 
         if(validInput()){
-            if (userDB.validLogin(userID, userPAC) != null) {
-                launchUserHomePage();
+            userInfo = userDB.getUser(userID);
+            if (userInfo != null) {
+                if(userInfo.getPassword().equals(userPAC)) {
+                    launchUserHomePage();
+                }
+                else{
+                    Toast.makeText(LoginActivity.this, "Incorrect password.", LENGTH_SHORT).show();
+                }
             }
             else{
-                Toast.makeText(LoginActivity.this, "Invalid username/password.", LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Invalid username", LENGTH_SHORT).show();
             }
         }
         else{
