@@ -41,8 +41,9 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
-        validator = new UserValidator();
         userDB = Services.getUserPersistence();
+        validator = new UserValidator(userDB);
+        
         getView();
     }
 

@@ -24,7 +24,7 @@ public class LoginActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        validator = new UserValidator();
+        validator = new UserValidator(Services.getUserPersistence());
         getView();
     }
 
