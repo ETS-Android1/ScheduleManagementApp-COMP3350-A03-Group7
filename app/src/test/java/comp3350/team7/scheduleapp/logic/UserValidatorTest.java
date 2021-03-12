@@ -1,15 +1,15 @@
-package comp3350.team7.scheduleapp;
-
-/*
- * Created By Thai Tran on 11 March,2021
- *
- */
+package comp3350.team7.scheduleapp.logic;
 
 import org.junit.*;
 import static org.junit.Assert.*;
 
 import comp3350.team7.scheduleapp.logic.UserValidator;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceStub;
+
+/*
+ * Created By Thai Tran on 12 March,2021
+ *
+ */
 
 public class UserValidatorTest {
     public static UserValidator validatorTester;
