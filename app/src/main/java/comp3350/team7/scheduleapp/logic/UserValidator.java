@@ -57,4 +57,10 @@ public class UserValidator {
 
         return user;
     }
+
+    public static void passwordLengthCheck(String p) throws Exception{
+        if ((p.length() < 8)|| (p.length() > 16)){
+            throw new Exception("Your password needs to be 8-16 characters");
+        }
+    }
 }

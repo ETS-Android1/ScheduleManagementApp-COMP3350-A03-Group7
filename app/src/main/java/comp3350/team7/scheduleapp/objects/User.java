@@ -1,5 +1,7 @@
 package comp3350.team7.scheduleapp.objects;
+
 import java.lang.*;
+import comp3350.team7.scheduleapp.logic.UserValidator;
 
 public class User {
 
@@ -31,7 +33,7 @@ public class User {
 
     public void setPassword(String password) {
         try {
-            passwordLengthCheck(password);
+            UserValidator.passwordLengthCheck(password);
             this.password = password;
         }
         catch(Exception e){
@@ -54,7 +56,6 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
     /*
     public Schedule getMy_schedule() {
         return my_schedule;
@@ -64,23 +65,4 @@ public class User {
         this.my_schedule = my_schedule;
     }
     */
-
-    public static void passwordLengthCheck(String p) throws Exception{
-        if ((p.length() < 8)|| (p.length() > 16)){
-            throw new Exception("Your password needs to be 8-16 characters");
-        }
-    }
-
-    public void checkIfUsernameExists(String user_id) {
-        if (checkInUserData(user_id)) {
-            System.out.println("Username already exists, please try another username!");
-        }
-    }
-
-    // this method would return true if username already exists in the database.
-    public Boolean checkInUserData(String u) {
-        Boolean answer = false;
-        // going to be a search ability to go thought the data structure to find if the username exists in the database.
-        return answer;
-    }
 }
