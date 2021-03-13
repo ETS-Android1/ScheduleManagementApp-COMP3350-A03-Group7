@@ -9,7 +9,7 @@ import java.util.Calendar;
 
 //@RequiresApi(api = Build.VERSION_CODES.O)
 
-public class Event implements EventInterface, Parcelable {
+public class Event implements IEvent, Parcelable {
 
     private static int id_count = 0;
     private int Event_id;

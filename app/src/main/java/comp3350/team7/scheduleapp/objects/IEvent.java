@@ -5,7 +5,7 @@ import java.util.Calendar;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
 import comp3350.team7.scheduleapp.objects.Event;
 
-public interface EventInterface {
+public interface IEvent {
 
     final int MAX_DESCRIPTION_LENGTH = 240;
     final int MAX_TITLE_LENGTH = 30;
