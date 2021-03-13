@@ -10,7 +10,8 @@ import comp3350.team7.scheduleapp.persistence.hsqldb.UserPersistanceHSQLDB;
 
 public class Services {
 
-    private static UserPersistence userDatabase = null;
+    private static UserPersistenceInterface userDatabase = null;
+    private static EventPersistenceInterface eventDatabase = null;
 
     public static synchronized UserPersistenceInterface getUserPersistence(){
 
@@ -20,4 +21,14 @@ public class Services {
 
         return userDatabase;
     }
+    /*
+    public static synchronized EventPersistenceInterface getUserPersistence(){
+
+        if(eventDatabase == null){
+            eventDatabase = new eventPersistanceHSQLDB(Main.getDBPathName());
+        }
+
+        return eventDatabase;
+    }
+    */
 }
