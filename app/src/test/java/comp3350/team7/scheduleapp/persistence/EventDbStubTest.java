@@ -1,4 +1,4 @@
-package comp3350.team7.scheduleapp;
+package comp3350.team7.scheduleapp.persistence;
 
 import org.junit.After;
 import org.junit.Before;
@@ -10,6 +10,11 @@ import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.objects.Event;
 import comp3350.team7.scheduleapp.persistence.EventDbStub;
 import static org.junit.Assert.*;
+
+/*
+ * Created By Thai Tran on 12 March,2021
+ *
+ */
 
 public class EventDbStubTest {
 

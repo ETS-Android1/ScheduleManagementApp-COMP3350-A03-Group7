@@ -1,4 +1,4 @@
-package comp3350.team7.scheduleapp;
+package comp3350.team7.scheduleapp.objects;
 
 import org.junit.Test;
 import org.junit.Before;
@@ -8,6 +8,11 @@ import java.util.Calendar;
 
 import static org.junit.Assert.*;
 import comp3350.team7.scheduleapp.objects.Event;
+
+/*
+ * Created By Thai Tran on 12 March,2021
+ *
+ */
 
 public class EventTest {
 

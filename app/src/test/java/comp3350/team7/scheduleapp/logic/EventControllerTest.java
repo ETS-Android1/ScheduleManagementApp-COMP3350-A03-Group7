@@ -1,4 +1,4 @@
-package comp3350.team7.scheduleapp;
+package comp3350.team7.scheduleapp.logic;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -13,6 +13,11 @@ import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
 import comp3350.team7.scheduleapp.objects.Event;
 
 import static org.junit.Assert.*;
+
+/*
+ * Created By Thai Tran on 12 March,2021
+ *
+ */
 
 public class EventControllerTest {
 

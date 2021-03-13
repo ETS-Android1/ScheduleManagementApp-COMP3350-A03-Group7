@@ -1,14 +1,12 @@
 package comp3350.team7.scheduleapp.persistence;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.objects.User;
 
-public class UserPersistenceStub implements UserPersistence {
+public class UserPersistenceStub implements UserPersistenceInterface {
     private List<User> userDB;
 
     public UserPersistenceStub(){
@@ -30,20 +28,8 @@ public class UserPersistenceStub implements UserPersistence {
         return Collections.unmodifiableList(userDB);
     }
 
-    public User validLogin(String username, String password){
-        boolean result = false;
-        User user = null;
-        for(int i = 0; i < userDB.size() && !result; i++){
-            user = userDB.get(i);
-            if(user.getUserId().equals(username) && user.getPassword().equals(password)){
-                return user;
-            }
-        }
-
-        return null;
-    }
-
-    public User addUser(User newUser) throws DbErrorException {
+    @Override
+    public User addUser(User newUser){
         boolean existingUser = false;
         User dbEntry;
 
@@ -58,24 +44,29 @@ public class UserPersistenceStub implements UserPersistence {
         if(existingUser) {
             userDB.add(newUser);
         }
-        else{
-            throw new DbErrorException("Username is taken.");
-        }
         return newUser;
 
     }
 
-    public User updateUser(User currentUser){
-        int userIndex;
+    @Override
+    public User getUser(String username){
+        User userCheck;
+        User userExists = null;
+        boolean userFound = false;
 
-        userIndex = userDB.indexOf(currentUser);
-        if(userIndex >= 0){
-            userDB.set(userIndex, currentUser);
+        for(int index = 0; index < userDB.size() && userFound; index++){
+            userCheck = userDB.get(index);
+
+            if(userCheck.getUserId().equals(username)){
+                userFound = true;
+                userExists = userCheck;
+            }
         }
 
-        return currentUser;
+        return userExists;
     }
 
+    @Override
     public void deleteUser(User currentUser){
         int userIndex;
 
