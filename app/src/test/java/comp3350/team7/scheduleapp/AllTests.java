@@ -16,6 +16,7 @@ import comp3350.team7.scheduleapp.persistence.EventDbStubTest;
         EventTest.class,
         EventValidatorTest.class,
         UserTest.class
+        UserValidatorTest.class
 })
 
 public class AllTests {
