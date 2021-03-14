@@ -17,11 +17,11 @@ import java.util.List;
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 
-public class UserPersistanceHSQLDB implements UserPersistenceInterface {
+public class UserPersistenceHSQLDB implements UserPersistenceInterface {
 
     private final String dbPath;
 
-    public UserPersistanceHSQLDB(final String dbPath){
+    public UserPersistenceHSQLDB(final String dbPath){
         this.dbPath = dbPath;
     }
 
@@ -30,13 +30,12 @@ public class UserPersistanceHSQLDB implements UserPersistenceInterface {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
-    private User fromResultSet(final ResultSet rs) throws SQLException{
-        final String firstName = rs.getString("Firstname");
-        final String lastname = rs.getString("Lastname");
-        final String username = rs.getString("UserID");
-        final String password = rs.getString("Password");
-
-        return new User(firstName,lastname,username,password);
+    private User fromResultSet(final ResultSet rs) throws SQLException {
+        final String username = rs.getString("userID");
+        final String password = rs.getString("password");
+        final String firstName = rs.getString("firstName");
+        final String lastName = rs.getString("lastName");
+        return new User(firstName,lastName,username,password);
     }
 
 
@@ -44,14 +43,14 @@ public class UserPersistanceHSQLDB implements UserPersistenceInterface {
     public List<User> getUserDB() {
         final List<User> users = new ArrayList<>();
 
-        try(final Connection c =  connection()){
+        try(final Connection c =  connection()) {
             final Statement msg = c.createStatement();
-            final ResultSet setResult =  msg.executeQuery("SELECT * FROM UserDB");
-            while(setResult.next()){
-                final User user = fromResultSet(setResult);
+            final ResultSet rs =  msg.executeQuery("SELECT * FROM Users");
+            while(rs.next()) {
+                final User user = fromResultSet(rs);
                 users.add(user);
             }
-            setResult.close();
+            rs.close();
             msg.close();
 
             return users;
@@ -61,11 +60,11 @@ public class UserPersistanceHSQLDB implements UserPersistenceInterface {
     }
 
     @Override
-    public User getUser(String username){
+    public User getUser(String username) {
         final User userExists;
 
-        try(final Connection c = connection()){
-            final PreparedStatement msg = c.prepareStatement("SELECT * FROM UserDB WHERE UserID = ?");
+        try(final Connection c = connection()) {
+            final PreparedStatement msg = c.prepareStatement("SELECT * FROM Users WHERE userID = ?");
             msg.setString(1, username);
 
             final ResultSet rs = msg.executeQuery();
@@ -83,12 +82,13 @@ public class UserPersistanceHSQLDB implements UserPersistenceInterface {
 
     @Override
     public User addUser(User newUser) {
-        try(final Connection c = connection()){
-            final PreparedStatement msg = c.prepareStatement("INSERT INTO UserDB VALUES(?,?,?,?)");
-            msg.setString(1, newUser.getFirstName());
-            msg.setString(2, newUser.getLastName());
-            msg.setString(3, newUser.getUserId());
-            msg.setString(4, newUser.getPassword());
+        try(final Connection c = connection()) {
+            final PreparedStatement msg = c.prepareStatement("INSERT INTO Users VALUES(?,?,?,?)");
+            msg.setString(1, newUser.getUserId());
+            msg.setString(2, newUser.getPassword());
+            msg.setString(3, newUser.getFirstName());
+            msg.setString(4, newUser.getLastName());
+
             msg.executeUpdate();
 
             return newUser;
@@ -100,7 +100,7 @@ public class UserPersistanceHSQLDB implements UserPersistenceInterface {
     @Override
     public void deleteUser(User user) {
         try(final Connection c = connection()){
-            final PreparedStatement msg = c.prepareStatement("DELETE FROM UserDB WHERE userID = ?");
+            final PreparedStatement msg = c.prepareStatement("DELETE FROM Users WHERE userID = ?");
             msg.setString(1, user.getUserId());
             msg.executeUpdate();
 

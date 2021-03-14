@@ -11,27 +11,25 @@ import java.util.Calendar;
 
 public class Event implements IEvent, Parcelable {
 
-    private static int id_count = 0;
     private int Event_id;
     private String Event_title;
-    private String Event_location;
     private String Event_description;
     private Calendar eventStart;
     private Calendar eventEnd;
 
-    public Event(String title, String description, Calendar eventStart, Calendar eventEnd) {
+    public Event(int eid, String title, String description, Calendar eventStart, Calendar eventEnd) {
+        setID(eid);
         setTitle(title);
         setDescription(description);
-        setID();
         setStart(eventStart);
         setEnd(eventEnd);
 
     }
 
-    public Event(String title, String description, Calendar eventStart) {
+    public Event(int eid, String title, String description, Calendar eventStart) {
+        setID(eid);
         setTitle(title);
         setDescription(description);
-        setID();
         setStart(eventStart);
         setEnd(null);
 
@@ -48,6 +46,11 @@ public class Event implements IEvent, Parcelable {
     public int getID() {
         return Event_id;
     }
+
+    public void setID(int eid) {
+        Event_id = eid;
+    }
+
 
     public String getTitle() {
         return Event_title;
@@ -82,11 +85,6 @@ public class Event implements IEvent, Parcelable {
 
     public String getEventEndToString() {
         return timeDisplayHelper(eventEnd);
-    }
-
-    private void setID() {
-        Event_id = id_count;
-        id_count++;
     }
 
     private String timeDisplayHelper(Calendar calendar) {
