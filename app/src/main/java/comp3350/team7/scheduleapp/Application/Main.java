@@ -6,7 +6,7 @@ package comp3350.team7.scheduleapp.Application;
  */
 
 public class Main {
-    private static String userDBName = "UserDB";
+    private static String userDBName = "assets/db/UserDB";
 
     public static void Main(String[] args){
         System.out.println("Booting up Schedule Management Application.");
