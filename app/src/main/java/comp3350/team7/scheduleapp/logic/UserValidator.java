@@ -10,11 +10,14 @@ import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistence;
 
 public class UserValidator {
-    private static UserPersistence userDB;
+    private static UserPersistence userDB = null;
 
     //DIP
     public UserValidator(UserPersistenceInterface dbStub){
-        userDB = dbStub;
+        if(userDB == null){
+            userDB = dbStub;
+        }
+        return userDB;
     }
 
     public static boolean validateInput(String firstname, String lastname, String userID, String password, String confirmPassword){
