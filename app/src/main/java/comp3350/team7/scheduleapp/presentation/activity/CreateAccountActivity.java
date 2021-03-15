@@ -13,7 +13,7 @@ import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.logic.UserValidator;
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
-import comp3350.team7.scheduleapp.persistence.UserPersistenceStub;
+import comp3350.team7.scheduleapp.persistence.hsqldb.UserPersistenceHSQLDB;
 
 import static android.widget.Toast.*;
 
@@ -41,7 +41,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
-        userDB = Services.getUserPersistence();
+        userDB = new UserPersistenceHSQLDB(Services.getUserPersistence());
         validator = new UserValidator(userDB);
         
         getView();

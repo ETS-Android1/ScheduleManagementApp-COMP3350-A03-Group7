@@ -14,8 +14,9 @@ import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.logic.UserValidator;
 import comp3350.team7.scheduleapp.Application.Services;
 
+import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
+import comp3350.team7.scheduleapp.persistence.hsqldb.UserPersistenceHSQLDB;
 /*
-import comp3350.team7.scheduleapp.persistence.UserPersistence;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceStub;
 */
 
@@ -26,13 +27,16 @@ public class LoginActivity extends AppCompatActivity{
     static String userID;
     static String userPAC; //Personal access code aka password
     private UserValidator validator;
+    private UserPersistenceInterface userDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        validator = new UserValidator(Services.getUserPersistence());
+
+        userDB = new UserPersistenceHSQLDB(Services.getUserPersistence());
+        validator = new UserValidator(userDB);
         getView();
     }
 
