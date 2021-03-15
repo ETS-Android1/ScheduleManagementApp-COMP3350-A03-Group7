@@ -29,7 +29,7 @@ public class Services {
         return userDatabase;
     }
     
-    public static synchronized EventPersistenceInterface getUserPersistence(){
+    public static synchronized EventPersistenceInterface getEventPersistence(){
 
         if(eventDatabase == null){
             eventDatabase = new eventPersistanceHSQLDB(Main.getDBPathName());
