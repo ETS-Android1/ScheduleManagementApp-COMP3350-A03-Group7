@@ -38,6 +38,7 @@ public class User {
         }
         catch(Exception e){
             //print out error
+            System.out.println(e);
         }
     }
 

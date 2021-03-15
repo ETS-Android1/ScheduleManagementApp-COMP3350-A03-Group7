@@ -17,7 +17,7 @@ Purpose: To put a lock on the calls towards the methods and turn it into a Queue
 public class Services {
 
     private static UserPersistenceInterface userDatabase = null;
-    private static EventPersistenceInterface eventDatabase = null;
+    //private static EventPersistenceInterface eventDatabase = null;
 
 
     public static synchronized UserPersistenceInterface getUserPersistence(){
@@ -28,7 +28,7 @@ public class Services {
 
         return userDatabase;
     }
-    
+/*
     public static synchronized EventPersistenceInterface getEventPersistence(){
 
         if(eventDatabase == null){
@@ -37,5 +37,5 @@ public class Services {
 
         return eventDatabase;
     }
-    
+  */  
 }
