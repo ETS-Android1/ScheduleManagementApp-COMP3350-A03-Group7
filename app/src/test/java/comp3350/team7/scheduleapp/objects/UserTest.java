@@ -11,16 +11,57 @@ import static org.junit.Assert.*;
  */
 
 public class UserTest {
+    public static User testUser;
+
+    @Before
+    public void setup(){
+        testUser = new User("John", "Doe", "johndoe123", "qwertyasdf");
+    }
+
+    @After
+    public void teardown(){
+        testUser = null;
+    }
+
     @Test
-    public void testUser1() {
-        User user;
-        System.out.println("\nStarting testUser");
-        user = new User("Antony", "Anuraj", "antonyanuraj", "qwertyasdf");
-        assertNotNull(user);
-        assertTrue("Antony".equals(user.getFirstName()));
-        assertTrue("Anuraj".equals(user.getLastName()));
-        assertTrue("antonyanuraj".equals(user.getUserId()));
-        assertTrue("qwertyasdf".equals(user.getPassword()));
-        System.out.println("\nEnding testUser");
+    public void setFirstNameTest() {
+        String newFirstName = "Jane";
+
+        System.out.println("Starting setFirstNameTest");
+        testUser.setFirstName(newFirstName);
+        assertEquals("Expecting new first name to be Jane", newFirstName, testUser.getFirstName());
+        System.out.println("Finished setFirstNameTest");
+    }
+
+    @Test
+    public void setLastNameTest() {
+        String newLastName = "Otter";
+        
+        System.out.println("Starting setLastNameTest");
+        testUser.setLastName(newLastName);
+        assertEquals("Expecting new last name to be Otter", newLastName, testUser.getLastName());
+        System.out.println("Finished setLastNameTest");
+
+    }
+
+    @Test
+    public void setUserIDTest() {
+        String newUserID = "janeotter1";
+        
+        System.out.println("Starting setUserIDTest");
+        testUser.setUserId(newUserID);
+        assertEquals("Expecting new userID to be janeotter1", newUserID, testUser.getUserID());
+        System.out.println("Finished setUserIDNameTest");
+
+    }
+
+    @Test
+    public void setPasswordTest() {
+        String newPassword = "weirdpassword";
+        
+        System.out.println("Starting setPasswordTest");
+        testUser.setPassword(newPassword);
+        assertEquals("Expecting new password to be weirdpassword", newPassword, testUser.getPassword());
+        System.out.println("Finished setPasswordTest");
     }
 }

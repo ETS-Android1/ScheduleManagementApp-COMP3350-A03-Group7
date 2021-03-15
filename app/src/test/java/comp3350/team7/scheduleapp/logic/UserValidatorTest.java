@@ -13,6 +13,7 @@ import comp3350.team7.scheduleapp.persistence.UserPersistenceStub;
 
 public class UserValidatorTest {
     public static UserValidator validatorTester;
+    
     @Before
     public void setup(){
         validatorTester = new UserValidator(new UserPersistenceStub());
