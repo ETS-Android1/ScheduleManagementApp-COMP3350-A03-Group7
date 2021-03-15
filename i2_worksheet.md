@@ -1,5 +1,24 @@
 Iteration 2 Worksheet
 ======
+Paying off technical debt
+---
+##### LoginActivity Technical Debt
++ For iteration 1, We went with a dummy account coded into the LoginActivity to test the flow of the app and choosing to implemet a database later on in iteration 2 as well as separating the layers into different files. We also added a UserValidator class to check whether the user inputs are valid and to fix some of the bugs pointed out in the Issues.
++ [Paying off Technical debt for LoginActivity](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/commit/882bfca8f0e8194f11a8b7fe3cd2f557d72c6aba)
++ This was a Inadvertently Reckless turned deliberately Prudent technical debt because we initially made it to get the flow of how the app would run and which activity it would start on, we also didnt fully implement it as we should have done and not leave it half done
+
+##### CreateAccountActivity Technical Debt
++ Similar to the technical Debt for LoginActivity, we did not implement a working backend nor properly separated the logic and Presentation layer into two separate files. Now we are paying it off by having it compose a UserValidator object that would check if the user inputs are valid and as well as make calls to the database to check if the userID is already taken. As for the backend issue, we paid it off by making a UserPersistenceInterface that was implemented by UserPersistenceStub for testing and by UserPersistanceHSQLDB for the actual database interactions between the Seams of the layers.
++ [Paying off technical debt for CreateAccountActivity](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/commit/8af93f9817e5b628b2b0dad9027be4aa9c9754b4)
++ it was a Deliberately Prudent technical debt because we chose to implement it to get the flow of the app going and did not implement the required layer separation, the logic class to check if the userID was in the database and the actual database itself.
+
+
+Design Patterns
+------
++ [Decorator Pattern](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/development/app/src/main/java/comp3350/team7/scheduleapp/persistence/hsqldb/UserDBException.java)
++ [Singleton Pattern](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/development/app/src/main/java/comp3350/team7/scheduleapp/logic/UserValidator.java)
++ [Factory Pattern](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/development/app/src/main/java/comp3350/team7/scheduleapp/persistence/EventPersistenceInterface.java)
++ [Composition](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/development/app/src/main/java/comp3350/team7/scheduleapp/presentation/activity/LoginActivity.java)
 
 Iteration 1 Feedback fixes
 ------
