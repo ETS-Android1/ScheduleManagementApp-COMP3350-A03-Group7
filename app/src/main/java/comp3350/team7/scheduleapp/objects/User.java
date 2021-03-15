@@ -32,14 +32,13 @@ public class User {
     }
 
     public void setPassword(String password) {
-        try {
-            UserValidator.passwordLengthCheck(password);
+        
+        if(UserValidator.passwordLengthCheck(password)){
             this.password = password;
+        } else{
+            System.out.println("Passwords must be 8 to 16 characters");
         }
-        catch(Exception e){
-            //print out error
-            System.out.println(e);
-        }
+        
     }
 
     public String getFirstName() {

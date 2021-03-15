@@ -90,4 +90,20 @@ public class UserValidatorTest {
 
         assertNull("Expecting a null object returned by validateLogin", validatorTester.validateLogin(username, password));
     }
+
+    @Test
+    public void passwordLengthCheck_is_True(){
+        String password = "ThisIsTrue";
+
+        assertTrue("Expecting passwordLengthCheck to return true.", validatorTester.passwordLengthCheck(password));
+    }
+
+    @Test
+    public void passwordLengthCheck_is_False(){
+        String password1 = "PasswordIsTooLong";
+        String password2 = "12345"
+
+        assertFalse("Expecting false for password = 'PasswordIsTooLong'.", validatorTester.passwordLengthCheck(password));
+        assertFalse("Expecting false for password = '12345'.", validatorTester.passwordLengthCheck(password));
+    }
 }
