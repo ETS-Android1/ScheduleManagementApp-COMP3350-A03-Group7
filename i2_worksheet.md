@@ -13,6 +13,11 @@ Paying off technical debt
 + it was a Deliberately Prudent technical debt because we chose to implement it to get the flow of the app going and did not implement the required layer separation, the logic class to check if the userID was in the database and the actual database itself.
 
 
+Retrospective
+----
+The retrospective has made us realize that we needed to think the features thoroughly and that we needed to communicate more than we have for iteration 1. This means we had to send messages to our group discord to clarify,get opinions,ask for help, or simply just to figure out who's doing what and how we can help/contribute so that all our codes would be in line with what we want to achieve.
+
+
 Design Patterns
 ------
 + [Decorator Pattern](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/development/app/src/main/java/comp3350/team7/scheduleapp/persistence/hsqldb/UserDBException.java)
