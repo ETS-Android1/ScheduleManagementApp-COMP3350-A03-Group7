@@ -15,7 +15,9 @@ Paying off technical debt
 
 Retrospective
 ----
-The retrospective has made us realize that we needed to think the features thoroughly and that we needed to communicate more than we have for iteration 1. This means we had to send messages to our group discord to clarify,get opinions,ask for help, or simply just to figure out who's doing what and how we can help/contribute so that all our codes would be in line with what we want to achieve.
+The retrospective has made us realize that we needed to think the features thoroughly and that we needed to communicate more than we have for iteration 1. This means we had to send messages to our group discord to clarify,get opinions,ask for help, or simply just to figure out who's doing what and how we can help/contribute so that all our codes would be in line with what we want to achieve. Overall, We started to communicate frequently more often and ask for inputs from the group.
+
+
 
 
 Design Patterns
