@@ -32,7 +32,7 @@ public class Services {
     public static synchronized EventPersistenceInterface getEventPersistence(){
 
         if(eventDatabase == null){
-            eventDatabase = new eventPersistanceHSQLDB(Main.getDBPathName());
+            eventDatabase = new EventPersistanceHSQLDB(Main.getDBPathName());
         }
 
         return eventDatabase;
