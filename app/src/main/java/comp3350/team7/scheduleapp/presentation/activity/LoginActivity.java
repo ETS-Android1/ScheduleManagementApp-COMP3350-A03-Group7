@@ -11,8 +11,13 @@ import android.widget.*;
 
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.objects.User;
+import comp3350.team7.scheduleapp.logic.UserValidator;
+import comp3350.team7.scheduleapp.Application.Services;
+
+/*
 import comp3350.team7.scheduleapp.persistence.UserPersistence;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceStub;
+*/
 
 import static android.widget.Toast.*;
 
@@ -20,14 +25,14 @@ public class LoginActivity extends AppCompatActivity{
     static EditText ClientID, ClientPassword;
     static String userID;
     static String userPAC; //Personal access code aka password
-    private UserPersistence userDB;
+    private UserValidator validator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        userDB = new UserPersistenceStub();
+        validator = new UserValidator(Services.getUserPersistence());
         getView();
     }
 
@@ -40,22 +45,6 @@ public class LoginActivity extends AppCompatActivity{
     public void getData(){
         userID = ClientID.getText().toString();
         userPAC = ClientPassword.getText().toString();
-    }
-
-    public boolean validInput(){
-        boolean isValid = false;
-        //check if required fields are empty
-        if(userID.trim().equals("")){
-            ClientID.setError("Username is required.");
-        }
-        else if(userPAC.trim().equals("")){
-            ClientPassword.setError("Password is required.");
-        }
-        else{
-            isValid = true;
-        }
-
-        return isValid;
     }
 
 
@@ -75,15 +64,13 @@ public class LoginActivity extends AppCompatActivity{
     ppublic void logOn(View v) {
         getData();
 
-        if(validInput()){
-            if (userDB.validLogin(userID, userPAC) != null) {
+        if(validator.validLoginInput()){
+            if (validator.validateLogin(userID,userPAC) != null) {
                 launchUserHomePage();
-            }
-            else{
+            } else{
                 Toast.makeText(LoginActivity.this, "Invalid username/password.", LENGTH_SHORT).show();
             }
-        }
-        else{
+        } else{
             Toast.makeText(LoginActivity.this, "Please enter required fields.", LENGTH_SHORT).show();
         }
     }

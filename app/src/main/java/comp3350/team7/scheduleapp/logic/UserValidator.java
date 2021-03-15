@@ -23,7 +23,17 @@ public class UserValidator {
     public static boolean validateInput(String firstname, String lastname, String userID, String password, String confirmPassword){
         boolean validInput = false;
 
-        if((firstname.trim().length() > 0) && (lastname.trim().length() > 0) && (userID.trim().length() > 0) && (password.trim().length() > 0) && (confirmPassword.trim().length() > 0)){
+        if((firstname.trim().length() > 0) && (lastname.trim().length() > 0) && (userID.trim().length() > 0) && (password.trim().length() > 0) && (confirmPassword.trim().length() > 0))        {
+            validInput = true;
+        }
+
+        return validInput;
+    }
+
+    public static boolean validateLoginInput(String userID, String password){
+        boolean validInput = false;
+
+        if((userID.trim().length() > 0) && (password.trim().length() > 0)) {
             validInput = true;
         }
 
