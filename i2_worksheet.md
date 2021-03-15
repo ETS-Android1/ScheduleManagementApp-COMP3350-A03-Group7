@@ -19,8 +19,17 @@ The retrospective has made us realize that we needed to think the features thoro
 
 ##### Evidence
 + Commit Evidences
-    + ![Commit Evidence1](CommitEvidence1.JPG)
-
+    + ![Commit Evidence 1](/Iter2 worksheet resources/CommitEvidence1.JPG)
+    + ![Commit Evidence 2](/Iter2 worksheet resources/CommitEvidence2.JPG)
+    + ![Commit Evidence 3](/Iter2 worksheet resources/CommitEvidence3.JPG)
+    + ![Commit Evidence 4](/Iter2 worksheet resources/CommitEvidence4.JPG)
++ Testing change evidences
+    + [Updated Test files](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/commit/b8e460076d7aa4397233496f90164f313f14e579)
++ Peer Review Evidence
+    + ![Peer Review Evidence 1](/Iter2 worksheet resources/PeerReviewEvidence1.JPG)
+    + ![Peer Review Evidence 2](/Iter2 worksheet resources/PeerReviewEvidence2.JPG)
+    + ![Peer Review Evidence 3](/Iter2 worksheet resources/PeerReviewEvidence3.JPG)
+    + ![Peer Review Evidence 4](/Iter2 worksheet resources/PeerReviewEvidence4.JPG)
 
 Design Patterns
 ------
