@@ -17,7 +17,7 @@ import comp3350.team7.scheduleapp.Application.Services;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 import comp3350.team7.scheduleapp.persistence.hsqldb.UserPersistenceHSQLDB;
 /*
-import comp3350.team7.scheduleapp.persistence.UserPersistenceStub;
+import comp3350.team7.scheduleapp.persistence.stubs.UserPersistenceStub;
 */
 
 import static android.widget.Toast.*;

@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.objects.Event;
-import comp3350.team7.scheduleapp.persistence.EventDbStub;
+import comp3350.team7.scheduleapp.persistence.stubs.EventDbStub;
 import static org.junit.Assert.*;
 
 /*
@@ -47,7 +47,7 @@ public class EventDbStubTest {
         assertTrue(2 == eventDbStub.getEventListLength());
         System.out.println("\nFinished testEventDbStub");
     }
-    
+
     @Test
     public void testAddEvent() {
         System.out.println("\nStarting testAddEvent");

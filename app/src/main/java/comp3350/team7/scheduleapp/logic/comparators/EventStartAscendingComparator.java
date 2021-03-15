@@ -9,7 +9,7 @@ import java.util.Comparator;
 
 import comp3350.team7.scheduleapp.objects.Event;
 
-public class EventStartAscendingComparator implements Comparator<Event> {
+public class EventStartAscendingComparator extends AbstractComparator {
 
     @Override
     public int compare(Event e1, Event e2) {

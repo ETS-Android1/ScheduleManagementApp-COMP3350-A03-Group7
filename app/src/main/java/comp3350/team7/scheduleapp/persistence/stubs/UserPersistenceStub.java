@@ -1,10 +1,16 @@
-package comp3350.team7.scheduleapp.persistence;
+package comp3350.team7.scheduleapp.persistence.stubs;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import comp3350.team7.scheduleapp.objects.User;
+import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
+
+/*
+ * Created By Thai Tran on 14 March,2021
+ *
+ */
 
 public class UserPersistenceStub implements UserPersistenceInterface {
     private List<User> userDB;

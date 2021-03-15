@@ -15,7 +15,7 @@ import comp3350.team7.scheduleapp.logic.comparators.EventStartAscendingComparato
 import comp3350.team7.scheduleapp.logic.comparators.EventStartDescendingComparator;
 import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
-import comp3350.team7.scheduleapp.persistence.EventDbStub;
+import comp3350.team7.scheduleapp.persistence.stubs.EventDbStub;
 import comp3350.team7.scheduleapp.objects.Event;
 
 /*
