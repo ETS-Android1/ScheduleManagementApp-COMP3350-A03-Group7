@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import comp3350.team7.scheduleapp.R;
@@ -26,33 +27,80 @@ import comp3350.team7.scheduleapp.objects.Event;
  *
  */
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
     private EventController eventController;
     private Context context;
     private List<Event> list;
+    private HashSet<Integer> expandViewHolderPositionSet;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public RecyclerViewAdapter(Context context, EventController eventController) {
         this.context = context;
         this.eventController = eventController;
+        /* TODO: 2021-03-15
+         *  inject eventController
+         */
         this.list = eventController.getEventList();
+        this.expandViewHolderPositionSet = new HashSet<>();
+
     }
 
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
-        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder, parent, false);
+        v = LayoutInflater.from(parent.getContext()).inflate(viewType == 0 ? R.layout.view_holder_event : R.layout.view_holder_event_expand, parent, false);
         return new MyViewHolder(v);
     }
 
+
     // bind view holder with a given position in RecyclerView
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        Event entity = list.get(position);
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
+        Event event = list.get(position);
+        holder.bind(position);
         if (holder instanceof MyViewHolder) {
-            ((MyViewHolder) holder).textView3.setText(entity.getTitle());
-            ((MyViewHolder) holder).textView4.setText(entity.getEventStartToString());
+            holder.textView3.setText(event.getTitle());
+            holder.textView4.setText(event.getEventStartToString());
+            holder.description.setText(event.getDescription());
+            /* TODO: 2021-03-15
+             * implement remind time in event class
+             *
+             */
+            /*((MyViewHolder) holder).remindMe.setText(event.getRemindTime()); */
+
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (isViewHolderExpanded(position)) {
+                    addExpandViewHolderPostion(position);
+                } else {
+                    removeExpandViewHolderPosition(position);
+                }
+                notifyItemChanged(position);
+            }
+        });
+
+
+    }
+
+    private boolean isViewHolderExpanded(int position) {
+        return expandViewHolderPositionSet.contains(position);
+    }
+
+    private void addExpandViewHolderPostion(int position) {
+        expandViewHolderPositionSet.add(position);
+    }
+
+    private void removeExpandViewHolderPosition(int position) {
+        expandViewHolderPositionSet.remove(position);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position % 2;
     }
 
     @Override
@@ -64,12 +112,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return this.list.get(adaptivePos);
     }
 
-    public void setList(List<Event> e){
+    public void setList(List<Event> e) {
         this.list = e;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void remove(int position)  {
+    public void remove(int position) {
 //        Event deletedItem = list.remove(position);
 //        // NOTE: don't call notifyDataSetChanged(
 //        //       It will cancel any animation
@@ -78,7 +126,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } catch (DbErrorException e) {
             // always catch and log
             // we know where the bom init
-            Log.e(TAG.RecyclerViewAdapter.toString(),"Err: in remove "+ e.getMessage());
+            Log.e(TAG.RecyclerViewAdapter.toString(), "Err: in remove " + e.getMessage());
             e.printStackTrace();
         }
         notifyItemRemoved(position);
@@ -98,25 +146,40 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } catch (InvalidEventException e) {
             // always catch and log
             // we know where the bom init
-            Log.e(TAG.RecyclerViewAdapter.toString(),"Err: in Undo "+ e.getMessage());
+            Log.e(TAG.RecyclerViewAdapter.toString(), "Err: in Undo " + e.getMessage());
             e.printStackTrace();
         }
         notifyItemInserted(position);
     }
 
-public class MyViewHolder extends RecyclerView.ViewHolder {
-    public TextView textView3;
-    public TextView textView4;
-    public View holder, foreGround, backGround;
+    public void click(Event clickedEvent, int position) {
 
-    public MyViewHolder(View itemView) {
-        super(itemView);
-        textView3 = itemView.findViewById(R.id.textView3);
-        textView4 = itemView.findViewById(R.id.textView4);
-        foreGround = itemView.findViewById(R.id.foreGround);
-        backGround = itemView.findViewById(R.id.backGround);
-        holder = itemView.findViewById(R.id.holder);
     }
 
-}
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView textView3;
+        public TextView textView4;
+        public TextView description;
+        public TextView remindMe;
+        public View holder, foreGround, backGround, expandView;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            textView3 = itemView.findViewById(R.id.textView3);
+            textView4 = itemView.findViewById(R.id.textView4);
+            foreGround = itemView.findViewById(R.id.foreGround);
+            backGround = itemView.findViewById(R.id.backGround);
+            holder = itemView.findViewById(R.id.holder);
+            expandView = itemView.findViewById(R.id.expand_event_view);
+            description = itemView.findViewById(R.id.event_description);
+            remindMe = itemView.findViewById(R.id.remind_me);
+
+        }
+
+        private void bind(int position) {
+            expandView.setVisibility(isViewHolderExpanded(position) ? View.VISIBLE : View.GONE);
+
+        }
+
+    }
 }

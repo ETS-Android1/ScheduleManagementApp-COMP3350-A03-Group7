@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/holder"
     android:layout_width="match_parent"
     android:layout_height="100dp"
@@ -8,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/backGround"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="280dp"
         android:background="@android:color/holo_green_dark">
 
         <ImageView
@@ -40,24 +42,52 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/foreGround"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="280dp">
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="360dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:gravity="center|start"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="@string/textview2" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="92dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:gravity="center"
-            android:text="@string/textview1" />
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="383dp"
+                android:layout_height="97dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center|start"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/textview2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/textView4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="228dp"
+                android:layout_height="100dp"
+                android:layout_gravity="end"
+                android:gravity="center"
+                android:text="@string/textview1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView3"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <include
+                android:id="@+id/expand_event_view"
+                layout="@layout/view_holder_event_details"
+                android:layout_width="606dp"
+                android:layout_height="179dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.99" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 </FrameLayout>

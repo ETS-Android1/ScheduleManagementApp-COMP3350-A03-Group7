@@ -89,10 +89,7 @@ public class RecyclerViewOnItemtouchHelper extends ItemTouchHelper.SimpleCallbac
         });
         snackbar.setActionTextColor(Color.WHITE);
         snackbar.show();
-
-
-
-
-
     }
+
+
 }
