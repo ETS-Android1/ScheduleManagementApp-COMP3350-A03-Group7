@@ -7,11 +7,11 @@ import comp3350.team7.scheduleapp.objects.Event;
 public class ScheduleController {
 
     private List<Event> scheduleEvents;
-    private static ScheduledEventsPersistenceInterface scheduleHSQLDB;
+    private static ScheduledEventsInterface scheduleDB;
 
-    public ScheduleController(ScheduledEventsPersistenceInterface scheduleDB) {
+    public ScheduleController(ScheduledEventsInterface scheduleHSQLDB) {
         scheduleEvents = null;
-        scheduleHSQLDBDB = scheduleDB;
+        scheduleDB = scheduleHSQLDB;
     }
 
     public List<Event> getScheduleForDay(String username, Calendar specificDate) {
