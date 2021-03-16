@@ -31,7 +31,7 @@ public class UserValidatorTest {
         String password = "TestMe";
         String confirmPassword = "TestMe";
 
-        System.out.println("Starting validateInput_Is_True Test.");
+        System.out.println("\nStarting validateInput_Is_True Test.");
         assertTrue("Expecting no empty User Input", validatorTester.validateInput(firstname, lastname, username, password, confirmPassword));
         System.out.println("Finished validateInput_Is_True Test.");
     }
@@ -45,7 +45,7 @@ public class UserValidatorTest {
         String confirmPassword = "TestMe";
 
         
-        System.out.println("Starting validateInput_Is_False Test.");
+        System.out.println("\nStarting validateInput_Is_False Test.");
         assertFalse("Expecting an empty User input", validatorTester.validateInput(firstname, lastname, username, password, confirmPassword));        
         System.out.println("Finished validateInput_Is_False Test.");
     }
@@ -55,7 +55,7 @@ public class UserValidatorTest {
         String password = "testing123";
         String confirmPassword = "testing123";
 
-        System.out.println("Starting validateInput_Is_True Test.");
+        System.out.println("\nStarting validateInput_Is_True Test.");
         assertTrue("Expecting that password and confirm password matches", validatorTester.validateConfirmPassword(password,confirmPassword));
         System.out.println("Finished validateInput_Is_True Test.");
     }
@@ -65,7 +65,7 @@ public class UserValidatorTest {
         String password = "ConfirmMustMatch";
         String confirmPassword = "IDontMatch";
 
-        System.out.println("Starting validateConfirmPassword_Is_False Test.");
+        System.out.println("\nStarting validateConfirmPassword_Is_False Test.");
         assertFalse("Expecting Password =/= Confirm Password", validatorTester.validateConfirmPassword(password,confirmPassword));
         System.out.println("Finished validateConfirmPassword_Is_False Test.");
     }
@@ -74,7 +74,7 @@ public class UserValidatorTest {
     public void isUniqueID_Is_True(){
         String uniqueID = "janedoe123";
 
-        System.out.println("Starting isUniqueID_Is_True Test.");
+        System.out.println("\nStarting isUniqueID_Is_True Test.");
         assertTrue("Expecting janedoe123 to be a Unique ID", validatorTester.isUniqueID(uniqueID));
         System.out.println("Finished isUniqueID_Is_True Test.");
     }
@@ -83,7 +83,7 @@ public class UserValidatorTest {
     public void isUniqueID_Is_False(){
         String notUniqueID1 = "josona";
 
-        System.out.println("Starting isUniqueID_Is_False Test.");
+        System.out.println("\nStarting isUniqueID_Is_False Test.");
         assertFalse("Expecting josona not to be a Unique ID", validatorTester.isUniqueID(notUniqueID1));
         System.out.println("Finished isUniqueID_Is_False Test.");
     }
@@ -93,7 +93,7 @@ public class UserValidatorTest {
         String username = "josona";
         String password = "aaron1234";
 
-        System.out.println("Starting validateLogin_Is_Not_Null Test.");
+        System.out.println("\nStarting validateLogin_Is_Not_Null Test.");
         assertNotNull("Expecting a User object returned by validateLogin", validatorTester.validateLogin(username, password));
         System.out.println("Starting validateLogin_Is_Not_Null Test.");
     }
@@ -103,7 +103,7 @@ public class UserValidatorTest {
         String username = "josona";
         String password = "jackrussel";
 
-        System.out.println("Starting validateLogin_Is_Null Test.");
+        System.out.println("\nStarting validateLogin_Is_Null Test.");
         assertNull("Expecting a null object returned by validateLogin", validatorTester.validateLogin(username, password));
         System.out.println("Finished validateLogin_Is_Null Test.");
     }
@@ -112,7 +112,7 @@ public class UserValidatorTest {
     public void passwordLengthCheck_is_True(){
         String password = "ThisIsTrue";
 
-        System.out.println("Starting passwordLengthCheck_is_True Test.");
+        System.out.println("\nStarting passwordLengthCheck_is_True Test.");
         assertTrue("Expecting passwordLengthCheck to return true.", validatorTester.passwordLengthCheck(password));
         System.out.println("Finished passwordLengthCheck_is_True Test.");
     }
@@ -122,7 +122,7 @@ public class UserValidatorTest {
         String password1 = "PasswordIsTooLong";
         String password2 = "12345"
 
-        System.out.println("Starting passwordLengthCheck_is_False Test.");
+        System.out.println("\nStarting passwordLengthCheck_is_False Test.");
         assertFalse("Expecting false for password = 'PasswordIsTooLong'.", validatorTester.passwordLengthCheck(password));
         assertFalse("Expecting false for password = '12345'.", validatorTester.passwordLengthCheck(password));
         System.out.println("Finished passwordLengthCheck_is_False Test.");
