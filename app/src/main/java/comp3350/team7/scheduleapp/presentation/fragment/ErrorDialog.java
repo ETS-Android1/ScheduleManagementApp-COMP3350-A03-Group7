@@ -12,9 +12,9 @@ import comp3350.team7.scheduleapp.R;
  *
  */
 
-public class InvalidInputDialogFragment extends DialogFragment {
+public class ErrorDialog extends DialogFragment {
     private String displayMessage;
-    public InvalidInputDialogFragment(String message) {
+    public ErrorDialog (String message) {
         displayMessage = message;
     }
 
