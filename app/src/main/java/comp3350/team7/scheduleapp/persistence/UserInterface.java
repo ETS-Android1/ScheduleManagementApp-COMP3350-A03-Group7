@@ -10,13 +10,13 @@ import java.util.List;
 import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.objects.User;
 
-public interface UserPersistenceInterface {
+public interface UserInterface {
    List<User> getUserDB();
 
    User addUser(User newUser);
 
    User getUser(String username);
-   
+
    void deleteUser(User user);
 
 }

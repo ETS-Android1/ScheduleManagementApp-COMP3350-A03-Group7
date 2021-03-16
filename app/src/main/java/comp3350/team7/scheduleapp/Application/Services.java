@@ -1,10 +1,9 @@
 package comp3350.team7.scheduleapp.application;
 
 
-import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
+import comp3350.team7.scheduleapp.persistence.UserInterface;
 import comp3350.team7.scheduleapp.persistence.hsqldb.UserPersistenceHSQLDB;
 import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
-import comp3350.team7.scheduleapp.persistence.hsqldb.EventPersistenceHSQLDB;
 
 /*
 Purpose: To put a lock on the calls towards the methods and turn it into a Queue on who gets the database access
@@ -12,14 +11,15 @@ Purpose: To put a lock on the calls towards the methods and turn it into a Queue
 
 public class Services {
 
-    private static UserPersistenceInterface userDatabase = null;
-    //private static EventPersistenceInterface eventDatabase = null;
+    private static UserInterface userDatabase = null;
+    private static EventPersistenceInterface eventDatabase = null;
+    private static ScheduledEventPersistenceInterface scheduleDatabase  = null;
 
 
-    public static synchronized UserPersistenceInterface getUserPersistence(){
+    public static synchronized UserInterface getUserPersistence(){
 
         if(userDatabase == null){
-            userDatabase = new UserPersistanceHSQLDB(comp3350.team7.scheduleapp.Application.Main.getDBPathName());
+            userDatabase = new UserPersistenceHSQLDB(comp3350.team7.scheduleapp.Application.Main.getDBPathName());
         }
 
         return userDatabase;

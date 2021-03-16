@@ -10,10 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Calendar;
 
+import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.objects.Event;
 import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
 
-public class EventPersistenceHSQLDB {
+public class EventPersistenceHSQLDB implements EventPersistenceInterface{
     private final String dbPath;
 
     public EventPersistenceHSQLDB(final String dbPath){
@@ -85,6 +86,11 @@ public class EventPersistenceHSQLDB {
         }
     }
 
+    @Override
+    public List<Event> getEventList() {
+        return null;
+    }
+
     public Event addEvent(Event newEvent) {
         try(final Connection c = connection()) {
             final PreparedStatement msg = c.prepareStatement("INSERT INTO Users VALUES(?,?,?,?)");
@@ -107,6 +113,26 @@ public class EventPersistenceHSQLDB {
         }catch (final SQLException e){
             throw new DBException(e);
         }
+    }
+
+    @Override
+    public List<Event> removeEvent(Event e) throws DbErrorException {
+        return null;
+    }
+
+    @Override
+    public List<Event> removeEvent(int index) throws DbErrorException {
+        return null;
+    }
+
+    @Override
+    public List<Event> updateEvent(Event old, Event fresh) throws DbErrorException {
+        return null;
+    }
+
+    @Override
+    public int getEventListLength() {
+        return 0;
     }
 
     /* TODO: 2021-03-14

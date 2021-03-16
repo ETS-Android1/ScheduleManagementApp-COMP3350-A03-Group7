@@ -5,14 +5,14 @@ import java.util.Collections;
 import java.util.List;
 
 import comp3350.team7.scheduleapp.objects.User;
-import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
+import comp3350.team7.scheduleapp.persistence.UserInterface;
 
 /*
  * Created By Thai Tran on 14 March,2021
  *
  */
 
-public class UserPersistenceStub implements UserPersistenceInterface {
+public class UserPersistenceStub implements UserInterface{
     private List<User> userDB;
 
     public UserPersistenceStub(){

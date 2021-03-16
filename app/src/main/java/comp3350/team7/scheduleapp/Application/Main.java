@@ -17,11 +17,11 @@ public class Main {
         try {
             Class.forName("org.hsqldb.jdbcDriver").newInstance();
         } catch (InstantiationException e) {
-            System.out.println(e.printStackTrace());
+            e.printStackTrace();
         } catch (IllegalAccessException e) {
-            System.out.println(e.printStackTrace());
-        } catch (ClassNotFoundException e) 
-            System.out.println(e.printStackTrace());
+           e.printStackTrace();
+        } catch (ClassNotFoundException e){
+           e.printStackTrace();
         }
         userDBName = pathName;
     }

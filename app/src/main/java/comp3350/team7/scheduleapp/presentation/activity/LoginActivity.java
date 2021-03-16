@@ -4,17 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.*;
 
 
 import comp3350.team7.scheduleapp.R;
-import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.logic.UserValidator;
 import comp3350.team7.scheduleapp.Application.Services;
 
-import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
+import comp3350.team7.scheduleapp.persistence.UserInterface;
 import comp3350.team7.scheduleapp.persistence.hsqldb.UserPersistenceHSQLDB;
 /*
 import comp3350.team7.scheduleapp.persistence.stubs.UserPersistenceStub;
@@ -27,7 +25,7 @@ public class LoginActivity extends AppCompatActivity{
     static String userID;
     static String userPAC; //Personal access code aka password
     private UserValidator validator;
-    private UserPersistenceInterface userDB;
+    private UserInterface userDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
