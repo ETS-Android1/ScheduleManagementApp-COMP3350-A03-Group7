@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Calendar;
 
 import comp3350.team7.scheduleapp.objects.Event;
+import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
 
 public class EventPersistenceHSQLDB {
     private final String dbPath;
@@ -60,7 +61,7 @@ public class EventPersistenceHSQLDB {
 
             return events;
         }catch (final SQLException e){
-            throw new UserDBException(e);
+            throw new DBException(e);
         }
     }
 
@@ -80,7 +81,7 @@ public class EventPersistenceHSQLDB {
 
             return eventExists;
         }catch (final SQLException e){
-            throw new UserDBException(e);
+            throw new DBException(e);
         }
     }
 
@@ -104,7 +105,7 @@ public class EventPersistenceHSQLDB {
 
             return newEvent;
         }catch (final SQLException e){
-            throw new UserDBException(e);
+            throw new DBException(e);
         }
     }
 
@@ -118,7 +119,7 @@ public class EventPersistenceHSQLDB {
             msg.executeUpdate();
 
         }catch (final SQLException e){
-            throw new UserDBException(e);
+            throw new DBException(e);
         }
     }
 }
