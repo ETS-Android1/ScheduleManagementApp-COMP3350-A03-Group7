@@ -13,11 +13,11 @@ import comp3350.team7.scheduleapp.objects.Event;
  * Created By Thai Tran on 22/02/21 10:57 AM
  *
  */
-public class EventDbStub implements EventPersistenceInterface {
+public class EventDBStub implements EventPersistenceInterface {
     private final List<Event> eventList;
     private final int numEventStub;
 
-    public EventDbStub(int numEventStub) {
+    public EventDBStub(int numEventStub) {
         this.eventList = new ArrayList<Event>();
         this.numEventStub = numEventStub;
 
