@@ -10,7 +10,7 @@ import java.util.List;
 import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.objects.User;
 
-public interface UserPersistence {
+public interface UserPersistenceInterface {
    List<User> getUserDB();
    User validLogin(String username, String password);
 

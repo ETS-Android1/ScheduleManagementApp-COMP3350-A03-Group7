@@ -12,7 +12,7 @@ import comp3350.team7.scheduleapp.persistence.UserInterface;
  *
  */
 
-public class UserPersistenceStub implements UserInterface{
+public class UserPersistenceStub implements UserPersistenceInterface{
     private List<User> userDB;
 
     public UserPersistenceStub(){

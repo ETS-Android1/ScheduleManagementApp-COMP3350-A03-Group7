@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import comp3350.team7.scheduleapp.objects.User;
-import comp3350.team7.scheduleapp.persistence.UserInterface;
+import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 
-public class UserPersistenceHSQLDB implements UserInterface {
+public class UserPersistenceHSQLDB implements UserPersistenceInterface {
 
     private final String dbPath;
 

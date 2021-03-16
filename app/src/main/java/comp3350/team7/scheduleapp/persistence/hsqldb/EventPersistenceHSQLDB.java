@@ -12,10 +12,9 @@ import java.util.Calendar;
 
 import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.objects.Event;
-import comp3350.team7.scheduleapp.persistence.EventInterface;
 import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
 
-public class EventPersistenceHSQLDB implements EventInterface {
+public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     private final String dbPath;
 
     public EventPersistenceHSQLDB(final String dbPath){
