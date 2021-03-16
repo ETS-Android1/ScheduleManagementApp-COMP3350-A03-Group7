@@ -1,10 +1,5 @@
 package comp3350.team7.scheduleapp.persistence.hsqldb;
 
-/*
- * Created By Thai Tran on 08 March,2021
- *
- */
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

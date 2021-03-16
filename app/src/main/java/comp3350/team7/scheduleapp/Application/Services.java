@@ -1,14 +1,10 @@
-package comp3350.team7.scheduleapp.Application;
+package comp3350.team7.scheduleapp.application;
 
-/*
- * Created By Thai Tran on 10 March,2021
- *
- */
 
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
-import comp3350.team7.scheduleapp.persistence.hsqldb.UserPersistanceHSQLDB;
-import comp3350.team7.scheduleapp.persistence.hsqldb.EventPersistanceInterface;
-import comp3350.team7.scheduleapp.persistence.hsqldb.EventPersistanceHSQLDB;
+import comp3350.team7.scheduleapp.persistence.hsqldb.UserPersistenceHSQLDB;
+import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
+import comp3350.team7.scheduleapp.persistence.hsqldb.EventPersistenceHSQLDB;
 
 /*
 Purpose: To put a lock on the calls towards the methods and turn it into a Queue on who gets the database access
@@ -23,7 +19,7 @@ public class Services {
     public static synchronized UserPersistenceInterface getUserPersistence(){
 
         if(userDatabase == null){
-            userDatabase = new UserPersistanceHSQLDB(Main.getDBPathName());
+            userDatabase = new UserPersistanceHSQLDB(comp3350.team7.scheduleapp.Application.Main.getDBPathName());
         }
 
         return userDatabase;
@@ -37,5 +33,5 @@ public class Services {
 
         return eventDatabase;
     }
-  */  
+  */
 }
