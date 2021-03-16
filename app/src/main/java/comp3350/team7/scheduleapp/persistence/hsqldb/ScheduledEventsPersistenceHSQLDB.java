@@ -11,9 +11,10 @@ import java.util.List;
 import java.util.Calendar;
 
 import comp3350.team7.scheduleapp.objects.Event;
+import comp3350.team7.scheduleapp.persistence.ScheduledEventInterface;
 
 
-public class ScheduledEventsPersistenceHSQLDB {
+public class ScheduledEventsPersistenceHSQLDB implements ScheduledEventInterface {
 
     private final String dbPath;
 

@@ -10,7 +10,7 @@ import comp3350.team7.scheduleapp.objects.Event;
  * Created By Thai Tran on 22 February,2021
  *
  */
-public interface EventPersistenceInterface {
+public interface EventInterface {
     List<Event> getEventList();
     List<Event> addEvent(Event e);
     List<Event> removeEvent(Event e) throws DbErrorException;
