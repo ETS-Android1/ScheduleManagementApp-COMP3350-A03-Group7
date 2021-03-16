@@ -9,14 +9,12 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
-    //private Schedule my_schedule;
 
     public User(String firstName, String lastName, String userId, String password) {
         this.userId = userId;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        //this.my_schedule = null;
     }
 
     public String getUserId() {
@@ -56,13 +54,5 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    /*
-    public Schedule getMy_schedule() {
-        return my_schedule;
-    }
 
-    public void setMy_schedule(Schedule my_schedule) {
-        this.my_schedule = my_schedule;
-    }
-    */
 }
