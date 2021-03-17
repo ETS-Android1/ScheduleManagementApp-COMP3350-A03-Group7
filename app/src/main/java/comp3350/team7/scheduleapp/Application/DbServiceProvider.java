@@ -22,30 +22,31 @@ public class DbServiceProvider {
     private static UserPersistenceInterface userDatabase = null;
     private static EventPersistenceInterface eventDatabase = null;
     private static SchedulePersistenceInterface scheduleDatabase = null;
+    private static String current_deploy_mode = null;
 
-
-    public static void deployDatabse(String config) {
-        if (userDatabase != null && eventDatabase != null && scheduleDatabase != null) {
-            if (config.equals("production")) {
-                if (userDatabase == null && eventDatabase == null && scheduleDatabase == null) {
-                    userDatabase = new UserPersistenceHSQLDB(comp3350.team7.scheduleapp.Application.Main.getDBPathName());
-                    eventDatabase = new EventPersistenceHSQLDB(comp3350.team7.scheduleapp.Application.Main.getDBPathName());
-                    scheduleDatabase = new ScheduledEventsPersistenceHSQLDB(comp3350.team7.scheduleapp.Application.Main.getDBPathName());
-                }else{
-                    Log.d(TAG,String.format("%s", "deploy mode: "+ config + ", Database fail to deploy, call DbServiceProvider.reset() first"));
-                }
-            } else if (config.equals("debug") || config.equals("development")) {
-                if (userDatabase == null && eventDatabase == null && scheduleDatabase == null) {
-                    userDatabase = new UserPersistenceStub();
-                    eventDatabase = new EventPersistenceStub();
-                    scheduleDatabase = new SchedulePersistenceStub();
-                }else{
-                    Log.d(TAG,String.format("%s", "deploy mode: "+ config + ", Database fail to deploy, call DbServiceProvider.reset() first"));
-                }}
-            }
+    public static synchronized void deployDatabse(String config) {
+        /* reset all database instances to null first, before change the deploy mode */
+        if(!config.equals(current_deploy_mode)){
+            reset();
         }
-    }
 
+        if (userDatabase == null && eventDatabase == null && scheduleDatabase == null) {
+            if (config.equals("production")) {
+                userDatabase = new UserPersistenceHSQLDB(comp3350.team7.scheduleapp.Application.Main.getDBPathName());
+                eventDatabase = new EventPersistenceHSQLDB(comp3350.team7.scheduleapp.Application.Main.getDBPathName());
+                scheduleDatabase = new ScheduledEventsPersistenceHSQLDB(comp3350.team7.scheduleapp.Application.Main.getDBPathName());
+
+            } else if (config.equals("debug") || config.equals("development")) {
+                userDatabase = new UserPersistenceStub();
+                eventDatabase = new EventPersistenceStub();
+                scheduleDatabase = new SchedulePersistenceStub();
+
+            }
+            /* Since database only need 1 instance globally. look for dubug log and make sure we only get 1 of this log message */
+            Log.d(TAG, String.format("%s", "deploy mode: " + config));
+        }
+
+    }
     public static synchronized UserPersistenceInterface getUserPersistence() {
         return userDatabase;
     }
@@ -58,7 +59,7 @@ public class DbServiceProvider {
         return scheduleDatabase;
     }
 
-    public static synchronized void clean() {
+    public static synchronized void reset() {
         eventDatabase = null;
         scheduleDatabase = null;
         userDatabase = null;

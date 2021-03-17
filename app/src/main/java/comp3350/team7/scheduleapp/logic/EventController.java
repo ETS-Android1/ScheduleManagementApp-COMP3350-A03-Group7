@@ -28,7 +28,8 @@ public class EventController {
 
 
     public EventController() {
-        this.eventStub = new EventPersistenceStub(20);
+
+        this.eventStub = new ;
         // default way of sorting
         wayOfsort = new EventStartAscendingComparator();
     }
