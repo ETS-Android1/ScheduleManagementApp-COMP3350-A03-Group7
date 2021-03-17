@@ -19,7 +19,7 @@ import comp3350.team7.scheduleapp.R;
  *
  */
 
-public class ScheduleView extends AppCompatActivity {
+public class ScheduleViewActivity extends AppCompatActivity {
 
     Button viewSchedule;
     TextView selectedDate;
