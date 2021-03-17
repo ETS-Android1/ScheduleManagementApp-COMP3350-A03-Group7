@@ -30,9 +30,11 @@ public class EventController {
 
 
     public EventController() {
-        //DbServiceProvider.deployDatabse("development");
-        DbServiceProvider instance  = DbServiceProvider.getInstance("development");
-        eventStub = instance.getEventPersistence();
+
+        eventStub = DbServiceProvider
+                .getInstance("development")
+                .getEventPersistence();
+
         // default way of sorting
         wayOfsort = new EventStartAscendingComparator();
     }
