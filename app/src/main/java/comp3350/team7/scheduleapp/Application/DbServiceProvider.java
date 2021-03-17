@@ -23,8 +23,22 @@ public class DbServiceProvider {
     private static EventPersistenceInterface eventDatabase = null;
     private static SchedulePersistenceInterface scheduleDatabase = null;
     private static String current_deploy_mode = null;
+    private static DbServiceProvider instance =null;
 
-    public static synchronized void deployDatabse(String config) {
+
+    private DbServiceProvider(){
+
+    }
+    public synchronized DbServiceProvider getInstance(String config){
+        if(instance == null){
+            instance = new DbServiceProvider();
+            instance.deployDatabse(config);
+        }
+        return instance;
+    }
+
+
+    public synchronized void deployDatabse(String config) {
         /* reset all database instances to null first, before change the deploy mode */
         if(!config.equals(current_deploy_mode)){
             reset();

@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 
+import comp3350.team7.scheduleapp.application.DbServiceProvider;
 import comp3350.team7.scheduleapp.logic.comparators.EventEndAscendingComparator;
 import comp3350.team7.scheduleapp.logic.comparators.EventEndDescendingComparator;
 import comp3350.team7.scheduleapp.logic.comparators.EventStartAscendingComparator;
@@ -28,8 +29,8 @@ public class EventController {
 
 
     public EventController() {
-
-        this.eventStub = new ;
+        DbServiceProvider.deployDatabse("development");
+        this.eventStub = DbServiceProvider.get;
         // default way of sorting
         wayOfsort = new EventStartAscendingComparator();
     }
