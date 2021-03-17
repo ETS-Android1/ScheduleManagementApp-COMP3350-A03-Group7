@@ -1,6 +1,6 @@
 package comp3350.team7.scheduleapp.objects;
 
-public interface IUser {
+public abstract class AbstractUser {
     public String getUserId();
 
     public void setUserId(String userId);
