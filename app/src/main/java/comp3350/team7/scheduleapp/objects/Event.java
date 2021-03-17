@@ -44,6 +44,7 @@ public class Event extends AbstractEvent implements Parcelable {
         Event_title = event_title;
         Event_description = event_description;
         this.eventStart = eventStart;
+        setEnd(null);
     }
 
 
