@@ -4,4 +4,8 @@ public class UserDBException extends RuntimeException{
     public UserDBException(final Exception cause){
         super(cause);
     }
+
+    public UserDBException(String message ,final Exception cause){
+        super(message, cause);
+    }
 }

@@ -89,7 +89,7 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
 
             return newUser;
         }catch (final SQLException e){
-            throw new UserDBException(e);
+            throw new UserDBException("Username is already taken.",e);
         }
     }
 
@@ -101,7 +101,7 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
             msg.executeUpdate();
 
         }catch (final SQLException e){
-            throw new UserDBException(e);
+            throw new UserDBException("Invalid User.",e);
         }
     }
 }
