@@ -9,7 +9,7 @@ import java.util.Calendar;
 
 //@RequiresApi(api = Build.VERSION_CODES.O)
 
-public class Event implements IEvent, Parcelable {
+public class Event extends AbstractEvent implements Parcelable {
 
     private int Event_id;
     private String Event_title;
@@ -25,7 +25,6 @@ public class Event implements IEvent, Parcelable {
         setEnd(eventEnd);
 
     }
-
     public Event(int eid, String title, String description, Calendar eventStart) {
         setID(eid);
         setTitle(title);
@@ -34,14 +33,19 @@ public class Event implements IEvent, Parcelable {
         setEnd(null);
 
     }
-
-    protected Event(Parcel in) {
-        Event_id = in.readInt();
-        Event_title = in.readString();
-        Event_description = in.readString();
-        eventStart = (Calendar) in.readValue(Calendar.class.getClassLoader());
-        eventEnd = (Calendar) in.readValue(Calendar.class.getClassLoader());
+    public Event(String event_title, String event_description, Calendar eventStart, Calendar eventEnd) {
+        Event_title = event_title;
+        Event_description = event_description;
+        this.eventStart = eventStart;
+        this.eventEnd = eventEnd;
     }
+
+    public Event(String event_title, String event_description, Calendar eventStart) {
+        Event_title = event_title;
+        Event_description = event_description;
+        this.eventStart = eventStart;
+    }
+
 
     public int getID() {
         return Event_id;
@@ -102,7 +106,17 @@ public class Event implements IEvent, Parcelable {
         eventEnd = calendar;
     }
 
-    // parceling process
+
+
+    /* Parceling process */
+    protected Event(Parcel in) {
+        Event_id = in.readInt();
+        Event_title = in.readString();
+        Event_description = in.readString();
+        eventStart = (Calendar) in.readValue(Calendar.class.getClassLoader());
+        eventEnd = (Calendar) in.readValue(Calendar.class.getClassLoader());
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -116,6 +130,7 @@ public class Event implements IEvent, Parcelable {
         dest.writeValue(eventStart);
         dest.writeValue(eventEnd);
     }
+
     @SuppressWarnings("unused")
     public static final Parcelable.Creator<Event> CREATOR = new Parcelable.Creator<Event>() {
         @Override

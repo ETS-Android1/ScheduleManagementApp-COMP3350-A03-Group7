@@ -135,9 +135,6 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
         return 0;
     }
 
-    /* TODO: 2021-03-14
-     * return something other than void so we can test it
-     */
     public void deleteEvent(Event event) {
         try(final Connection c = connection()){
             final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ?");
