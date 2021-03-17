@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import comp3350.team7.scheduleapp.objects.User;
-import comp3350.team7.scheduleapp.persistence.UserInterface;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 
 

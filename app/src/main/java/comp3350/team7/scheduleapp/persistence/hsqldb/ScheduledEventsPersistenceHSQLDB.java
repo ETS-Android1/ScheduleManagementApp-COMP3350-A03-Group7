@@ -11,10 +11,11 @@ import java.util.List;
 import java.util.Calendar;
 
 import comp3350.team7.scheduleapp.objects.Event;
+import comp3350.team7.scheduleapp.persistence.SchedulePersistenceInterface;
 import comp3350.team7.scheduleapp.persistence.ScheduledEventInterface;
 
 
-public class ScheduledEventsPersistenceHSQLDB implements ScheduledEventInterface {
+public class ScheduledEventsPersistenceHSQLDB implements SchedulePersistenceInterface {
 
     private final String dbPath;
 
@@ -72,7 +73,7 @@ public class ScheduledEventsPersistenceHSQLDB implements ScheduledEventInterface
 
             return schedule;
         }catch (final SQLException e){
-            throw new UserDBException(e);
+            throw new comp3350.team7.scheduleapp.persistence.hsqldb.UserDBException(e);
         }
     }
 
