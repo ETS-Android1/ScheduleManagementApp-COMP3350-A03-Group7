@@ -29,7 +29,7 @@ public class DbServiceProvider {
     private DbServiceProvider(){
 
     }
-    public synchronized DbServiceProvider getInstance(String config){
+    public static synchronized DbServiceProvider getInstance(String config){
         if(instance == null){
             instance = new DbServiceProvider();
             instance.deployDatabse(config);
@@ -38,7 +38,7 @@ public class DbServiceProvider {
     }
 
 
-    public synchronized void deployDatabse(String config) {
+    private synchronized void deployDatabse(String config) {
         /* reset all database instances to null first, before change the deploy mode */
         if(!config.equals(current_deploy_mode)){
             reset();
@@ -61,19 +61,19 @@ public class DbServiceProvider {
         }
 
     }
-    public static synchronized UserPersistenceInterface getUserPersistence() {
+    public synchronized UserPersistenceInterface getUserPersistence() {
         return userDatabase;
     }
 
-    public static synchronized EventPersistenceInterface getEventPersistence() {
+    public synchronized EventPersistenceInterface getEventPersistence() {
         return eventDatabase;
     }
 
-    public static synchronized SchedulePersistenceInterface getSchedulePersistence() {
+    public synchronized SchedulePersistenceInterface getSchedulePersistence() {
         return scheduleDatabase;
     }
 
-    public static synchronized void reset() {
+    public synchronized void reset() {
         eventDatabase = null;
         scheduleDatabase = null;
         userDatabase = null;

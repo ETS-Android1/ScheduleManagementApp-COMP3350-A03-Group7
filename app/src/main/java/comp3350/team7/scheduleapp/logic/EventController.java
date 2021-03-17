@@ -16,6 +16,7 @@ import comp3350.team7.scheduleapp.logic.comparators.EventStartAscendingComparato
 import comp3350.team7.scheduleapp.logic.comparators.EventStartDescendingComparator;
 import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
+import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
 import comp3350.team7.scheduleapp.persistence.stubs.EventPersistenceStub;
 import comp3350.team7.scheduleapp.objects.Event;
 
@@ -24,13 +25,14 @@ import comp3350.team7.scheduleapp.objects.Event;
  *
  */
 public class EventController {
-    EventPersistenceStub eventStub;
+    EventPersistenceInterface eventStub;
     Comparator<Event> wayOfsort;
 
 
     public EventController() {
-        DbServiceProvider.deployDatabse("development");
-        this.eventStub = DbServiceProvider.get;
+        //DbServiceProvider.deployDatabse("development");
+        DbServiceProvider instance  = DbServiceProvider.getInstance("development");
+        eventStub = instance.getEventPersistence();
         // default way of sorting
         wayOfsort = new EventStartAscendingComparator();
     }
