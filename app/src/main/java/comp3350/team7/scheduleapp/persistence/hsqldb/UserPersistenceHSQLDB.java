@@ -11,6 +11,7 @@ import java.util.List;
 
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
+import comp3350.team7.scheduleapp.logic.exceptions.UserDBException;
 
 public class UserPersistenceHSQLDB implements UserPersistenceInterface {
 
