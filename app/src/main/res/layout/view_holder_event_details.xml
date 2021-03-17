@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created By Thai Tran on 15 March,2021
+  ~
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="100dp">
+
+    <TextView
+        android:id="@+id/event_description"
+        android:layout_width="360dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:gravity="center|start"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/textview2" />
+
+    <TextView
+        android:id="@+id/remind_me"
+        android:layout_width="177dp"
+        android:layout_height="99dp"
+        android:layout_gravity="end"
+        android:gravity="center"
+        android:text="@string/textview1"
+        tools:layout_editor_absoluteX="423dp" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="40dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginLeft="7dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/remind_me"
+        app:layout_constraintStart_toEndOf="@+id/event_description"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
