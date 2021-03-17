@@ -16,12 +16,10 @@ import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
  */
 public class EventPersistenceStub implements EventPersistenceInterface {
     private final List<Event> eventList;
-    private final int numEventStub;
+    private final int numEventStub =20;
 
-    public EventPersistenceStub(int numEventStub) {
+    public EventPersistenceStub() {
         this.eventList = new ArrayList<Event>();
-        this.numEventStub = numEventStub;
-
         CreateEventListStub();
     }
 
