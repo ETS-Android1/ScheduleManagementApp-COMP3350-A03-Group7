@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.*;
 
 
-import comp3350.team7.scheduleapp.Application.Services;
+import comp3350.team7.scheduleapp.Application.DbServicesProvider;
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.logic.UserValidator;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceStub;
@@ -19,6 +19,7 @@ public class LoginActivity extends AppCompatActivity{
     static EditText ClientID, ClientPassword;
     static String userID;
     static String userPAC; //Personal access code aka password
+    private static UserPersistenceInterface userDB;
     private static UserValidator validator;
 
     @Override
@@ -26,7 +27,8 @@ public class LoginActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        validator = new UserValidator(Services.getUserPersistence());
+        userDB = DbServicesProvider.getUserPersistence() //can be replaced with = new UserPersistenceStub() for testing
+        validator = new UserValidator(userDB);
 
         getView();
     }

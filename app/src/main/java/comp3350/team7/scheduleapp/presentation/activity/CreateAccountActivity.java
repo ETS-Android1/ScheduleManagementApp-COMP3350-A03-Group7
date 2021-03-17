@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.*;
 
 
-import comp3350.team7.scheduleapp.Application.Services;
+import comp3350.team7.scheduleapp.Application.DbServicesProvider;
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.logic.UserValidator;
 import comp3350.team7.scheduleapp.objects.User;
@@ -41,7 +41,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
-        userDB = Services.getUserPersistence();
+        userDB = DbServicesProvider.getUserPersistence(); //can be replaced with  = new UserPersistenceStub() for testing
         validator = new UserValidator(userDB);
         getView();
     }
