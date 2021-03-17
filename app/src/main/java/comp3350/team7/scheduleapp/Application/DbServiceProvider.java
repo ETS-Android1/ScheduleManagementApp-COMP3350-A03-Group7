@@ -29,11 +29,11 @@ public class DbServiceProvider {
     private DbServiceProvider(){
 
     }
-    public static synchronized DbServiceProvider getInstance(String config){
+    public static synchronized DbServiceProvider getInstance(){
         if(instance == null){
             instance = new DbServiceProvider();
-            instance.deployDatabse(config);
-        }
+            instance.deployDatabse(comp3350.team7.scheduleapp.Application.Main.getDeployMode());
+        }D
         return instance;
     }
 

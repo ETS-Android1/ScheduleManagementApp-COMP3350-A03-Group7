@@ -7,7 +7,7 @@ package comp3350.team7.scheduleapp.Application;
 
 public class Main {
     private static String userDBName = "schedule";
-
+    private static String deployMode = "developement";
     public static void Main(String[] args){
         System.out.println("Booting up Schedule Management Application.");
         //run app
@@ -28,5 +28,9 @@ public class Main {
 
     public static String getDBPathName(){
         return userDBName;
+    }
+
+    public static String getDeployMode(){
+        return deployMode;
     }
 }
