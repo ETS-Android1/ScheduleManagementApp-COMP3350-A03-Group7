@@ -2,16 +2,19 @@ package comp3350.team7.scheduleapp.logic;
 
 import java.util.Calendar;
 import java.util.List;
+
+import comp3350.team7.scheduleapp.application.DbServiceProvider;
 import comp3350.team7.scheduleapp.objects.Event;
+import comp3350.team7.scheduleapp.persistence.SchedulePersistenceInterface;
 
 public class ScheduleController {
 
     private List<Event> scheduleEvents;
-    private static ScheduledEventsInterface scheduleDB;
+    private SchedulePersistenceInterface scheduleDB;
 
-    public ScheduleController(ScheduledEventsInterface scheduleHSQLDB) {
+    public ScheduleController() {
         scheduleEvents = null;
-        scheduleDB = scheduleHSQLDB;
+        scheduleDB = DbServiceProvider.getInstance().getSchedulePersistence();
     }
 
     public List<Event> getScheduleForDay(String username, Calendar specificDate) {

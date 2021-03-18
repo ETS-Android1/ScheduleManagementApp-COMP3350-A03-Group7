@@ -26,14 +26,13 @@ public class EventController {
 
 
     public EventController() {
-
         eventPersistence = DbServiceProvider
-                .getInstance("development")
+                .getInstance()
                 .getEventPersistence();
-
         // default way of sorting
         sortingStrategy = new EventStartAscendingComparator();
     }
+    public EventController()
 
     // part of strategy pattern, inject AbstractComparator
     public void setSortStrategy(AbstractComparator newSortStrategy){

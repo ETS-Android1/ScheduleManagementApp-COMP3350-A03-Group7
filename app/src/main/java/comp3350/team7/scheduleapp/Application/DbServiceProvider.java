@@ -12,7 +12,7 @@ import comp3350.team7.scheduleapp.persistence.hsqldb.UserPersistenceHSQLDB;
 import comp3350.team7.scheduleapp.persistence.stubs.EventPersistenceStub;
 import comp3350.team7.scheduleapp.persistence.stubs.SchedulePersistenceStub;
 import comp3350.team7.scheduleapp.persistence.stubs.UserPersistenceStub;
-
+import comp3350.team7.scheduleapp.Application.Main;
 /*
 Purpose: To put a lock on the calls towards the methods and turn it into a Queue on who gets the database access
 */
@@ -32,13 +32,13 @@ public class DbServiceProvider {
     public static synchronized DbServiceProvider getInstance(){
         if(instance == null){
             instance = new DbServiceProvider();
-            instance.deployDatabse(comp3350.team7.scheduleapp.Application.Main.getDeployMode());
-        }D
+            instance.deployDatabase(Main.getDeployMode());
+        }
         return instance;
     }
 
 
-    private synchronized void deployDatabse(String config) {
+    private synchronized void deployDatabase(String config) {
         /* reset all database instances to null first, before change the deploy mode */
         if(!config.equals(current_deploy_mode)){
             reset();
@@ -46,9 +46,9 @@ public class DbServiceProvider {
 
         if (userDatabase == null && eventDatabase == null && scheduleDatabase == null) {
             if (config.equals("production")) {
-                userDatabase = new UserPersistenceHSQLDB(comp3350.team7.scheduleapp.Application.Main.getDBPathName());
-                eventDatabase = new EventPersistenceHSQLDB(comp3350.team7.scheduleapp.Application.Main.getDBPathName());
-                scheduleDatabase = new ScheduledEventsPersistenceHSQLDB(comp3350.team7.scheduleapp.Application.Main.getDBPathName());
+                userDatabase = new UserPersistenceHSQLDB(Main.getDBPathName());
+                eventDatabase = new EventPersistenceHSQLDB(Main.getDBPathName());
+                scheduleDatabase = new ScheduledEventsPersistenceHSQLDB(Main.getDBPathName());
 
             } else if (config.equals("debug") || config.equals("development")) {
                 userDatabase = new UserPersistenceStub();

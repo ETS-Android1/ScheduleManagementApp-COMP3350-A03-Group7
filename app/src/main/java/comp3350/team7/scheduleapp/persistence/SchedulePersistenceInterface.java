@@ -5,5 +5,11 @@ package comp3350.team7.scheduleapp.persistence;
  *
  */
 
+import java.util.Calendar;
+import java.util.List;
+
+import comp3350.team7.scheduleapp.objects.Event;
+
 public interface SchedulePersistenceInterface {
+    List<Event> getScheduleForUserOnDate(String username, Calendar date);
 }
