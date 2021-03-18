@@ -10,10 +10,7 @@ public abstract class AbstractEvent {
     final int MAX_DESCRIPTION_LENGTH = 240;
     final int MAX_TITLE_LENGTH = 30;
 
-    final int PRIORITY_HIGH = 0;
-    final int PRIORITY_MEDIUM = 1;
-    final int PRIORITY_LOW = 2;
-
+    public String getUserName(){return null};
     public int getID() {
         return 0;
     }
