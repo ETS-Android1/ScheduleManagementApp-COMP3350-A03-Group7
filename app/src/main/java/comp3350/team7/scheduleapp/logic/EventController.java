@@ -39,6 +39,12 @@ public class EventController {
         sortingStrategy = new EventStartAscendingComparator();
         events= null;
     }
+    public EventController(EventPersistenceInterface eventPersistence, String username){
+        this.eventPersistence = eventPersistence;
+        sortingStrategy = new EventStartAscendingComparator();
+        events= null;
+    }
+
     public EventController(String userName){
         eventPersistence = DbServiceProvider
                 .getInstance()
