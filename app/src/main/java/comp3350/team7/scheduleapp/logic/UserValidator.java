@@ -1,33 +1,34 @@
 package comp3350.team7.scheduleapp.logic;
 
+
+/*
+ * Created By Thai Tran on 10 March,2021
+ *
+ */
+
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 
 public class UserValidator {
-    private static UserPersistenceInterface userDB = null;
+    private static UserPersistenceInterface userDB;
+    private static UserValidator validatorInstance;
 
     //DIP
     public UserValidator(UserPersistenceInterface dbStub){
-        if(userDB == null){
-            userDB = dbStub;
+        userDB = dbStub;
+    }
+
+    public static UserValidator getValidatorInstance(UserPersistenceInterface dbStub){
+        if(validatorInstance == null){
+            validatorInstance = new UserValidator(dbStub);
         }
-        return userDB;
+        return validatorInstance;
     }
 
     public static boolean validateInput(String firstname, String lastname, String userID, String password, String confirmPassword){
         boolean validInput = false;
 
-        if((firstname.trim().length() > 0) && (lastname.trim().length() > 0) && (userID.trim().length() > 0) && (password.trim().length() > 0) && (confirmPassword.trim().length() > 0))        {
-            validInput = true;
-        }
-
-        return validInput;
-    }
-
-    public static boolean validateLoginInput(String userID, String password){
-        boolean validInput = false;
-
-        if((userID.trim().length() > 0) && (password.trim().length() > 0)) {
+        if((firstname.trim().length() > 0) && (lastname.trim().length() > 0) && (userID.trim().length() > 0) && (password.trim().length() > 0) && (confirmPassword.trim().length() > 0)){
             validInput = true;
         }
 
@@ -70,6 +71,7 @@ public class UserValidator {
         if ((p.length() >= 8) && (p.length() <= 16)){
             correctLength = true;
         }
+
         return correctLength;
     }
 
@@ -80,4 +82,5 @@ public class UserValidator {
         }
         return correctLength;
     }
+
 }
