@@ -10,10 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Calendar;
 
+import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.objects.Event;
 import comp3350.team7.scheduleapp.persistence.SchedulePersistenceInterface;
-import comp3350.team7.scheduleapp.persistence.ScheduledEventInterface;
-
 
 public class ScheduledEventsPersistenceHSQLDB implements SchedulePersistenceInterface {
 
@@ -29,6 +28,7 @@ public class ScheduledEventsPersistenceHSQLDB implements SchedulePersistenceInte
     }
 
     private Event fromResultSet(final ResultSet rs) throws SQLException {
+        final String userName = rs.getString("userName");
         final int eventID = rs.getInt("eventID");
         final String title = rs.getString("title");
         final String description = rs.getString("description");
@@ -46,10 +46,11 @@ public class ScheduledEventsPersistenceHSQLDB implements SchedulePersistenceInte
         final int endMinute = rs.getInt("endMinute");
         Calendar end = Calendar.getInstance();
         end.set(endYear, endMonth, endMonth, endDay, endHour, endMinute);
-        return new Event(eventID, title, description, start, end);
+        return new Event(userName,eventID, title, description, start, end);
     }
 
-    public List<Event> getScheduleForUserOnDate(String username, Calendar date) {
+    @Override
+    public List<Event> getScheduleForUserOnDate(String username, Calendar date) throws DbErrorException {
         final List<Event> schedule = new ArrayList<>();
         final int year = date.get(Calendar.YEAR);
         final int month = date.get(Calendar.MONTH);
@@ -73,7 +74,7 @@ public class ScheduledEventsPersistenceHSQLDB implements SchedulePersistenceInte
 
             return schedule;
         }catch (final SQLException e){
-            throw new comp3350.team7.scheduleapp.persistence.hsqldb.UserDBException(e);
+            throw new DbErrorException("Fail to get schedule on date",e);
         }
     }
 
