@@ -16,6 +16,9 @@ public class ScheduleController {
         scheduleEvents = null;
         scheduleDB = DbServiceProvider.getInstance().getSchedulePersistence();
     }
+    public ScheduleController(){
+
+    }
 
     public List<Event> getScheduleForDay(String username, Calendar specificDate) {
         scheduleEvents = scheduleDB.getScheduleForUserOnDate(username, specificDate);
