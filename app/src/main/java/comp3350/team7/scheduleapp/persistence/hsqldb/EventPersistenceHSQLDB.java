@@ -161,7 +161,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
             statement.setInt(10, fresh.getEventEnd().get(Calendar.DATE));
             statement.setInt(11, fresh.getEventEnd().get(Calendar.HOUR));
             statement.setInt(12, fresh.getEventEnd().get(Calendar.MINUTE));
-            statement.setString(2, old.getUserName();
+            statement.setString(2, old.getUserName());
             statement.setInt(2, old.getID());
             statement.executeUpdate();
             return fresh;

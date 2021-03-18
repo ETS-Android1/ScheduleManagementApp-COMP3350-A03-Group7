@@ -1,10 +1,11 @@
-package comp3350.team7.scheduleapp.persistence;
+package comp3350.team7.scheduleapp.persistence.stubs;
 
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
 import main.java.comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import main.java.comp3350.team7.scheduleapp.logic.exceptions.RandomException;
 import main.java.comp3350.team7.scheduleapp.objects.Event;

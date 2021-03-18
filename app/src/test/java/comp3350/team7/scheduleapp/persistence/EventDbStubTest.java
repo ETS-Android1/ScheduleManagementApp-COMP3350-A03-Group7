@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.Calendar;
 
+import comp3350.team7.scheduleapp.persistence.stubs.EventPersistenceStub;
 import main.java.comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import main.java.comp3350.team7.scheduleapp.objects.Event;
 import main.java.comp3350.team7.scheduleapp.persistence.stubs.EventPersistenceStub;
