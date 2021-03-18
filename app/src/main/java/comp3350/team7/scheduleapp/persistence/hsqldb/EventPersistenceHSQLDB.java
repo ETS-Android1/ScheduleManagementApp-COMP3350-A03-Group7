@@ -87,7 +87,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
 
             return events;
         }catch (final SQLException e){
-            throw new DbErrorException()("Fail to get event list",e);
+            throw new DbErrorException("Fail to get event list",e);
         }
     }
 
@@ -121,7 +121,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
         try(final Connection c = connection()){
             final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ? AND userName = ?");
             msg.setInt(1, e.getID());
-            msg.setString(2,e.getUserName());
+            msg.setString(2,e.getUsername());
             msg.executeUpdate();
 
         }catch (SQLException error){
@@ -145,17 +145,28 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     @Override
     public Event updateEvent(Event old, Event fresh) throws DbErrorException {
         try (final Connection connection = connection()) {
-            final PreparedStatement statement = connection.prepareStatement("UPDATE tasks SET taskName = ?, deadline = ?, completed = ?, priority = ? WHERE userName = ? AND taskId = ?");
-            statement.setString(1,currentTask.getName());
-            statement.setDate(2,new java.sql.Date(currentTask.getDeadline().getTime()));
-            statement.setBoolean(3,currentTask.getCompleted());
-            statement.setInt(4,currentTask.getPriority());
-            statement.setString(5,currentTask.getUsername());
-            statement.setInt(6,currentTask.getTaskID());
+            final PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE Events SET title = ?, description = ?, startYear = ?, startMonth = ?, " +
+                            "startDay = ?, startHour = ?, startMinute = ?, endYear = ?, endMonth = ?, " +
+                            "endDay = ?, endHour = ?, endMinute = ? WHERE username = ? AND eventID = ?");
+            statement.setString(1,fresh.getTitle());
+            statement.setString(2, fresh.getDescription());
+            statement.setInt(3, fresh.getEventStart().get(Calendar.YEAR));
+            statement.setInt(4, fresh.getEventStart().get(Calendar.MONTH));
+            statement.setInt(5, fresh.getEventStart().get(Calendar.DATE));
+            statement.setInt(6, fresh.getEventStart().get(Calendar.HOUR));
+            statement.setInt(7, fresh.getEventStart().get(Calendar.MINUTE));
+            statement.setInt(8, fresh.getEventEnd().get(Calendar.YEAR));
+            statement.setInt(9, fresh.getEventEnd().get(Calendar.MONTH));
+            statement.setInt(10, fresh.getEventEnd().get(Calendar.DATE));
+            statement.setInt(11, fresh.getEventEnd().get(Calendar.HOUR));
+            statement.setInt(12, fresh.getEventEnd().get(Calendar.MINUTE));
+            statement.setString(2, old.getUsername());
+            statement.setInt(2, old.getID());
             statement.executeUpdate();
-            return true;
+            return fresh;
         } catch (final SQLException e) {
-            throw new PersistenceException(e);
+            throw new DbErrorException("Failed to update event", e);
         }
     }
 
