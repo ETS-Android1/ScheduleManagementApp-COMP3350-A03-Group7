@@ -1,14 +1,10 @@
 package comp3350.team7.scheduleapp.objects;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-
 import comp3350.team7.scheduleapp.objects.User;
 import static org.junit.Assert.*;
-
-/*
- * Created By Thai Tran on 12 March,2021
- *
- */
 
 public class UserTest {
     public static User testUser;
@@ -50,7 +46,7 @@ public class UserTest {
         
         System.out.println("\nStarting setUserIDTest");
         testUser.setUserId(newUserID);
-        assertEquals("Expecting new userID to be janeotter1", newUserID, testUser.getUserID());
+        assertEquals("Expecting new userID to be janeotter1", newUserID, testUser.getUserId());
         System.out.println("Finished setUserIDNameTest");
 
     }
