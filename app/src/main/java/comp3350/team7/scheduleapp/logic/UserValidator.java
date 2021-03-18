@@ -1,11 +1,11 @@
 package comp3350.team7.scheduleapp.logic;
 
+
 /*
  * Created By Thai Tran on 10 March,2021
  *
  */
 
-import comp3350.team7.scheduleapp.Application.Services;
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 
@@ -71,7 +71,7 @@ public class UserValidator {
         if ((p.length() >= 8) && (p.length() <= 16)){
             correctLength = true;
         }
-        
+
         return correctLength;
     }
 

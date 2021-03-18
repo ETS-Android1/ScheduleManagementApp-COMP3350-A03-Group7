@@ -38,22 +38,10 @@ public class EventController {
         // default way of sorting
         sortingStrategy = new EventStartAscendingComparator();
     }
-    public EventController(EventPersistenceInterface eventPersistence){
-        this.eventPersistence = eventPersistence;
-        sortingStrategy = new EventStartAscendingComparator();
-        events= null;
-    }
     public EventController(EventPersistenceInterface eventPersistence, String username){
         this.eventPersistence = eventPersistence;
         sortingStrategy = new EventStartAscendingComparator();
         events= null;
-    }
-
-    public EventController(String userName) throws DbErrorException {
-        eventPersistence = DbServiceProvider
-                .getInstance()
-                .getEventPersistence();
-        eventPersistence.getEventList(userName);
     }
 
 
@@ -62,9 +50,13 @@ public class EventController {
         this.sortingStrategy = newSortStrategy;
     }
 
-    public Event CreateEvent(String eventName, String description, Calendar calStart){
-        Event newEvent = new Event(eventName,description,calStart);
-        eventPersistence.addEvent(newEvent);
+    public Event CreateEvent(String userName,int id,  String eventName, String description, Calendar calStart){
+        Event newEvent = new Event(userName,id, eventName,description,calStart);
+        try {
+            eventPersistence.addEvent(newEvent);
+        }catch (DbErrorException error) {
+
+        }
         return newEvent;
     }
 
@@ -92,10 +84,15 @@ public class EventController {
     // Someone use our api to create an invalid event, let them catch it
     @RequiresApi(api = Build.VERSION_CODES.N)
     public List<Event> addEvent(Event e) throws EventControllerException {
-        if (EventValidator.valid(e)){
-            return eventPersistence.addEvent(e);
+        try {
+            EventValidator.valid(e);
+        }catch (InvalidEventException e) {
 
         }
+        return eventPersistence.addEvent(e);
+
+
+    }
 
         // return this for testing
         return getEventList();
