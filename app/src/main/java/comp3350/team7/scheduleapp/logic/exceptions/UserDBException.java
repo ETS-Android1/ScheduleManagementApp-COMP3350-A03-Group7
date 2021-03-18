@@ -1,14 +1,14 @@
 package comp3350.team7.scheduleapp.logic.exceptions;
 
-public class UserDBException extends RuntimeException{
-    public static String userDBMessage = "Invalid User";
+import comp3350.team7.scheduleapp.logic.exceptions.base.BaseException;
 
-    public UserDBException(final Exception cause){
-        super(cause);
+public class UserDBException extends BaseException {
+
+    public UserDBException(String message) {
+        super(message);
     }
 
-    public UserDBException(String message ,final Exception cause){
+    public UserDBException(String message, Throwable cause) {
         super(message, cause);
-        System.out.println(userDBMessage);
     }
 }

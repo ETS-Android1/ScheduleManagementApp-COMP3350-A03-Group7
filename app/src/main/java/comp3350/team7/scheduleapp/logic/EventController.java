@@ -12,6 +12,7 @@ import comp3350.team7.scheduleapp.application.DbServiceProvider;
 import comp3350.team7.scheduleapp.logic.comparators.AbstractComparator;
 import comp3350.team7.scheduleapp.logic.comparators.EventStartAscendingComparator;
 import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
+import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
@@ -22,15 +23,18 @@ import comp3350.team7.scheduleapp.objects.Event;
  *
  */
 public class EventController {
+    private static final String TAG = "EventController";
     EventPersistenceInterface eventPersistence;
     AbstractComparator sortingStrategy;
+    String userName;
     List<Event> events;
 
-    public EventController() {
+    public EventController(String userName) {
         eventPersistence = DbServiceProvider
                 .getInstance()
                 .getEventPersistence();
-        events = null;
+
+        this.userName = userName;
         // default way of sorting
         sortingStrategy = new EventStartAscendingComparator();
     }
@@ -45,11 +49,11 @@ public class EventController {
         events= null;
     }
 
-    public EventController(String userName){
+    public EventController(String userName) throws DbErrorException {
         eventPersistence = DbServiceProvider
                 .getInstance()
                 .getEventPersistence();
-        eventPersistence.getEvents(userName);
+        eventPersistence.getEventList(userName);
     }
 
 
@@ -71,15 +75,23 @@ public class EventController {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public List<Event> getEventList(){
-        List<Event> eventList = eventPersistence.getEventList();
-        eventList.sort(sortingStrategy);
+    public List<Event> getEventList() throws EventControllerException {
+        List<Event> eventList =null;
+        try{
+            eventList = eventPersistence.getEventList(this.userName);
+            eventList.sort(sortingStrategy);
+        }catch (DbErrorException e){
+            Log.e(TAG,e.getMessage() + "\n Cause by "+ e.getCause());
+            throw new EventControllerException("Attention user, Something went wrong");
+
+        }
+
         return eventList;
     }
 
     // Someone use our api to create an invalid event, let them catch it
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public List<Event> addEvent(Event e) throws InvalidEventException {
+    public List<Event> addEvent(Event e) throws EventControllerException {
         if (EventValidator.valid(e)){
             return eventPersistence.addEvent(e);
 

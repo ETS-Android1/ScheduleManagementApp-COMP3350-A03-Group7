@@ -1,7 +1,6 @@
 package comp3350.team7.scheduleapp.logic;
 
 
-
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,37 +16,52 @@ import comp3350.team7.scheduleapp.objects.Event;
 public class EventValidator {
 
 
-    public static boolean valid(Event e) throws InvalidEventException{
-        if (e==null){
-            throw new InvalidEventException("Null Event");
+    public static void valid(Event e) throws InvalidEventException {
+        if (e != null && e.getEventStart() != null && e.getDescription() != null && e.getTitle() != null &&
+                e.getUserName() != null) {
+            validateEventName(e.getTitle());
+            if (e.getEventEnd() != null)
+                validateEventStartAndEndTime(e.getEventStart(), e.getEventEnd(), Calendar.getInstance());
+            else {
+                validateEventStartTime(e.getEventStart(), Calendar.getInstance());
+            }
+        } else {
+            throw new InvalidEventException("Some thing missing");
         }
-        return true;
+
 
     }
+
     /*
-    * Return true if eName match combination of
-    * word character,
-    * number,
-    * white spaces
-    */
-    public static boolean validateEventName(String eName){
+     * valid if eName match combination of
+     * word character,
+     * number,
+     * white spaces
+     */
+    public static void validateEventName(String eName) throws InvalidEventException {
         Pattern pattern = Pattern.compile("[\\w\\s*]+");
         Matcher matcher = pattern.matcher(eName);
-        return matcher.matches();
+        if (matcher.matches())
+            throw new InvalidEventException("Invalid Event Title");
     }
 
     /*
-    * return true if the eStart is set after now
-    */
-    public static boolean validateEventStartTime(Calendar eStart, Calendar now) {
-        return eStart.after(now);
+     * valid if the eStart is set after now
+     */
+    public static void validateEventStartTime(Calendar eStart, Calendar now) throws InvalidEventException {
+        if (!eStart.after(now))
+            throw new InvalidEventException("Invalid Event Start Time");
+
+
     }
 
     /*
-    * return true if eEnd set after eStart and after now
-    */
-    public static boolean validateEventEndTime(Calendar eEnd, Calendar eStart, Calendar now){
-        return eEnd.after(eStart) && eEnd.after(now);
+     * valid if eEnd set after eStart and after now
+     */
+    public static void validateEventStartAndEndTime(Calendar eEnd, Calendar eStart, Calendar now) throws InvalidEventException {
+        if (!eEnd.after(eStart))
+            throw new InvalidEventException("Invalid Event End Time");
+        else if(!eStart.after(now))
+            throw new InvalidEventException("Invalid Event Start Time");
     }
-
 }

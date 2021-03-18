@@ -5,26 +5,17 @@ package comp3350.team7.scheduleapp.logic.exceptions;
  *
  */
 
-import androidx.annotation.Nullable;
 
-public class ScheduleControllerException extends Exception {
+import comp3350.team7.scheduleapp.logic.exceptions.base.BaseException;
+
+public class ScheduleControllerException extends BaseException {
+
+
     public ScheduleControllerException(String message) {
         super(message);
     }
+
     public ScheduleControllerException(String message, Throwable cause) {
         super(message, cause);
     }
-    @Nullable
-    @Override
-    public String getMessage() {
-        return super.getMessage();
-    }
-
-    @Nullable
-    @Override
-    public synchronized Throwable getCause() {
-        return super.getCause();
-    }
-
-
 }

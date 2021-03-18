@@ -42,7 +42,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_account);
 
         userDB = DbServicesProvider.getUserPersistence(); //can be replaced with  = new UserPersistenceStub() for testing
-        validator = new UserValidator(userDB);
+        validator = UserValidator.getValidatorInstance(userDB);
         getView();
     }
 
