@@ -7,6 +7,7 @@ package comp3350.team7.scheduleapp.logic.exceptions;
 
 import android.os.Build;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 /*
@@ -17,29 +18,36 @@ import androidx.annotation.RequiresApi;
 public class DbErrorException extends Exception{
     public static String dbMessage = "Item isn't in the database";
 
+    @Nullable
+    @Override
+    public String getMessage() {
+        return super.getMessage();
+    }
+
     public DbErrorException() {
-        System.out.println(dbMessage);
         super();
+        System.out.println(dbMessage);
+
     }
 
     public DbErrorException(String message) {
-        System.out.println(dbMessage);
         super(message);
+        System.out.println(dbMessage);
     }
 
     public DbErrorException(String message, Throwable cause) {
-        System.out.println(dbMessage);
         super(message, cause);
+        System.out.println(dbMessage);
     }
 
     public DbErrorException(Throwable cause) {
-        System.out.println(dbMessage);
         super(cause);
+        System.out.println(dbMessage);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public DbErrorException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        System.out.println(dbMessage);
         super(message, cause, enableSuppression, writableStackTrace);
+        System.out.println(dbMessage);
     }
 }
