@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
-import comp3350.team7.scheduleapp.logic.exceptions.RandomException;
-import comp3350.team7.scheduleapp.objects.Event;
-import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
+import main.java.comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
+import main.java.comp3350.team7.scheduleapp.logic.exceptions.RandomException;
+import main.java.comp3350.team7.scheduleapp.objects.Event;
+import main.java.comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
 
 /*
  * Created By Thai Tran on 22/02/21 10:57 AM

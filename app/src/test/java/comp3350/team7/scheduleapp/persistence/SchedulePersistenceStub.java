@@ -5,7 +5,7 @@ package comp3350.team7.scheduleapp.persistence.stubs;
  *
  */
 
-import comp3350.team7.scheduleapp.persistence.SchedulePersistenceInterface;
+import main.java.comp3350.team7.scheduleapp.persistence.SchedulePersistenceInterface;
 
 public class SchedulePersistenceStub implements SchedulePersistenceInterface {
     /* TODO: 2021-03-16
