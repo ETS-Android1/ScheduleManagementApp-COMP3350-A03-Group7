@@ -77,4 +77,12 @@ public class UserValidator {
         }
         return correctLength;
     }
+
+    public static boolean userIDLengthCheck(String userID){
+        boolean correctLength = false;
+        if ((userID.length() >= 8) && (userID.length() <= 16)){
+            correctLength = true;
+        }
+        return correctLength;
+    }
 }
