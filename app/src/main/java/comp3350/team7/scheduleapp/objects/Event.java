@@ -24,6 +24,7 @@ public class Event extends AbstractEvent implements Parcelable {
         setDescription(description);
         setStart(eventStart);
         setEnd(eventEnd);
+        setUserName(username);
 
     }
     public Event(String username, int eid, String title, String description, Calendar eventStart) {
@@ -32,6 +33,7 @@ public class Event extends AbstractEvent implements Parcelable {
         setDescription(description);
         setStart(eventStart);
         setEnd(null);
+        setUserName(username);
 
     }
 
@@ -39,7 +41,7 @@ public class Event extends AbstractEvent implements Parcelable {
     public String getUserName(){
         return this.username;
     }
-    public void setUsername(String username){
+    public void setUserName(String username){
         this.username = username;
     }
     public int getID() {
