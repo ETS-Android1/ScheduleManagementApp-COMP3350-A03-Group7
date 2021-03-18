@@ -71,7 +71,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     }
 
     @Override
-    public List<Event> getEventList(String userName) {
+    public List<Event> getEventList(String userName) throws DbErrorException{
         final List<Event> events = new ArrayList<>();
 
         try(final Connection c =  connection()) {
@@ -87,7 +87,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
 
             return events;
         }catch (final SQLException e){
-            throw new DBException(e);
+            throw new DbErrorException()("Fail to get event list",e);
         }
     }
 

@@ -6,28 +6,14 @@ package comp3350.team7.scheduleapp.logic.exceptions;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 
-public class RandomException extends Exception{
-    public RandomException() {
-        super();
-    }
+import comp3350.team7.scheduleapp.logic.exceptions.base.BaseException;
 
+public class RandomException extends BaseException {
     public RandomException(String message) {
         super(message);
-        System.out.println(message);
     }
 
     public RandomException(String message, Throwable cause) {
         super(message, cause);
-        System.out.println(message);
-    }
-
-    public RandomException(Throwable cause) {
-        super(cause);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    protected RandomException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-        System.out.println(message);
     }
 }
