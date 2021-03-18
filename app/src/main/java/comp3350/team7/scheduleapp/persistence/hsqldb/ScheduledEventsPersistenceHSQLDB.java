@@ -77,4 +77,30 @@ public class ScheduledEventsPersistenceHSQLDB implements SchedulePersistenceInte
         }
     }
 
+    public List<Event> getAllEventsForUser(String username) throws DbErrorException {
+        final List<Event> schedule = new ArrayList<>();
+
+        try(final Connection c = connection()) {
+            final PreparedStatement msg = c.prepareStatement("SELECT * FROM ScheduledEvents NATURAL JOIN Events WHERE " +
+                    "userID = ?)");
+            msg.setString(1, username);
+            final ResultSet rs = msg.executeQuery();
+
+            while(rs.next()) {
+                final Event scheduledEvent = fromResultSet(rs);
+                schedule.add(scheduledEvent);
+            }
+            rs.close();
+            msg.close();
+
+            return schedule;
+        }catch (final SQLException e){
+            throw new DbErrorException(e);
+        }
+    }
+
+    public void addEventToSchedule(String username, int eventID) throws DbErrorException {
+
+    }
+
 }
