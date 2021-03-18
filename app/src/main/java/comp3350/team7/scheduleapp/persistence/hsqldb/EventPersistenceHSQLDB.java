@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Calendar;
@@ -75,7 +74,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
         final List<Event> events = new ArrayList<>();
 
         try(final Connection c =  connection()) {
-            final PreparedStatement msg = c.prepareStatement("SELECT * FROM Events WHERE userName =?");
+            final PreparedStatement msg = c.prepareStatement("SELECT * FROM Events WHERE userID =?");
             msg.setString(1,userName);
             final ResultSet rs =  msg.executeQuery();
             while(rs.next()) {
@@ -120,7 +119,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     @Override
     public void removeEvent(Event e) throws DbErrorException {
         try(final Connection c = connection()){
-            final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ? AND userName = ?");
+            final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ? AND userID = ?");
             msg.setInt(1, e.getID());
             msg.setString(2,e.getUsername());
             msg.executeUpdate();
@@ -133,7 +132,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     @Override
     public void removeEvent(String username,int eventId) throws DbErrorException {
         try(final Connection c = connection()){
-            final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ? AND userName = ?");
+            final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ? AND userID = ?");
             msg.setInt(1, eventId);
             msg.setString(2,username);
             msg.executeUpdate();
@@ -149,7 +148,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
             final PreparedStatement statement = connection.prepareStatement(
                     "UPDATE Events SET title = ?, description = ?, startYear = ?, startMonth = ?, " +
                             "startDay = ?, startHour = ?, startMinute = ?, endYear = ?, endMonth = ?, " +
-                            "endDay = ?, endHour = ?, endMinute = ? WHERE username = ? AND eventID = ?");
+                            "endDay = ?, endHour = ?, endMinute = ? WHERE userID = ? AND eventID = ?");
             statement.setString(1,fresh.getTitle());
             statement.setString(2, fresh.getDescription());
             statement.setInt(3, fresh.getEventStart().get(Calendar.YEAR));
@@ -172,9 +171,36 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     }
 
     @Override
-    public int getEventListLength() {
-        return 0;
+    public int getEventListLength(List<Event> eventList) {
+        return eventList.size();
     }
 
+    public List<Event> getScheduleForUserOnDate(String username, Calendar date) throws DbErrorException {
+        final List<Event> schedule = new ArrayList<>();
+        final int year = date.get(Calendar.YEAR);
+        final int month = date.get(Calendar.MONTH);
+        final int day = date.get(Calendar.DATE);
+
+        try(final Connection c = connection()) {
+            final PreparedStatement msg = c.prepareStatement(
+                    "SELECT * FROM Events WHERE userID = ? AND startYear = ? AND startMONTH = ? AND startDay = ?)");
+            msg.setString(1, username);
+            msg.setInt(2, year);
+            msg.setInt(2, month);
+            msg.setInt(2, day);
+            final ResultSet rs = msg.executeQuery();
+
+            while(rs.next()) {
+                final Event scheduledEvent = fromResultSet(rs);
+                schedule.add(scheduledEvent);
+            }
+            rs.close();
+            msg.close();
+
+            return schedule;
+        }catch (final SQLException e){
+            throw new DbErrorException("Failed to retrieve schedule", e);
+        }
+    }
 
 }

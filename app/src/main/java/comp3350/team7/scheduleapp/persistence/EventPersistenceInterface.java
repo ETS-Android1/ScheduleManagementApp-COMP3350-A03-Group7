@@ -1,5 +1,6 @@
 package comp3350.team7.scheduleapp.persistence;
 
+import java.util.Calendar;
 import java.util.List;
 
 import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
@@ -17,6 +18,7 @@ public interface EventPersistenceInterface {
     void removeEvent(Event e) throws DbErrorException;
     void removeEvent(String username, int eventId) throws DbErrorException;
     Event updateEvent(Event old, Event fresh) throws DbErrorException;
+    List<Event> getScheduleForUserOnDate(String username, Calendar date) throws DbErrorException;
 
-    int getEventListLength();
+    int getEventListLength(List<Event> eventList);
 }
