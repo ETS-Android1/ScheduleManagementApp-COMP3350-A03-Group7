@@ -12,7 +12,7 @@ import java.util.Calendar;
 
 import comp3350.team7.scheduleapp.objects.Event;
 import comp3350.team7.scheduleapp.persistence.SchedulePersistenceInterface;
-import comp3350.team7.scheduleapp.persistence.ScheduledEventInterface;
+import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 
 
 public class ScheduledEventsPersistenceHSQLDB implements SchedulePersistenceInterface {
@@ -49,7 +49,7 @@ public class ScheduledEventsPersistenceHSQLDB implements SchedulePersistenceInte
         return new Event(eventID, title, description, start, end);
     }
 
-    public List<Event> getScheduleForUserOnDate(String username, Calendar date) {
+    public List<Event> getScheduleForUserOnDate(String username, Calendar date) throws DbErrorException {
         final List<Event> schedule = new ArrayList<>();
         final int year = date.get(Calendar.YEAR);
         final int month = date.get(Calendar.MONTH);
@@ -73,7 +73,7 @@ public class ScheduledEventsPersistenceHSQLDB implements SchedulePersistenceInte
 
             return schedule;
         }catch (final SQLException e){
-            throw new comp3350.team7.scheduleapp.persistence.hsqldb.UserDBException(e);
+            throw new DbErrorException(e);
         }
     }
 
