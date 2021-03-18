@@ -27,7 +27,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     }
 
     private Event fromResultSet(final ResultSet rs) throws SQLException {
-        final String userName = rs.getString("userName");
+        final String userName = rs.getString("username");
         final int eventID = rs.getInt("eventID");
         final String title = rs.getString("title");
         final String description = rs.getString("description");
@@ -94,20 +94,21 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     @Override
     public void addEvent(Event newEvent) throws DbErrorException {
         try(final Connection c = connection()) {
-            final PreparedStatement msg = c.prepareStatement("INSERT INTO Events VALUES(?,?,?,?,?,?)");
-            msg.setString(1, newEvent.getTitle());
-            msg.setString(2, newEvent.getDescription());
-
-            msg.setInt(3, newEvent.getEventStart().get(Calendar.YEAR));
-            msg.setInt(4, newEvent.getEventStart().get(Calendar.MONTH));
-            msg.setInt(5, newEvent.getEventStart().get(Calendar.DATE));
-            msg.setInt(6, newEvent.getEventStart().get(Calendar.HOUR));
-            msg.setInt(7, newEvent.getEventStart().get(Calendar.MINUTE));
-            msg.setInt(8, newEvent.getEventEnd().get(Calendar.YEAR));
-            msg.setInt(9, newEvent.getEventEnd().get(Calendar.MONTH));
-            msg.setInt(10, newEvent.getEventEnd().get(Calendar.DATE));
-            msg.setInt(11, newEvent.getEventEnd().get(Calendar.HOUR));
-            msg.setInt(12, newEvent.getEventEnd().get(Calendar.MINUTE));
+            final PreparedStatement msg = c.prepareStatement(
+                    "INSERT INTO Events VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, )");
+            msg.setString(1, newEvent.getUsername());
+            msg.setString(2, newEvent.getTitle());
+            msg.setString(3, newEvent.getDescription());
+            msg.setInt(4, newEvent.getEventStart().get(Calendar.YEAR));
+            msg.setInt(5, newEvent.getEventStart().get(Calendar.MONTH));
+            msg.setInt(6, newEvent.getEventStart().get(Calendar.DATE));
+            msg.setInt(7, newEvent.getEventStart().get(Calendar.HOUR));
+            msg.setInt(8, newEvent.getEventStart().get(Calendar.MINUTE));
+            msg.setInt(9, newEvent.getEventEnd().get(Calendar.YEAR));
+            msg.setInt(10, newEvent.getEventEnd().get(Calendar.MONTH));
+            msg.setInt(11, newEvent.getEventEnd().get(Calendar.DATE));
+            msg.setInt(12, newEvent.getEventEnd().get(Calendar.HOUR));
+            msg.setInt(13, newEvent.getEventEnd().get(Calendar.MINUTE));
 
             msg.executeUpdate();
 
