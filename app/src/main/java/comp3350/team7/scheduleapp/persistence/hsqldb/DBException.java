@@ -7,7 +7,7 @@ package comp3350.team7.scheduleapp.persistence.hsqldb;
 
 public class DBException extends RuntimeException{
     public DBException(final Exception cause){
-        System.out.println("Item is not valid.");
         super(cause);
+        System.out.println("Item is not valid.");
     }
 }

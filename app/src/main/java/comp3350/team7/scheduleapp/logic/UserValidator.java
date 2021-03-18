@@ -2,6 +2,10 @@ package comp3350.team7.scheduleapp.logic;
 
 import comp3350.team7.scheduleapp.Application.Services;
 import comp3350.team7.scheduleapp.objects.User;
+<<<<<<< HEAD
+import comp3350.team7.scheduleapp.persistence.UserPersistence;
+=======
+>>>>>>> 552662351bb8ec39d73b945d576956e74e883795
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 
 public class UserValidator {
@@ -69,6 +73,14 @@ public class UserValidator {
     public static boolean passwordLengthCheck(String p){
         boolean correctLength = false;
         if ((p.length() >= 8) && (p.length() <= 16)){
+            correctLength = true;
+        }
+        return correctLength;
+    }
+
+    public static boolean userIDLengthCheck(String userID){
+        boolean correctLength = false;
+        if ((userID.length() >= 8) && (userID.length() <= 16)){
             correctLength = true;
         }
         return correctLength;

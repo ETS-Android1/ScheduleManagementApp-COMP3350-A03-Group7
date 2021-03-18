@@ -12,6 +12,9 @@ Paying off technical debt
 + [Paying off technical debt for CreateAccountActivity](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/commit/8af93f9817e5b628b2b0dad9027be4aa9c9754b4)
 + It was a Deliberately Prudent technical debt because we chose to implement it to get the flow of the app going and did not implement the required layer separation, the logic class to check if the userID was in the database, and the actual database itself.
 
+SOLID
+------
+[SOLID Violation Issue for A01 Group 7](https://code.cs.umanitoba.ca/3350-winter-2021-a01/umhub-7/-/issues/54)
 
 Retrospective
 ----

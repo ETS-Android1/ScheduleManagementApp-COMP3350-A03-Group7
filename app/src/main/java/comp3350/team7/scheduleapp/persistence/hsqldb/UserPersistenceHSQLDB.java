@@ -11,8 +11,7 @@ import java.util.List;
 
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
-import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
-
+import comp3350.team7.scheduleapp.logic.exceptions.UserDBException;
 public class UserPersistenceHSQLDB implements UserPersistenceInterface {
 
     private final String dbPath;
@@ -20,6 +19,7 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
     public UserPersistenceHSQLDB(final String dbPath){
         this.dbPath = dbPath;
     }
+
 
     public Connection connection() throws  SQLException{
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
@@ -35,7 +35,7 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
 
 
     @Override
-    public List<User> getUserDB() throws DbErrorException {
+    public List<User> getUserDB() {
         final List<User> users = new ArrayList<>();
 
         try(final Connection c =  connection()) {
@@ -50,12 +50,12 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
 
             return users;
         }catch (final SQLException e){
-            throw new DbErrorException(e);
+            throw new UserDBException(e);
         }
     }
 
     @Override
-    public User getUser(String username) throws DbErrorException {
+    public User getUser(String username) {
         final User userExists;
 
         try(final Connection c = connection()) {
@@ -71,12 +71,12 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
 
             return userExists;
         }catch (final SQLException e){
-            throw new DbErrorException(e);
+            throw new UserDBException(e);
         }
     }
 
     @Override
-    public User addUser(User newUser) throws DbErrorException {
+    public User addUser(User newUser) {
         try(final Connection c = connection()) {
             final PreparedStatement msg = c.prepareStatement("INSERT INTO Users VALUES(?,?,?,?)");
             msg.setString(1, newUser.getUserId());
@@ -88,19 +88,19 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
 
             return newUser;
         }catch (final SQLException e){
-            throw new DbErrorException("Username is already taken.",e);
+            throw new UserDBException("Username is already taken.",e);
         }
     }
 
     @Override
-    public void deleteUser(User user) throws DbErrorException {
+    public void deleteUser(User user) {
         try(final Connection c = connection()){
             final PreparedStatement msg = c.prepareStatement("DELETE FROM Users WHERE userID = ?");
             msg.setString(1, user.getUserId());
             msg.executeUpdate();
 
         }catch (final SQLException e){
-            throw new DbErrorException("Invalid User.",e);
+            throw new UserDBException("Invalid User.",e);
         }
     }
 }

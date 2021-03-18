@@ -1,12 +1,9 @@
 package comp3350.team7.scheduleapp.logic.exceptions;
-
 /*
  * Created By Thai Tran on 22 February,2021
  *
  */
-
 import android.os.Build;
-
 import androidx.annotation.RequiresApi;
 
 public class RandomException extends Exception{
@@ -15,13 +12,13 @@ public class RandomException extends Exception{
     }
 
     public RandomException(String message) {
-        System.out.println(message);
         super(message);
+        System.out.println(message);
     }
 
     public RandomException(String message, Throwable cause) {
-        System.out.println(message);
         super(message, cause);
+        System.out.println(message);
     }
 
     public RandomException(Throwable cause) {
@@ -30,7 +27,7 @@ public class RandomException extends Exception{
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected RandomException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        System.out.println(message);
         super(message, cause, enableSuppression, writableStackTrace);
+        System.out.println(message);
     }
 }

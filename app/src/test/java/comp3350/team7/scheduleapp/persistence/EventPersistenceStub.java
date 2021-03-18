@@ -1,4 +1,4 @@
-package comp3350.team7.scheduleapp.persistence.stubs;
+package comp3350.team7.scheduleapp.persistence;
 
 
 import java.util.ArrayList;

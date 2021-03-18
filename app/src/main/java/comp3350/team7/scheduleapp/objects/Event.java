@@ -14,10 +14,11 @@ public class Event extends AbstractEvent implements Parcelable {
     private int Event_id;
     private String Event_title;
     private String Event_description;
+    private String username;
     private Calendar eventStart;
     private Calendar eventEnd;
 
-    public Event(int eid, String title, String description, Calendar eventStart, Calendar eventEnd) {
+    public Event(String username, int eid, String title, String description, Calendar eventStart, Calendar eventEnd) {
         setID(eid);
         setTitle(title);
         setDescription(description);
@@ -25,7 +26,7 @@ public class Event extends AbstractEvent implements Parcelable {
         setEnd(eventEnd);
 
     }
-    public Event(int eid, String title, String description, Calendar eventStart) {
+    public Event(String username, int eid, String title, String description, Calendar eventStart) {
         setID(eid);
         setTitle(title);
         setDescription(description);
@@ -33,19 +34,7 @@ public class Event extends AbstractEvent implements Parcelable {
         setEnd(null);
 
     }
-    public Event(String event_title, String event_description, Calendar eventStart, Calendar eventEnd) {
-        Event_title = event_title;
-        Event_description = event_description;
-        this.eventStart = eventStart;
-        this.eventEnd = eventEnd;
-    }
 
-    public Event(String event_title, String event_description, Calendar eventStart) {
-        Event_title = event_title;
-        Event_description = event_description;
-        this.eventStart = eventStart;
-        setEnd(null);
-    }
 
 
     public int getID() {

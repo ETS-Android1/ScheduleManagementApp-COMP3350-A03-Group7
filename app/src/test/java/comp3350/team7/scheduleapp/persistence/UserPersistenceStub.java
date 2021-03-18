@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import main.java.comp3350.team7.scheduleapp.objects.User;
-import main.java.comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
+import comp3350.team7.scheduleapp.objects.User;
+import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 
 
-public class UserPersistenceStub implements UserPersistenceInterface{
+public class UserPersistenceStub implements UserPersistenceInterface {
     private List<User> userDB;
 
     public UserPersistenceStub(){

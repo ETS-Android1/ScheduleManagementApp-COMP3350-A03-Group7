@@ -79,24 +79,35 @@ public class CreateAccountActivity extends AppCompatActivity {
         boolean validInput = validator.validateInput(firstname, lastname, username, password, confirmPassword);
 
         if(validInput){ //check if all the fields arent empty
-            if (validator.validateConfirmPassword(password, confirmPassword)) {
+            if(validator.userIDLengthCheck(username) && validator.passwordLengthCheck(password)){
 
-                if(validator.isUniqueID(username)) {
+                if (validator.validateConfirmPassword(password, confirmPassword)) {
 
-                    newUser = new User(firstname, lastname, username, password);
-                    userDB.addUser(newUser);
-                    makeText(CreateAccountActivity.this, "Account has been successfully created.", LENGTH_SHORT).show();
-                    launchUserHomePage();
-                } else{
-                    makeText(CreateAccountActivity.this, "Username is already taken.", LENGTH_SHORT).show();
+                    if(validator.isUniqueID(username)) {
+
+                        newUser = new User(firstname, lastname, username, password);
+                        userDB.addUser(newUser);
+                        makeText(CreateAccountActivity.this, "Account has been successfully created.", LENGTH_SHORT).show();
+                        launchUserHomePage();
+
+                    }else{ makeText(CreateAccountActivity.this, "Username is already taken.", LENGTH_SHORT).show(); }
+
+                }else{ confirmPasswordInput.setError("Must match the password entered."); }
+            }//end if password and userIDLengthCheck
+
+            else{ //Give the user a Useful message
+                if(validator.userIDLengthCheck(username) == false){
+                    makeText(CreateAccountActivity.this, "UserID must be 8-16 characters.", LENGTH_SHORT).show();
                 }
-            } else{
-                confirmPasswordInput.setError("Must match the password entered.");
-            }
-        } else{
-            makeText(CreateAccountActivity.this, "Please Enter all required fields.", LENGTH_SHORT).show();
-        }
+                if(validator.passwordLengthCheck(password) == false){ 
+                    makeText(CreateAccountActivity.this, "Password must be 8-16 characters.", LENGTH_SHORT).show();
+                }
 
-    }
+            }
+        }//end if validInput
+        
+        else{ makeText(CreateAccountActivity.this, "Please Enter all required fields.", LENGTH_SHORT).show();}
+
+    } //end createOnclick
 
 }
