@@ -2,13 +2,13 @@ package comp3350.team7.scheduleapp.logic;
 
 import comp3350.team7.scheduleapp.Application.Services;
 import comp3350.team7.scheduleapp.objects.User;
-import comp3350.team7.scheduleapp.persistence.UserPersistence;
+import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 
 public class UserValidator {
-    private static UserPersistence userDB = null;
+    private static UserPersistenceInterface userDB = null;
 
     //DIP
-    public UserValidator(UserInterface dbStub){
+    public UserValidator(UserPersistenceInterface dbStub){
         if(userDB == null){
             userDB = dbStub;
         }
