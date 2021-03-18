@@ -13,6 +13,7 @@ import comp3350.team7.scheduleapp.logic.comparators.AbstractComparator;
 import comp3350.team7.scheduleapp.logic.comparators.EventStartAscendingComparator;
 import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
+import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
 import comp3350.team7.scheduleapp.objects.Event;
 
@@ -23,16 +24,28 @@ import comp3350.team7.scheduleapp.objects.Event;
 public class EventController {
     EventPersistenceInterface eventPersistence;
     AbstractComparator sortingStrategy;
-
+    List<Event> events;
 
     public EventController() {
         eventPersistence = DbServiceProvider
                 .getInstance()
                 .getEventPersistence();
+        events = null;
         // default way of sorting
         sortingStrategy = new EventStartAscendingComparator();
     }
-    public EventController()
+    public EventController(EventPersistenceInterface eventPersistence){
+        this.eventPersistence = eventPersistence;
+        sortingStrategy = new EventStartAscendingComparator();
+        events= null;
+    }
+    public EventController(String userName){
+        eventPersistence = DbServiceProvider
+                .getInstance()
+                .getEventPersistence();
+        eventPersistence.getEvents(userName);
+    }
+
 
     // part of strategy pattern, inject AbstractComparator
     public void setSortStrategy(AbstractComparator newSortStrategy){

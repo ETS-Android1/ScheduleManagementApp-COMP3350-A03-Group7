@@ -14,6 +14,7 @@ public class Event extends AbstractEvent implements Parcelable {
     private int Event_id;
     private String Event_title;
     private String Event_description;
+    private String username;
     private Calendar eventStart;
     private Calendar eventEnd;
 
@@ -33,11 +34,12 @@ public class Event extends AbstractEvent implements Parcelable {
         setEnd(null);
 
     }
-    public Event(String event_title, String event_description, Calendar eventStart, Calendar eventEnd) {
+    public Event(String username,String event_title, String event_description, Calendar eventStart, Calendar eventEnd) {
         Event_title = event_title;
         Event_description = event_description;
         this.eventStart = eventStart;
         this.eventEnd = eventEnd;
+        this.username =username;
     }
 
     public Event(String event_title, String event_description, Calendar eventStart) {

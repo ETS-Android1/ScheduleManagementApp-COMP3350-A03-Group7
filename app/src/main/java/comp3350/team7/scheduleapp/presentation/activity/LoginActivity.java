@@ -28,8 +28,8 @@ public class LoginActivity extends AppCompatActivity{
         setContentView(R.layout.activity_login);
 
         userDB = DbServicesProvider.getUserPersistence() //can be replaced with = new UserPersistenceStub() for testing
-        validator = new UserValidator(userDB);
-
+        validator = new UserValidator(userDB);          //line 30+31 is pretty much validator = new UserValidator(DbServicesProvicer.getUserPersistence());
+                                                        //broken up for clarity.
         getView();
     }
 
