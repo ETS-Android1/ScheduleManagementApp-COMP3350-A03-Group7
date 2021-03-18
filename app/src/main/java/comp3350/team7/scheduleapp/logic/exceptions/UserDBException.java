@@ -1,14 +1,14 @@
-package comp3350.team7.scheduleapp.persistence.hsqldb;
+package comp3350.team7.scheduleapp.logic.exceptions;
 
 public class UserDBException extends RuntimeException{
-    public static userDBMessage = "Invalid User.";
+    public static String userDBMessage = "Invalid User";
 
     public UserDBException(final Exception cause){
         super(cause);
     }
 
     public UserDBException(String message ,final Exception cause){
-        System.out.println(userDBMessage);
         super(message, cause);
+        System.out.println(userDBMessage);
     }
 }

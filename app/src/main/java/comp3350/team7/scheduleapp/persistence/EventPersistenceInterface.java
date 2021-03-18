@@ -11,9 +11,9 @@ import comp3350.team7.scheduleapp.objects.Event;
  *
  */
 public interface EventPersistenceInterface {
-    List<Event> getEventList();
-    Event getEvent(int eventID);
-    void addEvent(Event e);
+    List<Event> getEventList() throws DbErrorException;
+    Event getEvent(int eventID) throws DbErrorException;
+    void addEvent(Event e) throws DbErrorException;
     void removeEvent(Event e) throws DbErrorException;
     void removeEvent(int eventId) throws DbErrorException;
     Event updateEvent(Event old, Event fresh) throws DbErrorException;
