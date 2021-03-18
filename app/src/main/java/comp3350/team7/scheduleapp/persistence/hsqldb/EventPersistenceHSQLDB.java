@@ -95,7 +95,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
         try(final Connection c = connection()) {
             final PreparedStatement msg = c.prepareStatement(
                     "INSERT INTO Events VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, )");
-            msg.setString(1, newEvent.getUsername());
+            msg.setString(1, newEvent.getUserName());
             msg.setString(2, newEvent.getTitle());
             msg.setString(3, newEvent.getDescription());
             msg.setInt(4, newEvent.getEventStart().get(Calendar.YEAR));
@@ -121,7 +121,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
         try(final Connection c = connection()){
             final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ? AND userID = ?");
             msg.setInt(1, e.getID());
-            msg.setString(2,e.getUsername());
+            msg.setString(2,e.getUserName());
             msg.executeUpdate();
 
         }catch (SQLException error){
