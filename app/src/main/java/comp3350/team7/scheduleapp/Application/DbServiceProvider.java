@@ -9,7 +9,6 @@ import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 import comp3350.team7.scheduleapp.persistence.hsqldb.EventPersistenceHSQLDB;
 import comp3350.team7.scheduleapp.persistence.hsqldb.ScheduledEventsPersistenceHSQLDB;
 import comp3350.team7.scheduleapp.persistence.hsqldb.UserPersistenceHSQLDB;
-
 import comp3350.team7.scheduleapp.Application.Main;
 /*
 Purpose: To put a lock on the calls towards the methods and turn it into a Queue on who gets the database access

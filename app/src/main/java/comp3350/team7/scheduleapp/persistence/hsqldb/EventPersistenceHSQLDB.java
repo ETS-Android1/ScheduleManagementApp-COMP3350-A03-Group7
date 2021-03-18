@@ -87,7 +87,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
 
             return events;
         }catch (final SQLException e){
-            throw new DbErrorException()("Fail to get event list",e);
+            throw new DbErrorException("Fail to get event list",e);
         }
     }
 
