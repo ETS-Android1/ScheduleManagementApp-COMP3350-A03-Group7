@@ -49,12 +49,13 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     }
 
     @Override
-    public Event getEvent(int eventID) {
+    public Event getEvent(String userName, int eventID) throws DbErrorException{
         final Event eventExists;
 
         try(final Connection c = connection()) {
-            final PreparedStatement msg = c.prepareStatement("SELECT * FROM Event WHERE eventID = ?");
+            final PreparedStatement msg = c.prepareStatement("SELECT * FROM Event WHERE eventID = ? AND userName = ?");
             msg.setInt(1, eventID);
+            msg.setString(2,userName);
 
             final ResultSet rs = msg.executeQuery();
 
@@ -65,17 +66,18 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
 
             return eventExists;
         }catch (final SQLException e){
-            throw new DBException(e);
+            throw new DbErrorException("Fail to get event from the database",e);
         }
     }
 
     @Override
-    public List<Event> getEventList() {
+    public List<Event> getEventList(String userName) {
         final List<Event> events = new ArrayList<>();
 
         try(final Connection c =  connection()) {
-            final Statement msg = c.createStatement();
-            final ResultSet rs =  msg.executeQuery("SELECT * FROM Events");
+            final PreparedStatement msg = c.prepareStatement("SELECT * FROM Events WHERE userName =?");
+            msg.setString(1,userName);
+            final ResultSet rs =  msg.executeQuery();
             while(rs.next()) {
                 final Event event = fromResultSet(rs);
                 events.add(event);
@@ -90,7 +92,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     }
 
     @Override
-    public void addEvent(Event newEvent) {
+    public void addEvent(Event newEvent) throws DbErrorException {
         try(final Connection c = connection()) {
             final PreparedStatement msg = c.prepareStatement("INSERT INTO Events VALUES(?,?,?,?,?,?)");
             msg.setString(1, newEvent.getTitle());
@@ -110,31 +112,33 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
             msg.executeUpdate();
 
         }catch (final SQLException e){
-            throw new DBException(e);
+            throw new DbErrorException("Fail to add event to the database",e);
         }
     }
 
     @Override
     public void removeEvent(Event e) throws DbErrorException {
         try(final Connection c = connection()){
-            final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ?");
+            final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ? AND userName = ?");
             msg.setInt(1, e.getID());
+            msg.setString(2,e.getUserName());
             msg.executeUpdate();
 
         }catch (SQLException error){
-            throw new DbErrorException("Fail to remove",error);
+            throw new DbErrorException("Fail to remove event from database",error);
         }
     }
 
     @Override
-    public void removeEvent(int eventId) throws DbErrorException {
+    public void removeEvent(String username,int eventId) throws DbErrorException {
         try(final Connection c = connection()){
-            final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ?");
+            final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ? AND userName = ?");
             msg.setInt(1, eventId);
+            msg.setString(2,username);
             msg.executeUpdate();
 
         }catch (SQLException error){
-            throw new DbErrorException("Fail to remove",error);
+            throw new DbErrorException("Fail to remove event from database",error);
         }
     }
 
