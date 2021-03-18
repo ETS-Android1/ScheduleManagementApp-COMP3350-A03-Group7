@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Calendar;
@@ -27,7 +26,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     }
 
     private Event fromResultSet(final ResultSet rs) throws SQLException {
-        final String userName = rs.getString("userName");
+        final String userName = rs.getString("username");
         final int eventID = rs.getInt("eventID");
         final String title = rs.getString("title");
         final String description = rs.getString("description");
@@ -75,7 +74,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
         final List<Event> events = new ArrayList<>();
 
         try(final Connection c =  connection()) {
-            final PreparedStatement msg = c.prepareStatement("SELECT * FROM Events WHERE userName =?");
+            final PreparedStatement msg = c.prepareStatement("SELECT * FROM Events WHERE userID =?");
             msg.setString(1,userName);
             final ResultSet rs =  msg.executeQuery();
             while(rs.next()) {
@@ -94,20 +93,21 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     @Override
     public void addEvent(Event newEvent) throws DbErrorException {
         try(final Connection c = connection()) {
-            final PreparedStatement msg = c.prepareStatement("INSERT INTO Events VALUES(?,?,?,?,?,?)");
-            msg.setString(1, newEvent.getTitle());
-            msg.setString(2, newEvent.getDescription());
-
-            msg.setInt(3, newEvent.getEventStart().get(Calendar.YEAR));
-            msg.setInt(4, newEvent.getEventStart().get(Calendar.MONTH));
-            msg.setInt(5, newEvent.getEventStart().get(Calendar.DATE));
-            msg.setInt(6, newEvent.getEventStart().get(Calendar.HOUR));
-            msg.setInt(7, newEvent.getEventStart().get(Calendar.MINUTE));
-            msg.setInt(8, newEvent.getEventEnd().get(Calendar.YEAR));
-            msg.setInt(9, newEvent.getEventEnd().get(Calendar.MONTH));
-            msg.setInt(10, newEvent.getEventEnd().get(Calendar.DATE));
-            msg.setInt(11, newEvent.getEventEnd().get(Calendar.HOUR));
-            msg.setInt(12, newEvent.getEventEnd().get(Calendar.MINUTE));
+            final PreparedStatement msg = c.prepareStatement(
+                    "INSERT INTO Events VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, )");
+            msg.setString(1, newEvent.getUsername());
+            msg.setString(2, newEvent.getTitle());
+            msg.setString(3, newEvent.getDescription());
+            msg.setInt(4, newEvent.getEventStart().get(Calendar.YEAR));
+            msg.setInt(5, newEvent.getEventStart().get(Calendar.MONTH));
+            msg.setInt(6, newEvent.getEventStart().get(Calendar.DATE));
+            msg.setInt(7, newEvent.getEventStart().get(Calendar.HOUR));
+            msg.setInt(8, newEvent.getEventStart().get(Calendar.MINUTE));
+            msg.setInt(9, newEvent.getEventEnd().get(Calendar.YEAR));
+            msg.setInt(10, newEvent.getEventEnd().get(Calendar.MONTH));
+            msg.setInt(11, newEvent.getEventEnd().get(Calendar.DATE));
+            msg.setInt(12, newEvent.getEventEnd().get(Calendar.HOUR));
+            msg.setInt(13, newEvent.getEventEnd().get(Calendar.MINUTE));
 
             msg.executeUpdate();
 
@@ -119,9 +119,9 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     @Override
     public void removeEvent(Event e) throws DbErrorException {
         try(final Connection c = connection()){
-            final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ? AND userName = ?");
+            final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ? AND userID = ?");
             msg.setInt(1, e.getID());
-            msg.setString(2,e.getUserName());
+            msg.setString(2,e.getUsername());
             msg.executeUpdate();
 
         }catch (SQLException error){
@@ -132,7 +132,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     @Override
     public void removeEvent(String username,int eventId) throws DbErrorException {
         try(final Connection c = connection()){
-            final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ? AND userName = ?");
+            final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ? AND userID = ?");
             msg.setInt(1, eventId);
             msg.setString(2,username);
             msg.executeUpdate();
@@ -145,24 +145,62 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     @Override
     public Event updateEvent(Event old, Event fresh) throws DbErrorException {
         try (final Connection connection = connection()) {
-            final PreparedStatement statement = connection.prepareStatement("UPDATE tasks SET taskName = ?, deadline = ?, completed = ?, priority = ? WHERE userName = ? AND taskId = ?");
-            statement.setString(1,currentTask.getName());
-            statement.setDate(2,new java.sql.Date(currentTask.getDeadline().getTime()));
-            statement.setBoolean(3,currentTask.getCompleted());
-            statement.setInt(4,currentTask.getPriority());
-            statement.setString(5,currentTask.getUsername());
-            statement.setInt(6,currentTask.getTaskID());
+            final PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE Events SET title = ?, description = ?, startYear = ?, startMonth = ?, " +
+                            "startDay = ?, startHour = ?, startMinute = ?, endYear = ?, endMonth = ?, " +
+                            "endDay = ?, endHour = ?, endMinute = ? WHERE userID = ? AND eventID = ?");
+            statement.setString(1,fresh.getTitle());
+            statement.setString(2, fresh.getDescription());
+            statement.setInt(3, fresh.getEventStart().get(Calendar.YEAR));
+            statement.setInt(4, fresh.getEventStart().get(Calendar.MONTH));
+            statement.setInt(5, fresh.getEventStart().get(Calendar.DATE));
+            statement.setInt(6, fresh.getEventStart().get(Calendar.HOUR));
+            statement.setInt(7, fresh.getEventStart().get(Calendar.MINUTE));
+            statement.setInt(8, fresh.getEventEnd().get(Calendar.YEAR));
+            statement.setInt(9, fresh.getEventEnd().get(Calendar.MONTH));
+            statement.setInt(10, fresh.getEventEnd().get(Calendar.DATE));
+            statement.setInt(11, fresh.getEventEnd().get(Calendar.HOUR));
+            statement.setInt(12, fresh.getEventEnd().get(Calendar.MINUTE));
+            statement.setString(2, old.getUsername());
+            statement.setInt(2, old.getID());
             statement.executeUpdate();
-            return true;
+            return fresh;
         } catch (final SQLException e) {
-            throw new PersistenceException(e);
+            throw new DbErrorException("Failed to update event", e);
         }
     }
 
     @Override
-    public int getEventListLength() {
-        return 0;
+    public int getEventListLength(List<Event> eventList) {
+        return eventList.size();
     }
 
+    public List<Event> getScheduleForUserOnDate(String username, Calendar date) throws DbErrorException {
+        final List<Event> schedule = new ArrayList<>();
+        final int year = date.get(Calendar.YEAR);
+        final int month = date.get(Calendar.MONTH);
+        final int day = date.get(Calendar.DATE);
+
+        try(final Connection c = connection()) {
+            final PreparedStatement msg = c.prepareStatement(
+                    "SELECT * FROM Events WHERE userID = ? AND startYear = ? AND startMONTH = ? AND startDay = ?)");
+            msg.setString(1, username);
+            msg.setInt(2, year);
+            msg.setInt(2, month);
+            msg.setInt(2, day);
+            final ResultSet rs = msg.executeQuery();
+
+            while(rs.next()) {
+                final Event scheduledEvent = fromResultSet(rs);
+                schedule.add(scheduledEvent);
+            }
+            rs.close();
+            msg.close();
+
+            return schedule;
+        }catch (final SQLException e){
+            throw new DbErrorException("Failed to retrieve schedule", e);
+        }
+    }
 
 }

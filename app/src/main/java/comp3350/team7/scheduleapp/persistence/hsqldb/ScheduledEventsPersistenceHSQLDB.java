@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Calendar;
 
-import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.objects.Event;
 import comp3350.team7.scheduleapp.persistence.SchedulePersistenceInterface;
+import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
+
 
 public class ScheduledEventsPersistenceHSQLDB implements SchedulePersistenceInterface {
 
@@ -28,7 +29,6 @@ public class ScheduledEventsPersistenceHSQLDB implements SchedulePersistenceInte
     }
 
     private Event fromResultSet(final ResultSet rs) throws SQLException {
-        final String userName = rs.getString("userName");
         final int eventID = rs.getInt("eventID");
         final String title = rs.getString("title");
         final String description = rs.getString("description");
@@ -46,10 +46,9 @@ public class ScheduledEventsPersistenceHSQLDB implements SchedulePersistenceInte
         final int endMinute = rs.getInt("endMinute");
         Calendar end = Calendar.getInstance();
         end.set(endYear, endMonth, endMonth, endDay, endHour, endMinute);
-        return new Event(userName,eventID, title, description, start, end);
+        return new Event(eventID, title, description, start, end);
     }
 
-    @Override
     public List<Event> getScheduleForUserOnDate(String username, Calendar date) throws DbErrorException {
         final List<Event> schedule = new ArrayList<>();
         final int year = date.get(Calendar.YEAR);
@@ -74,8 +73,34 @@ public class ScheduledEventsPersistenceHSQLDB implements SchedulePersistenceInte
 
             return schedule;
         }catch (final SQLException e){
-            throw new DbErrorException("Fail to get schedule on date",e);
+            throw new DbErrorException(e);
         }
+    }
+
+    public List<Event> getAllEventsForUser(String username) throws DbErrorException {
+        final List<Event> schedule = new ArrayList<>();
+
+        try(final Connection c = connection()) {
+            final PreparedStatement msg = c.prepareStatement("SELECT * FROM ScheduledEvents NATURAL JOIN Events WHERE " +
+                    "userID = ?)");
+            msg.setString(1, username);
+            final ResultSet rs = msg.executeQuery();
+
+            while(rs.next()) {
+                final Event scheduledEvent = fromResultSet(rs);
+                schedule.add(scheduledEvent);
+            }
+            rs.close();
+            msg.close();
+
+            return schedule;
+        }catch (final SQLException e){
+            throw new DbErrorException(e);
+        }
+    }
+
+    public void addEventToSchedule(String username, int eventID) throws DbErrorException {
+
     }
 
 }
