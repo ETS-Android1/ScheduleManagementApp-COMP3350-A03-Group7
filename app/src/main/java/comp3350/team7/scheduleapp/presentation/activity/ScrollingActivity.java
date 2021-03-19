@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -19,6 +20,9 @@ import java.util.List;
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.EventController;
+import comp3350.team7.scheduleapp.logic.comparators.AbstractComparator;
+import comp3350.team7.scheduleapp.logic.comparators.EventStartAscendingComparator;
+import comp3350.team7.scheduleapp.logic.comparators.EventStartDescendingComparator;
 import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
 import comp3350.team7.scheduleapp.logic.logTag.TAG;
@@ -45,7 +49,7 @@ public class ScrollingActivity extends BaseActivity {
     RecyclerViewAdapter adapter;
     List<Event> eventList;
     EventController eventController;
-
+    Button sortAsc,sortDesc;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -64,6 +68,8 @@ public class ScrollingActivity extends BaseActivity {
         recyclerView = findViewById(R.id.recylerview);
         scrollingLayout = (View) findViewById(R.id.ScrollingLayout);
         fba = findViewById(R.id.include);
+        sortAsc = findViewById(R.id.sortAsc);
+        sortDesc = findViewById( R.id.sortDes);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -87,7 +93,25 @@ public class ScrollingActivity extends BaseActivity {
                 launchEditItent();
             }
         });
+
+        sortAsc.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                eventController.setSortStrategy(new EventStartAscendingComparator());
+                UpdateView(adapter);
+            }
+        });
+        sortDesc.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                eventController.setSortStrategy(new EventStartDescendingComparator());
+                UpdateView(adapter);
+            }
+        });
     }
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
