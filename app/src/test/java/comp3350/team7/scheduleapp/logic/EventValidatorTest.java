@@ -11,14 +11,10 @@ import static org.junit.Assert.*;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
 import comp3350.team7.scheduleapp.objects.Event;
 
-/*
- * Created By Thai Tran on 12 March,2021
- *
- */
-
 public class EventValidatorTest {
 
     public Event testEvent;
+    boolean worked;
 
     @Before
     public void setup() {
@@ -26,65 +22,85 @@ public class EventValidatorTest {
         start.set(2022, 1, 1, 0, 0);
         Calendar end = Calendar.getInstance();
         end.set(2023, 1, 1, 0, 0);
-        testEvent = new Event("Test Event", "This is a test event", start, end);
+        testEvent = new Event("Test Event", "testEvent","This is a test event", start, end);
+        worked = false;
     }
+    
     @After
     public void teardown() { testEvent = null; }
 
     @Test
-    public void testValidEvent() throws InvalidEventException {
-        assertTrue("Event is valid", validate(testEvent));
+    public void testValidEvent() {
+        worked = false;
+        try {
+            validate(testEvent);
+            worked = true;
+        }
+        catch (InvalidEventException i) {
+            System.out.println("Event is not valid");
+        }
+        assertTrue("Event is valid", worked);
     }
+
     @Test
     public void testInvalidEvent() {
         testEvent = null;
         assertThrows("Null event is invalid", InvalidEventException.class, () -> validate(testEvent));
     }
+
     @Test
     public void testValidEventTitle() {
-        assertTrue("The event title is valid (whitespace + alphanumeric chars)",
-                validateEventName(testEvent.getTitle()));
+        worked = false;
+        try {
+            validateEventName(testEvent.getTitle());
+            worked = true;
+        }
+        catch (InvalidEventException i) {
+            System.out.println("Event title is not valid");
+        }
+        assertTrue("The event title is valid (whitespace + alphanumeric chars)", worked);
     }
+
     @Test
     public void testInvalidEventTitle() {
         testEvent.setTitle("+ =+ - -_a122sas +sas");
-        assertFalse("The event title is invalid (whitespace + alphanumeric chars)",
-                validateEventName(testEvent.getTitle()));
+        assertThrows("The event title is invalid (whitespace + alphanumeric chars)", InvalidEventException.class, () -> validateEventName(testEvent.getTitle()));
     }
+
     @Test
-    public void testValidEventStartAfterNow() {
-        assertTrue("Valid event starts after current time",
-                validateEventStartTime(testEvent.getEventStart(), Calendar.getInstance()));
+    public void testValidEventStartAfterNow() throws InvalidEventException {
+        worked = false;
+        try {
+            validateEventStartTime(testEvent.getEventStart(), Calendar.getInstance());
+            worked = true;
+        }
+        catch (InvalidEventException i) {
+            System.out.println("event tried to start before the current time");
+        }
+        assertTrue("Valid event starts after current time", worked);
     }
+
     @Test
     public void testInvalidEventStartBeforeNow() {
         Calendar badDate = Calendar.getInstance();
         badDate.set(2021, 1, 1, 0, 0);
         testEvent.setStart(badDate);
-        assertFalse("Invalid event starts before current time",
-                validateEventStartTime(testEvent.getEventStart(), Calendar.getInstance()));
+        assertThrows("Invalid event starts before current time", InvalidEventException.class, () -> validateEventStartTime(testEvent.getEventStart(), Calendar.getInstance()));
     }
-    @Test
-    public void testValidEndTimeEndAfterStart() {
-        assertTrue("Valid event starts before current time",
-                validateEventStartTime(testEvent.getEventStart(), Calendar.getInstance()));
-    }
+
     @Test
     public void testInvalidEventEndBeforeStart() {
         Calendar badDate = Calendar.getInstance();
         badDate.set(2023, 1, 1, 0, 0);
         testEvent.setStart(badDate);
-        assertFalse("Invalid event ends before start time",
-                validateEventEndTime(testEvent.getEventEnd(), testEvent.getEventStart(),
-                        Calendar.getInstance()));
+        assertThrows("Invalid event ends before start time", InvalidEventException.class,() -> validateEventStartAndEndTime(testEvent.getEventEnd(), testEvent.getEventStart(), Calendar.getInstance()));
     }
+
     @Test
     public void testInvalidEventEndBeforeNow() {
         Calendar badDate = Calendar.getInstance();
         badDate.set(2021, 1, 1, 0, 0);
         testEvent.setEnd(badDate);
-        assertFalse("Invalid event ends before now",
-                validateEventEndTime(testEvent.getEventEnd(), testEvent.getEventStart(),
-                        Calendar.getInstance()));
+        assertThrows("Invalid event ends before now", InvalidEventException.class, () -> validateEventStartAndEndTime(testEvent.getEventEnd(), testEvent.getEventStart(), Calendar.getInstance()));
     }
 }
