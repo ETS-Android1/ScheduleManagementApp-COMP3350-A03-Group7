@@ -93,9 +93,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     public void addEvent(Event newEvent) throws DbErrorException {
         try(final Connection c = connection()) {
             final PreparedStatement msg = c.prepareStatement(
-                    "INSERT INTO EVENTS(EVENTID, USERID, TITLE, DESCRIPTION, STARTYEAR, STARTMONTH, STARTDAY, STARTHOUR, " +
-                            "STARTMINUTE, ENDYEAR, ENDMONTH, ENDDAY, ENDHOUR, ENDMINUTE) " +
-                            "VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    "INSERT INTO EVENTS VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             msg.setString(1, newEvent.getUserName());
             msg.setString(2, newEvent.getTitle());
             msg.setString(3, newEvent.getDescription());
@@ -110,8 +108,8 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
                 msg.setInt(11, newEvent.getEventEnd().get(Calendar.DATE));
                 msg.setInt(12, newEvent.getEventEnd().get(Calendar.HOUR));
                 msg.setInt(13, newEvent.getEventEnd().get(Calendar.MINUTE));
-
             }
+
 
             msg.executeUpdate();
 
@@ -203,7 +201,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
 
             return schedule;
         }catch (final SQLException e){
-            throw new DbErrorException("Failed to retrieve schedule", e);
+            throw new DbErrorException("Can not retrieve schedule on date: " + date.toString() , e);
         }
     }
 

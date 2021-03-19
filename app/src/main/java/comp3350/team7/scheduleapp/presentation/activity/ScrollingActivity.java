@@ -1,11 +1,14 @@
 package comp3350.team7.scheduleapp.presentation.activity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -15,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
+import java.util.Calendar;
 import java.util.List;
 
 import comp3350.team7.scheduleapp.R;
@@ -42,7 +46,6 @@ import comp3350.team7.scheduleapp.presentation.base.BaseActivity;
 public class ScrollingActivity extends BaseActivity {
     private static final String TAG = "ScrollingActivity";
     private final static int REQUEST_CODE = 100;
-
     RecyclerView recyclerView;
     View scrollingLayout;
     View fba;
@@ -50,7 +53,9 @@ public class ScrollingActivity extends BaseActivity {
     List<Event> eventList;
     EventController eventController;
     Button sortAsc,sortDesc;
-
+    TextView datePickerText;
+    DatePickerDialog datePicker;
+    Calendar ourCalendar;
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +113,34 @@ public class ScrollingActivity extends BaseActivity {
             public void onClick(View v) {
                 eventController.setSortStrategy(new EventStartDescendingComparator());
                 UpdateView(adapter);
+            }
+        });
+
+        datePickerText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int month = calendar.get(Calendar.MONTH);
+                int year = calendar.get(Calendar.YEAR);
+                datePicker = new DatePickerDialog(ScrollingActivity.this, new DatePickerDialog.OnDateSetListener() {
+
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onDateSet(DatePicker view, int yearOfDecade, int monthOfYear, int dayOfMonth) {
+
+                        ourCalendar.set(yearOfDecade, monthOfYear, dayOfMonth);
+                        try{
+                            eventController.getScheduleForUserOnDate(UserClient.getUserId(), ourCalendar);
+                        }catch(EventControllerException err){
+                           Log.e(TAG,"Cause by: " + err.getCause());
+                           onError(err.getMessage());
+                        }
+                        datePickerText.setText(String.format("%d/%d/%d", dayOfMonth, dayOfMonth + 1, yearOfDecade));
+
+                        }
+                }, year, month, day);
+                datePicker.show();
             }
         });
     }
@@ -170,7 +203,7 @@ public class ScrollingActivity extends BaseActivity {
             err.printStackTrace();
             onError(err.getMessage());
         }
-
-
     }
+
+
 }
