@@ -138,7 +138,7 @@ public class EventPersistenceStub implements EventPersistenceInterface {
     }
 
     @Override
-    public int getEventListLength() {
+    public int getEventListLength(String userid) {
         return eventList.size();
     }
 

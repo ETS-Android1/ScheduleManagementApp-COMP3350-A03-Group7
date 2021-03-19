@@ -48,13 +48,13 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     }
 
     @Override
-    public Event getEvent(String userName, int eventID) throws DbErrorException{
+    public Event getEvent(String userid, int eventID) throws DbErrorException{
         final Event eventExists;
 
         try(final Connection c = connection()) {
             final PreparedStatement msg = c.prepareStatement("SELECT * FROM Event WHERE eventID = ? AND userName = ?");
             msg.setInt(1, eventID);
-            msg.setString(2,userName);
+            msg.setString(2,userid);
 
             final ResultSet rs = msg.executeQuery();
 
@@ -70,12 +70,12 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     }
 
     @Override
-    public List<Event> getEventList(String userName) throws DbErrorException{
+    public List<Event> getEventList(String userid) throws DbErrorException{
         final List<Event> events = new ArrayList<>();
 
         try(final Connection c =  connection()) {
             final PreparedStatement msg = c.prepareStatement("SELECT * FROM Events WHERE userID =?");
-            msg.setString(1,userName);
+            msg.setString(1,userid);
             final ResultSet rs =  msg.executeQuery();
             while(rs.next()) {
                 final Event event = fromResultSet(rs);
@@ -130,11 +130,11 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     }
 
     @Override
-    public void removeEvent(String username,int eventId) throws DbErrorException {
+    public void removeEvent(String userid,int eventId) throws DbErrorException {
         try(final Connection c = connection()){
             final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ? AND userID = ?");
             msg.setInt(1, eventId);
-            msg.setString(2,username);
+            msg.setString(2,userid);
             msg.executeUpdate();
 
         }catch (SQLException error){
@@ -171,8 +171,8 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     }
 
     @Override
-    public int getEventListLength(List<Event> eventList) {
-        return eventList.size();
+    public int getEventListLength(String userId) throws DbErrorException {
+        return getEventList(userId).size();
     }
 
     public List<Event> getScheduleForUserOnDate(String username, Calendar date) throws DbErrorException {
