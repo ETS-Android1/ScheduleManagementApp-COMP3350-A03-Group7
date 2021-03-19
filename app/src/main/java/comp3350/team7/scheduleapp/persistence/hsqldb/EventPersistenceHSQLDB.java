@@ -196,7 +196,12 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
 
     @Override
     public int getEventListLength(String userId) throws DbErrorException {
-        return getEventList(userId).size();
+        List<Event>events =getEventList(userId);
+        if(events!=null){
+            return events.size();
+        }
+
+        return 0;
     }
 
     public List<Event> getScheduleForUserOnDate(String username, Calendar date) throws DbErrorException {

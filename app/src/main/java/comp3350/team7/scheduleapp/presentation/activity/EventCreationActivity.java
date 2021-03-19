@@ -16,8 +16,10 @@ import java.util.Calendar;
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.application.DbServiceProvider;
 import comp3350.team7.scheduleapp.application.UserClient;
+import comp3350.team7.scheduleapp.logic.EventController;
 import comp3350.team7.scheduleapp.logic.EventValidator;
 import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
+import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
 import comp3350.team7.scheduleapp.objects.Event;
 import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
@@ -38,13 +40,13 @@ public class EventCreationActivity extends BaseActivity {
     Button saveButton;
     Calendar calendar;
     Calendar ourCalendar;
-    boolean isDateValid = false;
+    /*boolean isDateValid = false;
     boolean isTimeValid = false;
     boolean isEventNameValid = false;
     boolean isDateSetOnSameDay= false;
     final int maxTitleLength = 60;
     final int maxDescriptionLength =120;
-
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,9 +168,10 @@ public class EventCreationActivity extends BaseActivity {
 
     private void persistEventDetails(Event event){
         EventPersistenceInterface eventPersistent = DbServiceProvider.getInstance().getEventPersistence();
+        EventController eventController = new EventController(eventPersistent);
         try {
-            eventPersistent.addEvent(event);
-        }catch(DbErrorException e) {
+            eventController.addEvent(event);
+        }catch(EventControllerException e) {
             Log.e(TAG,"Error cause by:" +e.getCause());
             e.printStackTrace();
             onError(e.getMessage());
