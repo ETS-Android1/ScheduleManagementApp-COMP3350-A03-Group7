@@ -119,7 +119,8 @@ public class EventController {
         List<Event> eventList = null;
         try {
             eventList = eventPersistence.getScheduleForUserOnDate(username, date);
-            eventList.sort(sortingStrategy);
+            if(eventList!=null)
+                eventList.sort(sortingStrategy);
         } catch (DbErrorException e) {
             Log.d(TAG, e.getMessage() + "\n Cause by " + e.getCause());
             throw new EventControllerException("Something went wrong, contact admin if needed\n" + e.getMessage());

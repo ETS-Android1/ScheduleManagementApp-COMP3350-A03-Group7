@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -152,13 +153,18 @@ public class ScrollingActivity extends BaseActivity {
 
                         ourCalendar.set(yearOfDecade, monthOfYear, dayOfMonth);
                         try{
-                            eventList = eventController.getScheduleForUserOnDate(UserClient.getUserId(), ourCalendar);
-                            UpdateView(adapter,eventList);
+                            List<Event> list;
+                            list = eventController.getScheduleForUserOnDate(UserClient.getUserId(), ourCalendar);
+                            if(list!=null)
+                                UpdateView(adapter,list);
+                            else{
+                                Toast.makeText(v.getContext(), "No event found", Toast.LENGTH_SHORT).show();
+                            }
                         }catch(EventControllerException err){
                            Log.e(TAG,"Cause by: " + err.getCause());
                            onError(err.getMessage());
                         }
-                        datePickerText.setText(String.format("%d/%d/%d", dayOfMonth, dayOfMonth + 1, yearOfDecade));
+                        datePickerText.setText(String.format("%d/%d/%d", dayOfMonth, monthOfYear + 1, yearOfDecade));
 
                         }
                 }, year, month, day);
