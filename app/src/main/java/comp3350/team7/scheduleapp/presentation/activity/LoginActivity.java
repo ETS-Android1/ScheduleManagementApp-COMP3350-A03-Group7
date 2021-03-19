@@ -9,8 +9,10 @@ import android.widget.*;
 
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.application.DbServiceProvider;
+import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.application.ultil.DbHelper;
 import comp3350.team7.scheduleapp.logic.UserValidator;
+import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 
 import static android.widget.Toast.*;
@@ -65,10 +67,11 @@ public class LoginActivity extends AppCompatActivity{
         getData();
 
         if(validator.validateLogin(userID, userPAC) != null){
+            UserClient.setUserId(userID);
             launchUserHomePage();
         }
         else{
-            Toast.makeText(LoginActivity.this, "Incorrect Username/Password.", LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Incorrect Username/Password", LENGTH_SHORT).show();
         }
     }
 }

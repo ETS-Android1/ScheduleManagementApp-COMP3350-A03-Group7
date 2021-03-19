@@ -24,7 +24,7 @@ public class EventTest {
         start.set(2021, 2, 5, 16, 30);
         Calendar end = Calendar.getInstance();
         start.set(2021, 2, 5, 16, 30);
-        testEvent = new Event("Test Event", "This is a test event", start, end);
+        testEvent = new Event("username","Test Event", "This is a test event", start, end);
     }
     @After
     public void teardown() { testEvent = null; }

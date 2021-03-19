@@ -74,7 +74,7 @@ public class EventCreationActivity extends BaseActivity {
                         //if (yearOfDecade >= year && monthOfYear >= month && dayOfMonth >= day) {
                            // if(yearOfDecade == year && monthOfYear == month && dayOfMonth ==day)
                                 //isDateSetOnSameDay= true;
-                            ourCalendar.set(year, month + 1, dayOfMonth);
+                            ourCalendar.set(yearOfDecade, monthOfYear, dayOfMonth);
                             datePickerText.setText(String.format("%d/%d/%d", dayOfMonth, month + 1, year));
                           //  isDateValid = true;
                        /* } else {
@@ -101,7 +101,7 @@ public class EventCreationActivity extends BaseActivity {
                        // if(isDateValid){
                            // if (!isDateSetOnSameDay || hourOfDay >= hour && minuteOfSecond >= minute) {
                                 ourCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                                ourCalendar.set(Calendar.MINUTE, minute);
+                                ourCalendar.set(Calendar.MINUTE, minuteOfSecond);
                                 timePickerText.setText(String.format("%d:%d", hourOfDay, minuteOfSecond));
                                // isTimeValid = true;
                           /*  }
@@ -137,10 +137,10 @@ public class EventCreationActivity extends BaseActivity {
                     Log.d(TAG,error.getMessage());
                     onError(error.getMessage());
                 }
-
                 persistEventDetails(newEvent);
                 returnResult();
                 Log.d(TAG, "Saved");
+
             }
         });
     }

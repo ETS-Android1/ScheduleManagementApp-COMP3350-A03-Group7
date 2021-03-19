@@ -6,8 +6,7 @@ package comp3350.team7.scheduleapp.logic;
  */
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.times;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,11 +19,12 @@ public class EventControllerMockTest {
     @Before
     public void setUp(){
         eventPersistence = mock(EventPersistenceInterface.class);
+        eventController = new EventController(eventPersistence);
     }
 
 
     @Test
-    public testSortingEvent(){
+    public void testSortingEvent(){
 
     }
 

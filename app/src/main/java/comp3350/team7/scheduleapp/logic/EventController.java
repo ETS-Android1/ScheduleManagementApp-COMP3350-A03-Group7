@@ -54,7 +54,7 @@ public class EventController {
             eventPersistence.addEvent(newEvent);
         }catch (DbErrorException error) {
             Log.d(TAG,error.getMessage() + "Cause by" + error.getCause());
-            throw new EventControllerException("Something went wrong,fail to create event");
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + error.getMessage());
         }
         return newEvent;
     }
@@ -65,7 +65,8 @@ public class EventController {
             eventPersistence.addEvent(newEvent);
         } catch (DbErrorException error) {
             Log.d(TAG, error.getMessage() + "Cause by" + error.getCause());
-            throw new EventControllerException("Something went wrong,fail to create event");
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + error.getMessage());
+
         }
         return newEvent;
     }
@@ -78,7 +79,22 @@ public class EventController {
             eventList.sort(sortingStrategy);
         }catch (DbErrorException e){
             Log.d(TAG,e.getMessage() + "\n Cause by "+ e.getCause());
-            throw new EventControllerException("Something went wrong,fail to get event list");
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + e.getMessage());
+        }
+
+        return eventList;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public List<Event> getScheduleForUserOnDate(String username, Calendar date) throws EventControllerException{
+
+        List<Event> eventList =null;
+        try{
+            eventList = eventPersistence.getScheduleForUserOnDate(username,date);
+            eventList.sort(sortingStrategy);
+        }catch (DbErrorException e){
+            Log.d(TAG,e.getMessage() + "\n Cause by "+ e.getCause());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + e.getMessage());
         }
 
         return eventList;
@@ -91,10 +107,10 @@ public class EventController {
             eventPersistence.addEvent(e);
         }catch (InvalidEventException error) {
             Log.d(TAG, error.getMessage() + " ,Cause by : " + error.getCause());
-            throw new EventControllerException("Some thing went wrong: "+error.getMessage());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + error.getMessage());
         }catch (DbErrorException dbError){
             Log.d(TAG, dbError.getMessage() + " ,Cause by : " + dbError.getCause());
-            throw new EventControllerException("Some thing went wrong: "+dbError.getMessage());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + dbError.getMessage());
         }
 
     }
@@ -106,10 +122,10 @@ public class EventController {
             eventPersistence.removeEvent(e);
         }catch(InvalidEventException err){
             Log.d(TAG, err.getMessage() + " ,Cause by : " + err.getCause());
-            throw new EventControllerException("Some thing went wrong: "+ err.getMessage());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + err.getMessage());
         }catch(DbErrorException dbError){
             Log.d(TAG, dbError.getMessage() + " ,Cause by : " + dbError.getCause());
-            throw new EventControllerException("Some thing went wrong: "+dbError.getMessage());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + dbError.getMessage());
         }
 
     }
@@ -118,7 +134,7 @@ public class EventController {
            eventPersistence.removeEvent(username, eventId);
         }catch(DbErrorException dbError){
             Log.d(TAG, dbError.getMessage() + " ,Cause by : " + dbError.getCause());
-            throw new EventControllerException("Some thing went wrong: "+ dbError.getMessage());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + dbError.getMessage());
         }
     }
 
@@ -130,10 +146,10 @@ public class EventController {
             eventPersistence.updateEvent(old, fresh);
         }catch(InvalidEventException err){
             Log.d(TAG, err.getMessage() + " ,Cause by : " + err.getCause());
-            throw new EventControllerException("Some thing went wrong: "+ err.getMessage());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + err.getMessage());
         }catch(DbErrorException dbError){
             Log.d(TAG, dbError.getMessage() + " ,Cause by : " + dbError.getCause());
-            throw new EventControllerException("Some thing went wrong: "+dbError.getMessage());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + dbError.getMessage());
         }
     }
 
