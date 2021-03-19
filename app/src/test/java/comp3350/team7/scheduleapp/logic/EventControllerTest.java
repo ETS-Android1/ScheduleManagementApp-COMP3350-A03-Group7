@@ -9,6 +9,7 @@ import java.util.Calendar;
 
 import comp3350.team7.scheduleapp.logic.EventController;
 import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
+import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
 import comp3350.team7.scheduleapp.objects.Event;
 
@@ -26,6 +27,7 @@ public class EventControllerTest {
     private Calendar endTestDate;
     private Event testEvent;
     private Event finalTestEvent;
+    private int beforeCount, afterCount;
 
     @Before
     public void setup() {
@@ -33,8 +35,10 @@ public class EventControllerTest {
         startTestDate = Calendar.getInstance();
         endTestDate = Calendar.getInstance();
         endTestDate.add(Calendar.DATE, 5);
-        testEvent = new Event("sample event", "the description", startTestDate);
-        finalTestEvent = new Event("fresh sample event", "this is the fresh test description", startTestDate);
+        testEvent = new Event("username","sample event", "the description", startTestDate);
+        finalTestEvent = new Event("username","fresh sample event", "this is the fresh test description", startTestDate);
+        beforeCount = 0;
+        afterCount = 0;
     }
 
     @After
@@ -45,34 +49,37 @@ public class EventControllerTest {
     }
 
     @Test
-    public void testCreateEvent() {
+    public void testCreateEvent() throws EventControllerException {
         System.out.println("\nStarting testCreateEvent");
-        assertNotNull(eventController.CreateEvent("first test", "this is the first test description", startTestDate));
-        assertNotNull(eventController.CreateEvent("second test","this is the second test description", startTestDate, endTestDate));
-        assertNotNull(eventController.getEventList());
+        assertNotNull(eventController.CreateEvent("username","first test", "this is the first test description", startTestDate));
+        assertNotNull(eventController.CreateEvent("second test","second test","this is the second test description", startTestDate, endTestDate));
+        assertNotNull(eventController.getEventList("username"));
         System.out.println("\nFinish testCreateEvent");
     }
 
     @Test
-    public void testAddEvent() throws InvalidEventException {
+    public void testAddEvent() throws InvalidEventException, EventControllerException {
         System.out.println("\nStarting testAddEvent");
         eventController.addEvent(testEvent);
         System.out.println("\nFinish testAddEvent");
     }
 
     @Test
-    public void testRemoveEvent() throws InvalidEventException {
+    public void testRemoveEvent() throws EventControllerException {
         System.out.println("\nStarting testRemoveEvent");
         eventController.addEvent(testEvent);
-        assertNotNull(eventController.removeEvent(testEvent));
+        beforeCount = (eventController.getEventList("username")).size();
+        eventController.removeEvent(testEvent);
+        afterCount = (eventController.getEventList("username")).size();
+        assertNotEquals(beforeCount, afterCount);
         System.out.println("\nFinish testRemoveEvent");
     }
 
     @Test
-    public void testRemoveByIndex() throws DbErrorException {
+    public void testRemoveByIndex() throws EventControllerException {
         System.out.println("\nStarting testRemoveByIndex");
-        eventController.removeEvent(1);
-        assertNotNull(eventController.getEventList());
+        eventController.removeEvent("username",1);
+        assertNotNull(eventController.getEventList("username"));
         System.out.println("\nFinish testRemoveByIndex");
     }
 
@@ -90,16 +97,19 @@ public class EventControllerTest {
     public void testRemoveEventInvalidPosition() {
         System.out.println("\nStarting testRemoveEventInvalidPosition");
         assertThrows(IndexOutOfBoundsException.class,()-> {
-            eventController.removeEvent(30);
+            eventController.removeEvent("username",30);
         });
         System.out.println("\nFinish testRemoveEventInvalidPosition");
     }
 
     @Test
-    public void testUpdateEvent() throws InvalidEventException {
+    public void testUpdateEvent() throws EventControllerException {
         System.out.println("\nStarting testUpdateEvent");
         eventController.addEvent(testEvent);
-        assertNotNull(eventController.updateEvent(testEvent,finalTestEvent));
+        beforeCount = (eventController.getEventList("username")).size();
+        eventController.updateEvent(testEvent,finalTestEvent);
+        afterCount = (eventController.getEventList("username")).size();
+        assertEquals(beforeCount, afterCount);
         System.out.println("\nFinishing testUpdateEvent");
     }
 
