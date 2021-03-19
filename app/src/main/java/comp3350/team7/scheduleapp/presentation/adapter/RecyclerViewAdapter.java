@@ -18,10 +18,7 @@ import java.util.List;
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.EventController;
-import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
-import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
-import comp3350.team7.scheduleapp.logic.logTag.TAG;
 import comp3350.team7.scheduleapp.objects.Event;
 
 /*

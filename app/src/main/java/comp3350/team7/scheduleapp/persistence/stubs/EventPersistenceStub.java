@@ -111,6 +111,11 @@ public class EventPersistenceStub implements EventPersistenceInterface {
     }
 
     @Override
+    public void addEventNoEnd(Event newEvent) throws DbErrorException {
+        eventList.add(newEvent);
+    }
+
+    @Override
     public void removeEvent(Event e) throws DbErrorException {
         int index = eventList.indexOf(e);
         if (index < 0) {
