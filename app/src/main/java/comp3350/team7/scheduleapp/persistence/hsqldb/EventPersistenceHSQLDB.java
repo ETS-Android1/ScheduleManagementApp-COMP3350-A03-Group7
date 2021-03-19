@@ -94,7 +94,9 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     public void addEvent(Event newEvent) throws DbErrorException {
         try(final Connection c = connection()) {
             final PreparedStatement msg = c.prepareStatement(
-                    "INSERT INTO EVENTS(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    "INSERT INTO EVENTS(USERID, TITLE, DESCRIPTION, STARTYEAR, STARTMONTH, STARTDAY, STARTHOUR, " +
+                            "STARTMINUTE, ENDYEAR, ENDMONTH, ENDDAY, ENDHOUR, ENDMINUTE) " +
+                            "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             msg.setString(1, newEvent.getUserName());
             msg.setString(2, newEvent.getTitle());
             msg.setString(3, newEvent.getDescription());
