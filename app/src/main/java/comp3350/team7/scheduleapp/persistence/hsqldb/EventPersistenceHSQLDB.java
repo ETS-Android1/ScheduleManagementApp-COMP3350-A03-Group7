@@ -52,7 +52,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
         final Event eventExists;
 
         try(final Connection c = connection()) {
-            final PreparedStatement msg = c.prepareStatement("SELECT * FROM Event WHERE eventID = ? AND userName = ?");
+            final PreparedStatement msg = c.prepareStatement("SELECT * FROM EVENTS WHERE EVENTID = ? AND USERID = ?");
             msg.setInt(1, eventID);
             msg.setString(2,userid);
 
@@ -74,7 +74,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
         final List<Event> events = new ArrayList<>();
 
         try(final Connection c =  connection()) {
-            final PreparedStatement msg = c.prepareStatement("SELECT * FROM Events WHERE userID =?");
+            final PreparedStatement msg = c.prepareStatement("SELECT * FROM EVENTS WHERE USERID =?");
             msg.setString(1,userid);
             final ResultSet rs =  msg.executeQuery();
             while(rs.next()) {
@@ -94,7 +94,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     public void addEvent(Event newEvent) throws DbErrorException {
         try(final Connection c = connection()) {
             final PreparedStatement msg = c.prepareStatement(
-                    "INSERT INTO Events VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, )");
+                    "INSERT INTO EVENTS VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, )");
             msg.setString(1, newEvent.getUserName());
             msg.setString(2, newEvent.getTitle());
             msg.setString(3, newEvent.getDescription());
@@ -119,7 +119,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     @Override
     public void removeEvent(Event e) throws DbErrorException {
         try(final Connection c = connection()){
-            final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ? AND userID = ?");
+            final PreparedStatement msg = c.prepareStatement("DELETE FROM EVENTS WHERE EVENTID = ? AND USERID = ?");
             msg.setInt(1, e.getID());
             msg.setString(2,e.getUserName());
             msg.executeUpdate();
@@ -132,7 +132,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     @Override
     public void removeEvent(String userid,int eventId) throws DbErrorException {
         try(final Connection c = connection()){
-            final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ? AND userID = ?");
+            final PreparedStatement msg = c.prepareStatement("DELETE FROM EVENTS WHERE EVENTID = ? AND USERID = ?");
             msg.setInt(1, eventId);
             msg.setString(2,userid);
             msg.executeUpdate();
@@ -146,9 +146,9 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     public Event updateEvent(Event old, Event fresh) throws DbErrorException {
         try (final Connection connection = connection()) {
             final PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE Events SET title = ?, description = ?, startYear = ?, startMonth = ?, " +
-                            "startDay = ?, startHour = ?, startMinute = ?, endYear = ?, endMonth = ?, " +
-                            "endDay = ?, endHour = ?, endMinute = ? WHERE userID = ? AND eventID = ?");
+                    "UPDATE EVENTS SET TITLE = ?, DESCRIPTION = ?, STARTYEAR = ?, STARTMONTH = ?, " +
+                            "STARTDAY = ?, STARTHOUR = ?, STARTMINUTE = ?, ENDYEAR = ?, ENDMONTH = ?, " +
+                            "ENDDAY = ?, ENDHOUR = ?, ENDMINUTE = ? WHERE USERID = ? AND EVENTID = ?");
             statement.setString(1,fresh.getTitle());
             statement.setString(2, fresh.getDescription());
             statement.setInt(3, fresh.getEventStart().get(Calendar.YEAR));
@@ -183,7 +183,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
 
         try(final Connection c = connection()) {
             final PreparedStatement msg = c.prepareStatement(
-                    "SELECT * FROM Events WHERE userID = ? AND startYear = ? AND startMONTH = ? AND startDay = ?)");
+                    "SELECT * FROM EVENTS WHERE USERID = ? AND STARYEAR = ? AND STARTMONTH = ? AND STARTDAY = ?)");
             msg.setString(1, username);
             msg.setInt(2, year);
             msg.setInt(2, month);

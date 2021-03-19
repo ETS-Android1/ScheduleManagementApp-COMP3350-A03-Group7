@@ -40,7 +40,7 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
 
         try(final Connection c =  connection()) {
             final Statement msg = c.createStatement();
-            final ResultSet rs =  msg.executeQuery("SELECT * FROM Users");
+            final ResultSet rs =  msg.executeQuery("SELECT * FROM USERS");
             while(rs.next()) {
                 final User user = fromResultSet(rs);
                 users.add(user);
@@ -59,7 +59,7 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
         final User userExists;
 
         try(final Connection c = connection()) {
-            final PreparedStatement msg = c.prepareStatement("SELECT * FROM Users WHERE userID = ?");
+            final PreparedStatement msg = c.prepareStatement("SELECT * FROM USERS WHERE USERID = ?");
             msg.setString(1, username);
 
             final ResultSet rs = msg.executeQuery();
@@ -78,7 +78,7 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
     @Override
     public User addUser(User newUser) throws UserDBException {
         try(final Connection c = connection()) {
-            final PreparedStatement msg = c.prepareStatement("INSERT INTO Users VALUES(?,?,?,?)");
+            final PreparedStatement msg = c.prepareStatement("INSERT INTO USERS VALUES(?,?,?,?)");
             msg.setString(1, newUser.getUserId());
             msg.setString(2, newUser.getPassword());
             msg.setString(3, newUser.getFirstName());
@@ -95,7 +95,7 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
     @Override
     public void deleteUser(User user) throws UserDBException {
         try(final Connection c = connection()){
-            final PreparedStatement msg = c.prepareStatement("DELETE FROM Users WHERE userID = ?");
+            final PreparedStatement msg = c.prepareStatement("DELETE FROM USER WHERE USERID = ?");
             msg.setString(1, user.getUserId());
             msg.executeUpdate();
 
