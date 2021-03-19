@@ -36,11 +36,10 @@ The retrospective has made us realize that we needed to think the features thoro
 
 Design Patterns
 ------
-+ [Decorator Pattern](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/development/app/src/main/java/comp3350/team7/scheduleapp/persistence/hsqldb/UserDBException.java)
++ [Decorator Pattern](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/development/app/src/main/java/comp3350/team7/scheduleapp/logic/exceptions/base/UserDBException.java)
 + [Singleton Pattern](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/development/app/src/main/java/comp3350/team7/scheduleapp/logic/UserValidator.java)
 + [Factory Pattern](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/development/app/src/main/java/comp3350/team7/scheduleapp/persistence/EventPersistenceInterface.java)
 + [Composition](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/development/app/src/main/java/comp3350/team7/scheduleapp/presentation/activity/LoginActivity.java)
-+ [Null object](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/development/app/src/main/java/comp3350/team7/scheduleapp/Application/Services.java)
 + [Dependency Injection](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/development/app/src/main/java/comp3350/team7/scheduleapp/logic/UserValidator.java)
 
 Iteration 1 Feedback fixes
