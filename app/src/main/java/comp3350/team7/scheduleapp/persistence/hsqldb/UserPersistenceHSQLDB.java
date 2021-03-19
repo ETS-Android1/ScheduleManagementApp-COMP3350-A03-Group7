@@ -82,7 +82,7 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
     @Override
     public User addUser(User newUser) throws UserDBException {
         try(final Connection c = connection()) {
-            final PreparedStatement msg = c.prepareStatement("INSERT INTO USERS VALUES(?,?,?,?)");
+            final PreparedStatement msg = c.prepareStatement("INSERT INTO USERS(?,?,?,?)");
             msg.setString(1, newUser.getUserId());
             msg.setString(2, newUser.getPassword());
             msg.setString(3, newUser.getFirstName());
