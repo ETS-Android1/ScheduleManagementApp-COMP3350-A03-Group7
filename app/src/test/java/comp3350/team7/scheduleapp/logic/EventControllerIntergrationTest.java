@@ -34,7 +34,7 @@ public class EventControllerIntergrationTest {
     public void setUp() throws IOException {
         this.tempDb = TestHelper.cloneDb();
         this.eventPersistence = new EventPersistenceHSQLDB(this.tempDb.getAbsolutePath().replace(".script", ""));
-        eventController = new EventController(eventPersistence, "username");
+        eventController = new EventController(eventPersistence);
         testStartDate = Calendar.getInstance();
         testStartDate.set(2021,8,9);
         testEndDate = Calendar.getInstance();
