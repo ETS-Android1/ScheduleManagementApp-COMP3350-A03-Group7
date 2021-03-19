@@ -8,7 +8,9 @@ package comp3350.team7.scheduleapp.Helper;
 import java.io.File;
 import java.io.IOException;
 import com.google.common.io.Files;
-import comp3350.team7.scheduleapp.Application.Main;
+
+import comp3350.team7.scheduleapp.application.Main;
+
 public class TestHelper {
     private static final File dbScript = new File("src/main/assets/db/schedule.script");
 
