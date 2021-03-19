@@ -15,7 +15,7 @@ public class UserValidator {
     private static UserValidator validatorInstance;
 
     //DIP
-    public UserValidator(UserPersistenceInterface dbStub) {
+    private UserValidator(UserPersistenceInterface dbStub) {
         userDB = dbStub;
     }
 
@@ -63,7 +63,7 @@ public class UserValidator {
     public static User validateLogin(String userID, String password)  {
         try {
             User user = userDB.getUser(userID);
-            if (user.getPassword() != password) {
+            if (! user.getPassword().equals(password)) {
                 user = null;
             }
             return user;

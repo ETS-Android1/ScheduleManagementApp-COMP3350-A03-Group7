@@ -52,7 +52,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
         final Event eventExists;
 
         try(final Connection c = connection()) {
-            final PreparedStatement msg = c.prepareStatement("SELECT * FROM Event WHERE eventID = ? AND userName = ?");
+            final PreparedStatement msg = c.prepareStatement("SELECT * FROM EVENTS WHERE eventID = ? AND userName = ?");
             msg.setInt(1, eventID);
             msg.setString(2,userid);
 
@@ -74,7 +74,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
         final List<Event> events = new ArrayList<>();
 
         try(final Connection c =  connection()) {
-            final PreparedStatement msg = c.prepareStatement("SELECT * FROM Events WHERE userID =?");
+            final PreparedStatement msg = c.prepareStatement("SELECT * FROM EVENTS WHERE userID =?");
             msg.setString(1,userid);
             final ResultSet rs =  msg.executeQuery();
             while(rs.next()) {
@@ -119,7 +119,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     @Override
     public void removeEvent(Event e) throws DbErrorException {
         try(final Connection c = connection()){
-            final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ? AND userID = ?");
+            final PreparedStatement msg = c.prepareStatement("DELETE FROM EVENTS WHERE eventID = ? AND userID = ?");
             msg.setInt(1, e.getID());
             msg.setString(2,e.getUserName());
             msg.executeUpdate();
@@ -132,7 +132,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     @Override
     public void removeEvent(String userid,int eventId) throws DbErrorException {
         try(final Connection c = connection()){
-            final PreparedStatement msg = c.prepareStatement("DELETE FROM Events WHERE eventID = ? AND userID = ?");
+            final PreparedStatement msg = c.prepareStatement("DELETE FROM EVENTS WHERE eventID = ? AND userID = ?");
             msg.setInt(1, eventId);
             msg.setString(2,userid);
             msg.executeUpdate();
@@ -183,7 +183,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
 
         try(final Connection c = connection()) {
             final PreparedStatement msg = c.prepareStatement(
-                    "SELECT * FROM Events WHERE userID = ? AND startYear = ? AND startMONTH = ? AND startDay = ?)");
+                    "SELECT * FROM EVENTS WHERE USERID = ? AND  STARTYEAR = ? AND STARTMONTH = ? AND STARTDAY = ?)");
             msg.setString(1, username);
             msg.setInt(2, year);
             msg.setInt(2, month);

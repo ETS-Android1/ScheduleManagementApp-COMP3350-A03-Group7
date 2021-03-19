@@ -5,11 +5,14 @@ package comp3350.team7.scheduleapp.Application;
  *
  */
 
+import android.util.Log;
+
 public class Main {
+    private static final String TAG = "Main";
     private static String userDBName = "schedule";
-    private static String mode = "developement";
+    private static String mode = "production";
     public static void Main(String[] args){
-        System.out.println("Booting up Schedule Management Application.");
+        Log.d(TAG,"Booting up Schedule Management Application");
         //run app
     }
 

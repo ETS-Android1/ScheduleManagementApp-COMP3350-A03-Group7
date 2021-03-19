@@ -38,6 +38,7 @@ dependencies {
     implementation files('libs\\guava-annotations-r03.jar')
     implementation files('libs\\guava-base-r03.jar')
     implementation files('libs\\guava-io-r03.jar')
+    implementation group: 'org.hsqldb', name: 'hsqldb', version: '2.4.1'
     testImplementation 'junit:junit:4.+'
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '2.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
