@@ -20,5 +20,5 @@ public interface EventPersistenceInterface {
     Event updateEvent(Event old, Event fresh) throws DbErrorException;
     List<Event> getScheduleForUserOnDate(String username, Calendar date) throws DbErrorException;
 
-    int getEventListLength(List<Event> eventList);
+    int getEventListLength();
 }

@@ -35,7 +35,7 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
 
 
     @Override
-    public List<User> getUserDB() {
+    public List<User> getUserDB() throws UserDBException {
         final List<User> users = new ArrayList<>();
 
         try(final Connection c =  connection()) {
@@ -50,12 +50,12 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
 
             return users;
         }catch (final SQLException e){
-            throw new UserDBException(e);
+            throw new UserDBException("Fail to get users from database", e);
         }
     }
 
     @Override
-    public User getUser(String username) {
+    public User getUser(String username) throws UserDBException {
         final User userExists;
 
         try(final Connection c = connection()) {
@@ -71,12 +71,12 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
 
             return userExists;
         }catch (final SQLException e){
-            throw new UserDBException(e);
+            throw new UserDBException("Fail to get user: " + username + "from database",e);
         }
     }
 
     @Override
-    public User addUser(User newUser) {
+    public User addUser(User newUser) throws UserDBException {
         try(final Connection c = connection()) {
             final PreparedStatement msg = c.prepareStatement("INSERT INTO Users VALUES(?,?,?,?)");
             msg.setString(1, newUser.getUserId());
@@ -93,14 +93,14 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
     }
 
     @Override
-    public void deleteUser(User user) {
+    public void deleteUser(User user) throws UserDBException {
         try(final Connection c = connection()){
             final PreparedStatement msg = c.prepareStatement("DELETE FROM Users WHERE userID = ?");
             msg.setString(1, user.getUserId());
             msg.executeUpdate();
 
         }catch (final SQLException e){
-            throw new UserDBException("Invalid User.",e);
+            throw new UserDBException(user.toString() + "doesn't exits in database",e);
         }
     }
 }

@@ -1,6 +1,5 @@
 package comp3350.team7.scheduleapp.objects;
 
-import java.lang.*;
 import comp3350.team7.scheduleapp.logic.UserValidator;
 
 public class User {
@@ -29,14 +28,15 @@ public class User {
         return password;
     }
 
+
     public void setPassword(String password) {
-        
-        if(UserValidator.passwordLengthCheck(password)){
+
+        if (UserValidator.passwordLengthCheck(password)) {
             this.password = password;
-        } else{
+        } else {
             System.out.println("Passwords must be 8 to 16 characters");
         }
-        
+
     }
 
     public String getFirstName() {
@@ -55,4 +55,14 @@ public class User {
         this.lastName = lastName;
     }
 
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId='" + userId + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+
+    }
 }

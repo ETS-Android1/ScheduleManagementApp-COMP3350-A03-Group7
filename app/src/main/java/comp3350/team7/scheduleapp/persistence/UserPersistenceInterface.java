@@ -7,17 +7,18 @@ package comp3350.team7.scheduleapp.persistence;
 
 import java.util.List;
 
+import comp3350.team7.scheduleapp.logic.exceptions.UserDBException;
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 
 public interface UserPersistenceInterface {
-    
-   List<User> getUserDB() throws DbErrorException;
 
-   User addUser(User newUser) throws DbErrorException;
+   List<User> getUserDB() throws DbErrorException, UserDBException;
 
-   User getUser(String username) throws DbErrorException;
+   User addUser(User newUser) throws DbErrorException, UserDBException;
 
-   void deleteUser(User user) throws DbErrorException;
+   User getUser(String username) throws DbErrorException, UserDBException;
+
+   void deleteUser(User user) throws DbErrorException, UserDBException;
 
 }

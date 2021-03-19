@@ -119,7 +119,14 @@ public class Event extends AbstractEvent implements Parcelable {
         eventEnd = calendar;
     }
 
-
+    @Override
+    public String toString() {
+        return "Event{" +
+                "Event_id=" + Event_id +
+                ", Event_title='" + Event_title + '\'' +
+                ", eventStart=" + eventStart +
+                '}';
+    }
 
     /* Parceling process */
     protected Event(Parcel in) {
