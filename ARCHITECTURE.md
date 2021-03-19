@@ -81,7 +81,7 @@
 [RandomException](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/logic/exceptions/RandomException.java)
 - this is special, for creating fake database, use only to create random event in EventDbStub
 
-[UserDBException]() add link after push
+[UserDBException](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/logic/exceptions/UserDBException.java)
 - Custom Exception for when User input could not be matched to anything in the UserDatabase
 
 ### logTag
