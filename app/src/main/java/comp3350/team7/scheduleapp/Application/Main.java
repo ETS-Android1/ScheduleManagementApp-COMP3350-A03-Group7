@@ -1,5 +1,4 @@
-package comp3350.team7.scheduleapp.Application;
-
+package comp3350.team7.scheduleapp.application;
 /*
  * Created By Thai Tran on 10 March,2021
  *

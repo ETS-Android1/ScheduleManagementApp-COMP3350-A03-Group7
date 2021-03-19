@@ -7,7 +7,7 @@ import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 import comp3350.team7.scheduleapp.persistence.hsqldb.EventPersistenceHSQLDB;
 import comp3350.team7.scheduleapp.persistence.hsqldb.UserPersistenceHSQLDB;
-import comp3350.team7.scheduleapp.Application.Main;
+import comp3350.team7.scheduleapp.application.Main;
 
 import comp3350.team7.scheduleapp.persistence.stubs.EventPersistenceStub;
 import comp3350.team7.scheduleapp.persistence.stubs.UserPersistenceStub;

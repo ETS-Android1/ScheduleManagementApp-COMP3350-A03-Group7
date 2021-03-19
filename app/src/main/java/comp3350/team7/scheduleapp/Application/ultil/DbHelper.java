@@ -3,7 +3,7 @@ package comp3350.team7.scheduleapp.application.ultil;
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import comp3350.team7.scheduleapp.Application.Main;
+import comp3350.team7.scheduleapp.application.Main;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

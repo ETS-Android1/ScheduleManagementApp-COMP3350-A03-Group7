@@ -30,6 +30,8 @@ public class EventControllerIntergrationTest {
     private EventController eventController;
     private EventPersistenceInterface eventPersistence;
     private Calendar testStartDate, testEndDate;
+    private int countBefore, countAfter;
+
     @Before
     public void setUp() throws IOException {
         this.tempDb = TestHelper.cloneDb();
@@ -39,6 +41,8 @@ public class EventControllerIntergrationTest {
         testStartDate.set(2021,8,9);
         testEndDate = Calendar.getInstance();
         testEndDate.set(2021,8,10);
+        countBefore = 0;
+        countAfter = 0;
     }
 
     @Test
@@ -84,9 +88,18 @@ public class EventControllerIntergrationTest {
     }
 
     @Test
-    public void testUpdateEvent(){
+    public void testUpdateEvent() throws EventControllerException {
         System.out.println("Starting testUpdateEvent");
-
+        final Event createdEvent4, createdEvent5;
+        List<Event> eventList;
+        assertNotNull(createdEvent4 = eventController.CreateEvent("username","UpdateEvent1", "this is a testing update", testStartDate));
+        assertNotNull(createdEvent5 = eventController.CreateEvent("username","UpdateEvent2", "this is test for update", testStartDate));
+        eventController.addEvent(createdEvent4);
+        eventList = eventController.getEventList("username");
+        countBefore = eventList.size();
+        eventController.updateEvent(createdEvent4, createdEvent5);
+        countAfter = (eventController.getEventList("username")).size();
+        assertEquals(countBefore, countAfter);
         System.out.println("Finished testUpdateEvent");
     }
 
