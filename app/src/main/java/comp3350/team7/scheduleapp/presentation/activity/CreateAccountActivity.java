@@ -10,6 +10,8 @@ import android.widget.*;
 
 import comp3350.team7.scheduleapp.Application.DbServicesProvider;
 import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.application.DbServiceProvider;
+import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.UserValidator;
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
@@ -41,7 +43,9 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
-        userDB = DbServicesProvider.getUserPersistence(); //can be replaced with  = new UserPersistenceStub() for testing
+        userDB = DbServiceProvider
+                .getInstance()
+                .getUserPersistence(); //can be replaced with  = new UserPersistenceStub() for testing
         validator = UserValidator.getValidatorInstance(userDB);
         getView();
     }
@@ -86,6 +90,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                     if(validator.isUniqueID(username)) {
 
                         newUser = new User(firstname, lastname, username, password);
+                        UserClient.setUser(newUser);
                         userDB.addUser(newUser);
                         makeText(CreateAccountActivity.this, "Account has been successfully created.", LENGTH_SHORT).show();
                         launchUserHomePage();
@@ -99,13 +104,13 @@ public class CreateAccountActivity extends AppCompatActivity {
                 if(validator.userIDLengthCheck(username) == false){
                     makeText(CreateAccountActivity.this, "UserID must be 8-16 characters.", LENGTH_SHORT).show();
                 }
-                if(validator.passwordLengthCheck(password) == false){ 
+                if(validator.passwordLengthCheck(password) == false){
                     makeText(CreateAccountActivity.this, "Password must be 8-16 characters.", LENGTH_SHORT).show();
                 }
 
             }
         }//end if validInput
-        
+
         else{ makeText(CreateAccountActivity.this, "Please Enter all required fields.", LENGTH_SHORT).show();}
 
     } //end createOnclick
