@@ -36,6 +36,22 @@ public class Event extends AbstractEvent implements Parcelable {
         setUserName(username);
 
     }
+    public Event(String username,String title, String description, Calendar eventStart, Calendar eventEnd) {
+        setTitle(title);
+        setDescription(description);
+        setStart(eventStart);
+        setEnd(eventEnd);
+        setUserName(username);
+
+    }
+    public Event(String username, String title, String description, Calendar eventStart) {
+        setTitle(title);
+        setDescription(description);
+        setStart(eventStart);
+        setEnd(null);
+        setUserName(username);
+
+    }
 
 
     public String getUserName(){

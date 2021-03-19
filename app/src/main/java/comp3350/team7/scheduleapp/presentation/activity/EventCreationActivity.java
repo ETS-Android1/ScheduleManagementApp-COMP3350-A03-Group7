@@ -19,6 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.EventValidator;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
 import comp3350.team7.scheduleapp.logic.logTag.TAG;
@@ -163,7 +164,7 @@ public class EventCreationActivity extends BaseActivity {
 
     private void returnResult() {
 
-        Event newUserEvent = new Event(User.getUserId(), eventNameText.getText().toString(), "description", ourCalendar);
+        Event newUserEvent = new Event(UserClient.getUser(),eventNameText.getText().toString(), "description", ourCalendar);
         Intent i = new Intent(EventCreationActivity.this,ScrollingActivity.class);
         i.putExtra("RETURN_DATA", newUserEvent);
 
