@@ -12,10 +12,10 @@ import comp3350.team7.scheduleapp.persistence.stubs.UserPersistenceStub;
 
 public class UserValidatorTest {
     public static UserValidator validatorTester;
-    
+
     @Before
     public void setup(){
-        validatorTester = new UserValidator(new UserPersistenceStub());
+        validatorTester = UserValidator.getValidatorInstance(new UserPersistenceStub());
     }
 
     @After
@@ -44,9 +44,9 @@ public class UserValidatorTest {
         String password = "TestMe";
         String confirmPassword = "TestMe";
 
-        
+
         System.out.println("\nStarting validateInput_Is_False Test.");
-        assertFalse("Expecting an empty User input", validatorTester.validateInput(firstname, lastname, username, password, confirmPassword));        
+        assertFalse("Expecting an empty User input", validatorTester.validateInput(firstname, lastname, username, password, confirmPassword));
         System.out.println("Finished validateInput_Is_False Test.");
     }
 
@@ -120,11 +120,11 @@ public class UserValidatorTest {
     @Test
     public void passwordLengthCheck_is_False(){
         String password1 = "PasswordIsTooLong";
-        String password2 = "12345"
+        String password2 = "12345";
 
         System.out.println("\nStarting passwordLengthCheck_is_False Test.");
-        assertFalse("Expecting false for password = 'PasswordIsTooLong'.", validatorTester.passwordLengthCheck(password));
-        assertFalse("Expecting false for password = '12345'.", validatorTester.passwordLengthCheck(password));
+        assertFalse("Expecting false for password = 'PasswordIsTooLong'.", validatorTester.passwordLengthCheck(password1));
+        assertFalse("Expecting false for password = '12345'.", validatorTester.passwordLengthCheck(password2));
         System.out.println("Finished passwordLengthCheck_is_False Test.");
     }
 }
