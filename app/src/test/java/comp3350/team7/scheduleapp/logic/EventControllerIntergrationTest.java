@@ -17,9 +17,6 @@ import comp3350.team7.scheduleapp.persistence.hsqldb.EventPersistenceHSQLDB;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 /*
  * Created By Thai Tran on 18 March,2021
  *
