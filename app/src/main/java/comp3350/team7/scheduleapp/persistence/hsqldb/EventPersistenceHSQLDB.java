@@ -50,7 +50,6 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     @Override
     public Event getEvent(String userid, int eventID) throws DbErrorException{
         final Event eventExists;
-
         try(final Connection c = connection()) {
             final PreparedStatement msg = c.prepareStatement("SELECT * FROM EVENTS WHERE EVENTID = ? AND USERID = ?");
             msg.setInt(1, eventID);
@@ -105,11 +104,14 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
             msg.setInt(6, newEvent.getEventStart().get(Calendar.DATE));
             msg.setInt(7, newEvent.getEventStart().get(Calendar.HOUR));
             msg.setInt(8, newEvent.getEventStart().get(Calendar.MINUTE));
-            msg.setInt(9, newEvent.getEventEnd().get(Calendar.YEAR));
-            msg.setInt(10, newEvent.getEventEnd().get(Calendar.MONTH));
-            msg.setInt(11, newEvent.getEventEnd().get(Calendar.DATE));
-            msg.setInt(12, newEvent.getEventEnd().get(Calendar.HOUR));
-            msg.setInt(13, newEvent.getEventEnd().get(Calendar.MINUTE));
+            if(newEvent.getEventEnd()!=null ) {
+                msg.setInt(9, newEvent.getEventEnd().get(Calendar.YEAR));
+                msg.setInt(10, newEvent.getEventEnd().get(Calendar.MONTH));
+                msg.setInt(11, newEvent.getEventEnd().get(Calendar.DATE));
+                msg.setInt(12, newEvent.getEventEnd().get(Calendar.HOUR));
+                msg.setInt(13, newEvent.getEventEnd().get(Calendar.MINUTE));
+
+            }
 
             msg.executeUpdate();
 

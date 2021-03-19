@@ -132,15 +132,15 @@ public class EventCreationActivity extends BaseActivity {
                 Event newEvent = new Event(UserClient.getUserId(),eventNameText.getText().toString(), "description", ourCalendar);
                 try {
                     EventValidator.validate(newEvent);
-
+                    persistEventDetails(newEvent);
+                    returnResult();
+                    Log.d(TAG, "Saved");
                 }catch(InvalidEventException error) {
                     Log.d(TAG,error.getMessage());
                     onError(error.getMessage());
                 }
 
-                persistEventDetails(newEvent);
-                returnResult();
-                Log.d(TAG, "Saved");
+
             }
         });
     }
