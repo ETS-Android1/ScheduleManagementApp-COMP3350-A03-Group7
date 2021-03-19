@@ -48,11 +48,11 @@
     - validation for an event 
 - [logic/SORTNAME](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/logic/SORTNAME.java)
     - enum class, contains many way of sorting we want to use 
-- [logic/UserValidator]() add link after push
+- [logic/UserValidator](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/logic/UserValidator.java)
     - Used to validate any user input from LoginActivity and CreateAccountActivity
     - accepts any implementation of the UserPersistenceInterface
     - Checks if the User is a valid User in the Database
--[logic/ScheduleController]() add link after push
+-[logic/ScheduleController]()
     - Accepts any implementation of SchedulePersistenceInterface
     - Gets the Schedule for the user on the selected date
    
@@ -92,12 +92,12 @@
 - so when we see the log file, we know where log message come from  
 
 ## Application
-[Main]() add link later
+[Main](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/Application/Main.java)
 - holds the db file path name
 - Can instantiate new databases files at a given path
 - returns the path to the db file
 
-[DbServiceProvider]() add link later
+[DbServiceProvider](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/Application/DbServiceProvider.java)
 - Singleton instantiation of the Databases
     - User Database
     - Schedule Database
@@ -116,28 +116,28 @@
 - Stub with concrete information
 - Used for integration testing of the Event Database
 
-[EventPersistenceHSQLDB]() add link after push
+[EventPersistenceHSQLDB](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/persistence/hsqldb/EventPersistenceHSQLDB.java)
 - Actual HSQLDB Implementation for EventPersistence
 - Persistent database that saves into a database file in Assets/db
 
-[UserPersistenceInterface]() add link after push
+[UserPersistenceInterface](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/persistence/UserPersistenceInterface.java)
 - Design by contract for all UserPersistence implementation
 
-[UserPersistenceStub]() add link after push
+[UserPersistenceStub](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/persistence/stubs/UserPersistenceStub.java)
 - Stub that contains 4 entries (the memebers of Group 7)
 - Used for Integration testing
 
-[UserPersistenceHSQLDB]() add link after push
+[UserPersistenceHSQLDB](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/persistence/hsqldb/UserPersistenceHSQLDB.java)
 - Actual HSQLDB Implementation for UserPersistence
 - Persistent database that saves into a database file in Assets/db
 
-[SchedulePersistenceInterface]() add link after push
+[SchedulePersistenceInterface]()
 - Design by contract for all implementations of SchedulePersistence
 
-[SchedulePersistenceStub]() Add link after push to master
+[SchedulePersistenceStub]()
 - Fake Implementation of a Schedule Database/Persistence
 - Used for Integration testing of SchedulePersistence
 
-[SchedulePersistenceHSQLDB]()add link after push
+[SchedulePersistenceHSQLDB]()
 - Actual HSQLDB Implementation for SchedulePersistence
 - Persistent database that saves into a database file in Assets/db
