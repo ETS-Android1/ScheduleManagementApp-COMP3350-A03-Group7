@@ -93,8 +93,7 @@ public class CreateAccountActivity extends BaseActivity {
 
                     if(validator.isUniqueID(username)) {
 
-                        newUser = new User(firstname, lastname, username, password);
-                        UserClient.setUser(newUser);
+                        newUser = new User(firstname,lastname,username,password);
                         try{
                             userDB.addUser(newUser);
                         }catch( UserDBException err){
@@ -102,6 +101,7 @@ public class CreateAccountActivity extends BaseActivity {
                             err.printStackTrace();
                             onError(err.getMessage());
                         }
+
                         makeText(CreateAccountActivity.this, "Account has been successfully created.", LENGTH_SHORT).show();
                         launchUserHomePage();
 

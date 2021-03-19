@@ -63,8 +63,10 @@ public class UserValidator {
     public static User validateLogin(String userID, String password)  {
         try {
             User user = userDB.getUser(userID);
-            if (! user.getPassword().equals(password)) {
-                user = null;
+            if (user!=null){
+                if (! user.getPassword().equals(password)) {
+                    user = null;
+                }
             }
             return user;
         } catch (UserDBException err) {
