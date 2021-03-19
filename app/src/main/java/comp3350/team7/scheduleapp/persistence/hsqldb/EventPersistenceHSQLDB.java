@@ -118,6 +118,28 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
         }
     }
 
+    public void addEventNoEnd(Event newEvent) throws DbErrorException {
+        try(final Connection c = connection()) {
+            final PreparedStatement msg = c.prepareStatement(
+                    "INSERT INTO EVENTS(EVENTID, USERID, TITLE, DESCRIPTION, STARTYEAR, STARTMONTH, STARTDAY, STARTHOUR, " +
+                            "STARTMINUTE, ENDYEAR, ENDMONTH, ENDDAY, ENDHOUR, ENDMINUTE) " +
+                            "VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, NULL, NULL)");
+            msg.setString(1, newEvent.getUserName());
+            msg.setString(2, newEvent.getTitle());
+            msg.setString(3, newEvent.getDescription());
+            msg.setInt(4, newEvent.getEventStart().get(Calendar.YEAR));
+            msg.setInt(5, newEvent.getEventStart().get(Calendar.MONTH));
+            msg.setInt(6, newEvent.getEventStart().get(Calendar.DATE));
+            msg.setInt(7, newEvent.getEventStart().get(Calendar.HOUR));
+            msg.setInt(8, newEvent.getEventStart().get(Calendar.MINUTE));
+
+            msg.executeUpdate();
+
+        }catch (final SQLException e){
+            throw new DbErrorException("Fail to add event to the database",e);
+        }
+    }
+
     @Override
     public void removeEvent(Event e) throws DbErrorException {
         try(final Connection c = connection()){
