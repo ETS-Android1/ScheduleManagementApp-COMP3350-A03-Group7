@@ -7,39 +7,47 @@
     android:layout_height="100dp"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/backGround"
         android:layout_width="match_parent"
         android:layout_height="280dp"
         android:background="@android:color/holo_green_dark">
 
-        <ImageView
-            android:id="@+id/check_icon"
-            android:layout_width="@dimen/ic_delete"
-            android:layout_height="@dimen/ic_delete"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/padd_10"
-            android:layout_marginRight="@dimen/padd_10"
-            android:contentDescription="@string/imageDescription"
-            android:src="@drawable/round_check_circle_outline_white_24dp" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toBottomOf="@+id/check_icon"
+            app:layout_constraintTop_toBottomOf="@+id/check_icon">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/padd_10"
-            android:layout_marginRight="@dimen/padd_10"
-            android:layout_toStartOf="@id/check_icon"
-            android:layout_toLeftOf="@id/check_icon"
-            android:text="@string/done"
-            android:textColor="#fff"
-            android:textSize="12sp" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="38dp"
+                android:layout_height="23dp"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="380dp"
+                android:layout_marginRight="380dp"
+                android:text="@string/done"
+                android:textColor="#fff"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@+id/check_icon"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/check_icon"
+                android:layout_width="75dp"
+                android:layout_height="63dp"
+                android:layout_marginStart="452dp"
+                android:layout_marginLeft="452dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/imageDescription"
+                android:src="@drawable/round_check_circle_outline_white_24dp"
+                app:layout_constraintStart_toEndOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.cardview.widget.CardView
+    </FrameLayout>
+
+    <FrameLayout
         android:id="@+id/foreGround"
         android:layout_width="match_parent"
         android:layout_height="280dp">
@@ -61,7 +69,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/textView4"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.016" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -83,11 +91,11 @@
                 android:layout_height="179dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.99" />
+                app:layout_constraintVertical_bias="0.683" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
+    </FrameLayout>
 </FrameLayout>

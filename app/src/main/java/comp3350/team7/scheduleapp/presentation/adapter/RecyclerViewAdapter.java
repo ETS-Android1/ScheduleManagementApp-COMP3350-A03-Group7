@@ -71,11 +71,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.textView3.setText(event.getTitle());
             holder.textView4.setText(event.getEventStartToString());
             holder.description.setText(event.getDescription());
-            /* TODO: 2021-03-15
-             * implement remind time in event class
-             *
-             */
-            /*((MyViewHolder) holder).remindMe.setText(event.getRemindTime()); */
 
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
