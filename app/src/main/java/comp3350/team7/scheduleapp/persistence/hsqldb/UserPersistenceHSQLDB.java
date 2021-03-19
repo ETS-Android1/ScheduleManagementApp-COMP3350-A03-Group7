@@ -64,7 +64,10 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
 
             final ResultSet rs = msg.executeQuery();
 
-            userExists = fromResultSet(rs);
+            if(rs.getFetchSize() < 1)
+                userExists = null;
+            else
+                userExists = fromResultSet(rs);
 
             rs.close();
             msg.close();
