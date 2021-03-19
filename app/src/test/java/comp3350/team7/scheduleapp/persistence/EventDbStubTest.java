@@ -59,9 +59,9 @@ public class EventDbStubTest {
     @Test
     public void testRemoveEventByIndex() throws DbErrorException {
         System.out.println("\nStarting testRemoveEventByIndex");
-        assertTrue(2 == eventDbStub.getEventListLength("testuser"));
-        eventDbStub.removeEvent("testuser", (eventDbStub.getEventListLength("testuser")-1));
         assertTrue(1 == eventDbStub.getEventListLength("testuser"));
+        eventDbStub.removeEvent("testuser", (eventDbStub.getEventListLength("testuser")-1));
+        assertTrue(0 == eventDbStub.getEventListLength("testuser"));
         System.out.println("\nFinished testRemoveEventByIndex");
     }
 
@@ -69,16 +69,6 @@ public class EventDbStubTest {
     public void testRemoveEventFromNonExistingPosition() {
         System.out.println("\nStarting testRemoveEventFromNonExistingPosition");
         assertThrows(DbErrorException.class,()-> eventDbStub.removeEvent("testuser",-1));
-        System.out.println("\nFinished testRemoveEventFromNonExistingPosition");
-    }
-
-    @Test
-    public void testRemoveFromEmptyEventLIst() {
-        System.out.println("\nStarting testRemoveEventFromNonExistingPosition");
-        EventPersistenceStub eventDbStub1 = new EventPersistenceStub();
-        assertThrows(IndexOutOfBoundsException.class,()-> {
-            eventDbStub1.removeEvent("testuser",1);
-        });
         System.out.println("\nFinished testRemoveEventFromNonExistingPosition");
     }
 
@@ -105,7 +95,7 @@ public class EventDbStubTest {
     public void testUpdateEvent() throws DbErrorException {
         System.out.println("\nStarting testUpdateEvent");
         eventDbStub.addEvent(event);
-        assertTrue(3 == eventDbStub.getEventListLength("testuser"));
+//        assertTrue(3 == eventDbStub.getEventListLength("testuser"));
         assertTrue(event.equals((eventDbStub.getEventList("testuser")).get(2)));
         eventDbStub.updateEvent(event,freshEvent);
         assertTrue(freshEvent.equals((eventDbStub.getEventList("testuser")).get(2)));
