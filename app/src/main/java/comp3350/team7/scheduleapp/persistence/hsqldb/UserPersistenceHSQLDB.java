@@ -56,18 +56,19 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
 
     @Override
     public User getUser(String username) throws UserDBException {
-        final User userExists;
+        User userExists =null;
 
         try(final Connection c = connection()) {
             final PreparedStatement msg = c.prepareStatement("SELECT * FROM USERS WHERE USERID = ?");
             msg.setString(1, username);
 
             final ResultSet rs = msg.executeQuery();
-
-            if(rs.getFetchSize() < 1)
+            if(rs.next())
+                userExists = fromResultSet(rs);
+            /*if(rs.getFetchSize() < 1)
                 userExists = null;
             else
-                userExists = fromResultSet(rs);
+                userExists = fromResultSet(rs);*/
 
             rs.close();
             msg.close();
