@@ -16,10 +16,12 @@ import comp3350.team7.scheduleapp.objects.Event;
 public class EventValidator {
     final static int maxTitleLength = 60;
     final static int maxDescriptionLength =120;
-    public static void valid(Event e) throws InvalidEventException {
-        if (e != null && e.getEventStart() != null && e.getDescription() != null && e.getTitle() != null &&
-                e.getUserName() != null) {
+    public static void validate(Event e) throws InvalidEventException {
+        if (e != null && e.getEventStart() != null && e.getDescription() != null
+                && e.getTitle() != null && e.getUserName() != null) {
+
             validateEventName(e.getTitle());
+            validateEventDescription(e.getDescription());
             if (e.getEventEnd() != null)
                 validateEventStartAndEndTime(e.getEventStart(), e.getEventEnd(), Calendar.getInstance());
             else {
@@ -64,7 +66,6 @@ public class EventValidator {
     public static void validateEventStartTime(Calendar eStart, Calendar now) throws InvalidEventException {
         if (!eStart.after(now))
             throw new InvalidEventException("Invalid Event Start Time");
-
 
     }
 

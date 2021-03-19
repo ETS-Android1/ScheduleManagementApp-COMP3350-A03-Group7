@@ -14,6 +14,9 @@ public class UserClient{
     public static User getUser(){
         return user;
     }
+    public static String getUserId(){
+        return user.getUserId();
+    }
     public static void setUser(User newUser){
        user= newUser;
     }

@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import java.util.List;
 
 import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.EventController;
+import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
 import comp3350.team7.scheduleapp.logic.logTag.TAG;
 import comp3350.team7.scheduleapp.objects.Event;
@@ -67,7 +69,13 @@ public class ScrollingActivity extends BaseActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void init() {
         eventController = new EventController();
-        eventList = eventController.getEventList();
+        try{
+            eventList = eventController.getEventList(UserClient.getUserId());
+        }catch (EventControllerException err){
+            Log.e(TAG,"Cause by: " + err.getCause());
+            err.printStackTrace();
+            onError(err.getMessage());
+        }
 
 
     }
@@ -115,28 +123,30 @@ public class ScrollingActivity extends BaseActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE && data != null) {
-                Log.d(TAG,"Got result back from CreateEvent");
-                Event returnEvent = data.getParcelableExtra("RETURN_DATA");
-                addEventAndUpdateView(adapter, returnEvent);
-                Toast.makeText(ScrollingActivity.this, "Event Object Received :" + returnEvent.getTitle()
-                        , Toast.LENGTH_LONG).show();
-
+                Log.d(TAG,"Got back from CreateEvent Activity");
+                //Event returnEvent = data.getParcelableExtra("RETURN_DATA");
+                UpdateView(adapter);
+                /*Toast.makeText(ScrollingActivity.this, "Event Object Received :" + returnEvent.getTitle()
+                        , Toast.LENGTH_LONG).show();*/
             }
         }
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void addEventAndUpdateView(RecyclerViewAdapter a, Event e) {
+    private void UpdateView(RecyclerViewAdapter a) {
+        List<Event> list;
         try {
-            eventController.addEvent(e);
-        } catch (InvalidEventException err) {
-            Log.e(TAG,err.getMessage());
+            list = eventController.getEventList(UserClient.getUserId());
+            // force redraw
+            a.setList(list);
+            recyclerView.setAdapter(a);
+        } catch ( EventControllerException err) {
+            Log.e(TAG,"Cause by: " + err.getCause());
             err.printStackTrace();
+            onError(err.getMessage());
         }
-        // force redraw
-        a.setList(eventController.getEventList());
 
-        recyclerView.setAdapter(a);
+
     }
 }

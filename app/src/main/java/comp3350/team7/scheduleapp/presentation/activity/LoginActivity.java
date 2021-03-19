@@ -7,11 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
-
-import comp3350.team7.scheduleapp.Application.DbServicesProvider;
 import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.application.DbServiceProvider;
 import comp3350.team7.scheduleapp.logic.UserValidator;
-import comp3350.team7.scheduleapp.persistence.UserPersistenceStub;
+import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 
 import static android.widget.Toast.*;
 
@@ -27,7 +26,9 @@ public class LoginActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        userDB = DbServicesProvider.getUserPersistence() //can be replaced with = new UserPersistenceStub() for testing
+        userDB = DbServiceProvider
+                .getInstance()
+                .getUserPersistence();
         validator = UserValidator.getValidatorInstance(userDB);          //line 30+31 is pretty much validator = new UserValidator(DbServicesProvicer.getUserPersistence());
                                                         //broken up for clarity.
         getView();

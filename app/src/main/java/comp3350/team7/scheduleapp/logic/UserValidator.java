@@ -2,10 +2,15 @@ package comp3350.team7.scheduleapp.logic;
 
 
 
+import android.util.Log;
+
+import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
+import comp3350.team7.scheduleapp.logic.exceptions.InvalidUserException;
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 
 public class UserValidator {
+    private static final String TAG = "UserValidator";
     private static UserPersistenceInterface userDB;
     private static UserValidator validatorInstance;
 
@@ -41,18 +46,22 @@ public class UserValidator {
         return isMatching;
     }
 
-    public static boolean isUniqueID(String userID){
+    public static boolean isUniqueID(String userID) throws InvalidUserException {
         boolean uniqueUserID = false;
-        User userInDB = userDB.getUser(userID);
-
-        if(userInDB == null){
-            uniqueUserID = true;
+        try {
+            User userInDB = userDB.getUser(userID);
+            if(userInDB == null){
+                uniqueUserID = true;
+            }
+        }catch (DbErrorException err){
+            Log.d(TAG,err.getMessage() + ", Cause by: " + err.getCause());
+            throw new InvalidUserException("Something went wrong, userID may not exits");
         }
 
         return uniqueUserID;
     }
 
-    public static User validateLogin(String userID, String password){
+    public static User validateLogin(String userID, String password) throws DbErrorException {
         User user = userDB.getUser(userID);
 
         if(user.getPassword() != password){

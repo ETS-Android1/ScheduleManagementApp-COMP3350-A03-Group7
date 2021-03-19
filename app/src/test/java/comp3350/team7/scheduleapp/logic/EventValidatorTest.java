@@ -33,12 +33,12 @@ public class EventValidatorTest {
 
     @Test
     public void testValidEvent() throws InvalidEventException {
-        assertTrue("Event is valid", valid(testEvent));
+        assertTrue("Event is valid", validate(testEvent));
     }
     @Test
     public void testInvalidEvent() {
         testEvent = null;
-        assertThrows("Null event is invalid", InvalidEventException.class, () -> valid(testEvent));
+        assertThrows("Null event is invalid", InvalidEventException.class, () -> validate(testEvent));
     }
     @Test
     public void testValidEventTitle() {

@@ -3,7 +3,6 @@ package comp3350.team7.scheduleapp.presentation.activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,21 +11,17 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.Calendar;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.application.DbServiceProvider;
 import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.EventValidator;
+import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
-import comp3350.team7.scheduleapp.logic.logTag.TAG;
 import comp3350.team7.scheduleapp.objects.Event;
-import comp3350.team7.scheduleapp.objects.User;
+import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
 import comp3350.team7.scheduleapp.presentation.base.BaseActivity;
-import comp3350.team7.scheduleapp.presentation.fragment.InvalidInputDialogFragment;
 
 /*
  * Created By Thai Tran on 23 February,2021
@@ -34,6 +29,7 @@ import comp3350.team7.scheduleapp.presentation.fragment.InvalidInputDialogFragme
  */
 
 public class EventCreationActivity extends BaseActivity {
+    private static final String TAG = "EventCreationActivity";
     DatePickerDialog datePicker;
     TimePickerDialog timePicker;
     EditText datePickerText;
@@ -133,18 +129,25 @@ public class EventCreationActivity extends BaseActivity {
 
             @Override
             public void onClick(View v) {
-                if (isValidateBeforeSave()){
+                Event newEvent = new Event(UserClient.getUserId(),eventNameText.getText().toString(), "description", ourCalendar);
+                try {
+                    EventValidator.validate(newEvent);
 
-                    returnResult();
-                    Log.d(TAG.CreateEventActivity.toString(),"Clicked");
+                }catch(InvalidEventException error) {
+                    Log.d(TAG,error.getMessage());
+                    onError(error.getMessage());
                 }
+
+                persistEventDetails(newEvent);
+                returnResult();
+                Log.d(TAG, "Saved");
             }
         });
     }
 
-    private void isValidateBeforeSave(Event event) throws InvalidEventException{
-        String eventTitle = eventNameText.getText().toString();
-        int titleLength = eventTitle.length();
+    //private void isValidateBeforeSave(Event event) throws InvalidEventException{
+        //String eventTitle = eventNameText.getText().toString();
+        //int titleLength = eventTitle.length();
        /* if (!EventValidator.validateEventName(eventTitle)) {
             InvalidInputDialogFragment invalidEventName = new InvalidInputDialogFragment("Invalid Event Name" +
                     "\nOnly accept any combination of Word character,number and white space");
@@ -159,16 +162,21 @@ public class EventCreationActivity extends BaseActivity {
         return isDateValid && isTimeValid && isEventNameValid;*/
 
 
+    //}
+
+    private void persistEventDetails(Event event){
+        EventPersistenceInterface eventPersistent = DbServiceProvider.getInstance().getEventPersistence();
+        try {
+            eventPersistent.addEvent(event);
+        }catch(DbErrorException e) {
+            Log.e(TAG,"Error cause by:" +e.getCause());
+            e.printStackTrace();
+            onError(e.getMessage());
+        }
     }
-
-
     private void returnResult() {
-
-        Event newUserEvent = new Event(UserClient.getUser(),eventNameText.getText().toString(), "description", ourCalendar);
         Intent i = new Intent(EventCreationActivity.this,ScrollingActivity.class);
-        i.putExtra("RETURN_DATA", newUserEvent);
-
-
+       // i.putExtra("RETURN_DATA", returnEvent);
         setResult(RESULT_OK, i);
         finish();
     }

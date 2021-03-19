@@ -4,22 +4,25 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
 
-import comp3350.team7.scheduleapp.Application.DbServicesProvider;
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.application.DbServiceProvider;
 import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.UserValidator;
+import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
-import comp3350.team7.scheduleapp.persistence.UserPersistenceStub;
+import comp3350.team7.scheduleapp.presentation.base.BaseActivity;
 
 import static android.widget.Toast.*;
 
-public class CreateAccountActivity extends AppCompatActivity {
+public class CreateAccountActivity extends BaseActivity {
+
+    private static final String TAG = "CreateAccountActivity";
     static protected User newUser;
     static UserValidator validator;
     static UserPersistenceInterface userDB;
@@ -91,7 +94,13 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                         newUser = new User(firstname, lastname, username, password);
                         UserClient.setUser(newUser);
-                        userDB.addUser(newUser);
+                        try{
+                            userDB.addUser(newUser);
+                        }catch(DbErrorException err){
+                            Log.e(TAG,"Error cause by:" +err.getCause());
+                            err.printStackTrace();
+                            onError(err.getMessage());
+                        }
                         makeText(CreateAccountActivity.this, "Account has been successfully created.", LENGTH_SHORT).show();
                         launchUserHomePage();
 

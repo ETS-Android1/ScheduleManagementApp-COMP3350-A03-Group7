@@ -1,25 +1,24 @@
 package comp3350.team7.scheduleapp.objects;
 
 public abstract class AbstractUser {
-    public String getUserId();
+    public abstract String getUserId();
 
-    public void setUserId(String userId);
+    public abstract void setUserId(String userId);
 
-    public String getPassword();
+    public abstract String getPassword();
 
-    public void setPassword(String password);
+    public abstract void setPassword(String password);
 
-    public String getFirstName();
+    public abstract String getFirstName();
 
-    public void setFirstName(String firstName);
+    public abstract void setFirstName(String firstName);
 
-    public String getLastName();
+    public abstract String getLastName();
 
-    public void setLastName(String lastName);
+    public abstract void setLastName(String lastName);
 
-
-    public void checkIfUsernameExists(String user_id);
+    public abstract void checkIfUsernameExists(String user_id);
 
     // this method would return true if username already exists in the database.
-    public Boolean checkInUserData(String u);
+    public abstract Boolean checkInUserData(String u);
 }
