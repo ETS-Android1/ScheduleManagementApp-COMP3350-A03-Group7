@@ -26,22 +26,22 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     }
 
     private Event fromResultSet(final ResultSet rs) throws SQLException {
-        final String userName = rs.getString("username");
-        final int eventID = rs.getInt("eventID");
-        final String title = rs.getString("title");
-        final String description = rs.getString("description");
-        final int startYear = rs.getInt("startYear");
-        final int startMonth = rs.getInt("startMonth");
-        final int startDay = rs.getInt("startDay");
-        final int startHour = rs.getInt("startHour");
-        final int startMinute = rs.getInt("startMinute");
+        final String userName = rs.getString("USERID");
+        final int eventID = rs.getInt("EVENTID");
+        final String title = rs.getString("TITLE");
+        final String description = rs.getString("DESCRIPTION");
+        final int startYear = rs.getInt("STARTYEAR");
+        final int startMonth = rs.getInt("STARTMONTH");
+        final int startDay = rs.getInt("STARTDAY");
+        final int startHour = rs.getInt("STARTHOUR");
+        final int startMinute = rs.getInt("STARTMINUTE");
         Calendar start = Calendar.getInstance();
         start.set(startYear, startMonth, startDay, startHour, startMinute);
-        final int endYear = rs.getInt("endYear");
-        final int endMonth = rs.getInt("endMonth");
-        final int endDay = rs.getInt("endDay");
-        final int endHour = rs.getInt("endHour");
-        final int endMinute = rs.getInt("endMinute");
+        final int endYear = rs.getInt("ENDYEAR");
+        final int endMonth = rs.getInt("ENDMONTH");
+        final int endDay = rs.getInt("ENDDAY");
+        final int endHour = rs.getInt("ENDHOUR");
+        final int endMinute = rs.getInt("ENDMINUTE");
         Calendar end = Calendar.getInstance();
         end.set(endYear, endMonth, endMonth, endDay, endHour, endMinute);
         return new Event(userName,eventID, title, description, start, end);
