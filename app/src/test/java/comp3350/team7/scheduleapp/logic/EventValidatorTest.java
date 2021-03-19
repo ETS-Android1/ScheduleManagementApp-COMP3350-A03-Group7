@@ -25,22 +25,9 @@ public class EventValidatorTest {
         testEvent = new Event("Test Event", "testEvent","This is a test event", start, end);
         worked = false;
     }
-    
+
     @After
     public void teardown() { testEvent = null; }
-
-    @Test
-    public void testValidEvent() {
-        worked = false;
-        try {
-            validate(testEvent);
-            worked = true;
-        }
-        catch (InvalidEventException i) {
-            System.out.println("Event is not valid");
-        }
-        assertTrue("Event is valid", worked);
-    }
 
     @Test
     public void testInvalidEvent() {

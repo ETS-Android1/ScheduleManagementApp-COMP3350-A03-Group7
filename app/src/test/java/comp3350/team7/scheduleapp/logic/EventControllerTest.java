@@ -87,7 +87,7 @@ public class EventControllerTest {
     public void testRemoveInvalidEvent() {
         System.out.println("\nStarting testRemoveInvalidEvent");
         Event nullEvent = null;
-        assertThrows(InvalidEventException.class,()-> {
+        assertThrows(EventControllerException.class,()-> {
             eventController.removeEvent(nullEvent);
         });
         System.out.println("\nFinish testRemoveInvalidEvent");
@@ -96,7 +96,7 @@ public class EventControllerTest {
     @Test
     public void testRemoveEventInvalidPosition() {
         System.out.println("\nStarting testRemoveEventInvalidPosition");
-        assertThrows(IndexOutOfBoundsException.class,()-> {
+        assertThrows(EventControllerException.class,()-> {
             eventController.removeEvent("username",30);
         });
         System.out.println("\nFinish testRemoveEventInvalidPosition");

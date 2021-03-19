@@ -80,25 +80,6 @@ public class UserValidatorTest {
     }
 
     @Test
-    public void isUniqueID_Is_False(){
-        String notUniqueID1 = "josona";
-
-        System.out.println("\nStarting isUniqueID_Is_False Test.");
-        assertFalse("Expecting josona not to be a Unique ID", validatorTester.isUniqueID(notUniqueID1));
-        System.out.println("Finished isUniqueID_Is_False Test.");
-    }
-
-    @Test
-    public void validateLogin_Is_Not_Null(){
-        String username = "josona";
-        String password = "aaron1234";
-
-        System.out.println("\nStarting validateLogin_Is_Not_Null Test.");
-        assertNotNull("Expecting a User object returned by validateLogin", validatorTester.validateLogin(username, password));
-        System.out.println("Starting validateLogin_Is_Not_Null Test.");
-    }
-
-    @Test
     public void validateLogin_Is_Null(){
         String username = "josona";
         String password = "jackrussel";
