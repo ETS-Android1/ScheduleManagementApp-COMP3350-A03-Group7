@@ -1,10 +1,8 @@
 package comp3350.team7.scheduleapp.presentation.UiHelper;
 
-import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Build;
-import android.service.controls.Control;
 import android.util.Log;
 import android.view.View;
 
@@ -14,10 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import comp3350.team7.scheduleapp.R;
-import comp3350.team7.scheduleapp.logic.EventController;
-import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
-import comp3350.team7.scheduleapp.logic.logTag.TAG;
 import comp3350.team7.scheduleapp.objects.Event;
 import comp3350.team7.scheduleapp.presentation.adapter.RecyclerViewAdapter;
 
@@ -27,8 +21,9 @@ import comp3350.team7.scheduleapp.presentation.adapter.RecyclerViewAdapter;
  */
 
 public class RecyclerViewOnItemtouchHelper extends ItemTouchHelper.SimpleCallback {
-    private RecyclerViewAdapter Adapter;
-    private View view;
+    private static final String TAG = "RecyclerViewOnItemtouch";
+    private final RecyclerViewAdapter Adapter;
+    private final View view;
 
     public RecyclerViewOnItemtouchHelper(RecyclerViewAdapter Adapter, View view) {
         super(0, ItemTouchHelper.LEFT);
@@ -74,12 +69,12 @@ public class RecyclerViewOnItemtouchHelper extends ItemTouchHelper.SimpleCallbac
             case ItemTouchHelper.LEFT:
                 //Remove item
                 Adapter.remove(viewHolderPosition);
-                Log.d(TAG.RecyclerViewOnItemtouchHelper.toString(), "Swipped Left");
+                Log.d(TAG, "Swipped Left, Event removed");
                 break;
         }
 
         Snackbar snackbar = Snackbar
-                .make(view, "You removed a task!", Snackbar.LENGTH_LONG);
+                .make(view, "Event removed!", Snackbar.LENGTH_LONG);
         snackbar.setAction("UNDO", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,10 +84,7 @@ public class RecyclerViewOnItemtouchHelper extends ItemTouchHelper.SimpleCallbac
         });
         snackbar.setActionTextColor(Color.WHITE);
         snackbar.show();
-
-
-
-
-
     }
+
+
 }

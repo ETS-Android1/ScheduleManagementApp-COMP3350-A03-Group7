@@ -4,17 +4,30 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
+
 import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.application.DbServiceProvider;
+import comp3350.team7.scheduleapp.application.UserClient;
+import comp3350.team7.scheduleapp.logic.UserValidator;
+import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
+import comp3350.team7.scheduleapp.logic.exceptions.UserDBException;
 import comp3350.team7.scheduleapp.objects.User;
+import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
+import comp3350.team7.scheduleapp.presentation.base.BaseActivity;
 
 import static android.widget.Toast.*;
 
-public class CreateAccountActivity extends AppCompatActivity {
+public class CreateAccountActivity extends BaseActivity {
+
+    private static final String TAG = "CreateAccountActivity";
     static protected User newUser;
+    static UserValidator validator;
+    static UserPersistenceInterface userDB;
+
 
     static Button createAccount;
     static EditText firstNameInput;
@@ -34,6 +47,10 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
+        userDB = DbServiceProvider
+                .getInstance()
+                .getUserPersistence(); //can be replaced with  = new UserPersistenceStub() for testing
+        validator = UserValidator.getValidatorInstance(userDB);
         getView();
     }
 
@@ -46,31 +63,15 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         createAccount = (Button) findViewById(R.id.Create_Account);
     }
-    
+
     public void getData(){
         firstname = firstNameInput.getText().toString();
         lastname = lastNameInput.getText().toString();
         username = usernameInput.getText().toString();
         password = passwordInput.getText().toString();
         confirmPassword = confirmPasswordInput.getText().toString();
-
-        //check if required fields are empty
-        if(TextUtils.isEmpty(firstname)){
-            firstNameInput.setError("Enter your first name.");
-        }
-        if(TextUtils.isEmpty(lastname)){
-            lastNameInput.setError("Enter your first name.");
-        }
-        if(TextUtils.isEmpty(username)){
-            usernameInput.setError("Enter your first name.");
-        }
-        if(TextUtils.isEmpty(password)){
-            passwordInput.setError("Enter your first name.");
-        }
-        if(TextUtils.isEmpty(confirmPassword)){
-            confirmPasswordInput.setError("Enter your first name.");
-        }
     }
+
 
     void launchUserHomePage(){
         Bundle bundle = new Bundle();
@@ -80,17 +81,48 @@ public class CreateAccountActivity extends AppCompatActivity {
         startActivityForResult(createEvent,200);
 
     }
-    
+
     public void createOnClick(View v) {
         getData();
-        if (password.equals(confirmPassword)) {
-            newUser = new User(firstname, lastname, username, password);
-            //Add database.create(user) when database is implemented
-            makeText(CreateAccountActivity.this, "your account has been successfully created.", LENGTH_SHORT).show();
-            launchUserHomePage();
-        }
-        else{
-            confirmPasswordInput.setError("Must match the password entered.");
-        }
-    }
+        boolean validInput = validator.validateInput(firstname, lastname, username, password, confirmPassword);
+
+        if(validInput){ //check if all the fields arent empty
+            if(validator.userIDLengthCheck(username) && validator.passwordLengthCheck(password)){
+
+                if (validator.validateConfirmPassword(password, confirmPassword)) {
+
+                    if(validator.isUniqueID(username)) {
+
+                        newUser = new User(firstname,lastname,username,password);
+                        try{
+                            userDB.addUser(newUser);
+                        }catch( UserDBException err){
+                            Log.e(TAG,"Error cause by:" +err.getCause());
+                            err.printStackTrace();
+                            onError(err.getMessage());
+                        }
+
+                        makeText(CreateAccountActivity.this, "Account has been successfully created.", LENGTH_SHORT).show();
+                        launchUserHomePage();
+
+                    }else{ makeText(CreateAccountActivity.this, "Username is already taken.", LENGTH_SHORT).show(); }
+
+                }else{ confirmPasswordInput.setError("Must match the password entered."); }
+            }//end if password and userIDLengthCheck
+
+            else{ //Give the user a Useful message
+                if(validator.userIDLengthCheck(username) == false){
+                    makeText(CreateAccountActivity.this, "UserID must be 8-16 characters.", LENGTH_SHORT).show();
+                }
+                if(validator.passwordLengthCheck(password) == false){
+                    makeText(CreateAccountActivity.this, "Password must be 8-16 characters.", LENGTH_SHORT).show();
+                }
+
+            }
+        }//end if validInput
+
+        else{ makeText(CreateAccountActivity.this, "Please Enter all required fields.", LENGTH_SHORT).show();}
+
+    } //end createOnclick
+
 }

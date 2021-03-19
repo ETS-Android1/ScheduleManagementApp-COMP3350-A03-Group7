@@ -3,7 +3,6 @@ package comp3350.team7.scheduleapp.presentation.activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,25 +11,27 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.Calendar;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.application.DbServiceProvider;
+import comp3350.team7.scheduleapp.application.UserClient;
+import comp3350.team7.scheduleapp.logic.EventController;
 import comp3350.team7.scheduleapp.logic.EventValidator;
+import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
+import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
-import comp3350.team7.scheduleapp.logic.logTag.TAG;
 import comp3350.team7.scheduleapp.objects.Event;
-import comp3350.team7.scheduleapp.presentation.fragment.InvalidInputDialogFragment;
+import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
+import comp3350.team7.scheduleapp.presentation.base.BaseActivity;
 
 /*
  * Created By Thai Tran on 23 February,2021
  *
  */
 
-public class EventCreationActivity extends AppCompatActivity {
+public class EventCreationActivity extends BaseActivity {
+    private static final String TAG = "EventCreationActivity";
     DatePickerDialog datePicker;
     TimePickerDialog timePicker;
     EditText datePickerText;
@@ -39,12 +40,6 @@ public class EventCreationActivity extends AppCompatActivity {
     Button saveButton;
     Calendar calendar;
     Calendar ourCalendar;
-    boolean isDateValid = false;
-    boolean isTimeValid = false;
-    boolean isEventNameValid = false;
-    boolean isDateSetOnSameDay= false;
-    final int maxTitleLength = 60;
-    final int maxDescriptionLength =120;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,19 +63,14 @@ public class EventCreationActivity extends AppCompatActivity {
                 int month = calendar.get(Calendar.MONTH);
                 int year = calendar.get(Calendar.YEAR);
                 datePicker = new DatePickerDialog(EventCreationActivity.this, new DatePickerDialog.OnDateSetListener() {
+
                     @Override
                     public void onDateSet(DatePicker view, int yearOfDecade, int monthOfYear, int dayOfMonth) {
 
-                        if (yearOfDecade >= year && monthOfYear >= month && dayOfMonth >= day) {
-                            if(yearOfDecade == year && monthOfYear == month && dayOfMonth ==day)
-                                isDateSetOnSameDay= true;
-                            ourCalendar.set(year, month + 1, dayOfMonth);
+
+                            ourCalendar.set(yearOfDecade, monthOfYear, dayOfMonth);
                             datePickerText.setText(String.format("%d/%d/%d", dayOfMonth, month + 1, year));
-                            isDateValid = true;
-                        } else {
-                            InvalidInputDialogFragment invalid_date = new InvalidInputDialogFragment("Invalid Date Input");
-                            invalid_date.show(getSupportFragmentManager(), "date input");
-                        }
+
                     }
                 }, year, month, day);
                 datePicker.show();
@@ -98,24 +88,10 @@ public class EventCreationActivity extends AppCompatActivity {
                 timePicker = new TimePickerDialog(EventCreationActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfSecond) {
-                        if(isDateValid){
-                            if (!isDateSetOnSameDay || hourOfDay >= hour && minuteOfSecond >= minute) {
-                                ourCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                                ourCalendar.set(Calendar.MINUTE, minute);
-                                timePickerText.setText(String.format("%d:%d", hourOfDay, minuteOfSecond));
-                                isTimeValid = true;
-                            }
-                            else{
-                                InvalidInputDialogFragment invalid_time = new InvalidInputDialogFragment("Invalid Time Input\nplease set " +
-                                        "a valid future time");
-                                invalid_time.show(getSupportFragmentManager(), "time input");
-                                timePickerText.setText("");
-                            }
-                        }else {
-                            InvalidInputDialogFragment setDateFirst = new InvalidInputDialogFragment("Please Set Date First");
-                            setDateFirst.show(getSupportFragmentManager(),"set date first");
-                        }
 
+                                ourCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                ourCalendar.set(Calendar.MINUTE, minuteOfSecond);
+                                timePickerText.setText(String.format("%d:%d", hourOfDay, minuteOfSecond));
                     }
 
 
@@ -125,44 +101,43 @@ public class EventCreationActivity extends AppCompatActivity {
         });
 
         // Save button listener
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        saveButton.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
-                if (isValidateBeforeSave()){
+                Event newEvent = new Event(UserClient.getUserId(),eventNameText.getText().toString(), "description", ourCalendar);
+                try {
+                    EventValidator.validate(newEvent);
 
-                    returnResult();
-                    Log.d(TAG.CreateEventActivity.toString(),"Clicked");
+                }catch(InvalidEventException error) {
+                    Log.d(TAG,error.getMessage());
+                    onError(error.getMessage());
                 }
+                persistEventDetails(newEvent);
+                returnResult();
+                Log.d(TAG, "Saved");
+
             }
         });
     }
 
-    private boolean isValidateBeforeSave() {
-        String eventTitle = eventNameText.getText().toString();
-        int titleLength = eventTitle.length();
-        if (!EventValidator.validateEventName(eventTitle)) {
-            InvalidInputDialogFragment invalidEventName = new InvalidInputDialogFragment("Invalid Event Name" +
-                    "\nOnly accept any combination of Word character,number and white space");
-            invalidEventName.show(getSupportFragmentManager(), "event name");
-        } else if(titleLength <4 || titleLength > maxTitleLength ) {
-            InvalidInputDialogFragment invalidEventName = new InvalidInputDialogFragment("Invalid Event Name" +
-                    "\nshould have at least 5 characters and no more than 60 characters");
-            invalidEventName.show(getSupportFragmentManager(), "title length");
-        }else{
-            isEventNameValid = true;
+    private void persistEventDetails(Event event){
+        EventPersistenceInterface eventPersistent = DbServiceProvider.getInstance().getEventPersistence();
+        EventController eventController = new EventController(eventPersistent);
+        try {
+            eventController.addEvent(event);
+        }catch(EventControllerException e) {
+            Log.e(TAG,"Error cause by:" +e.getCause());
+            e.printStackTrace();
+            onError(e.getMessage());
         }
-        return isDateValid && isTimeValid && isEventNameValid;
     }
-
-
     private void returnResult() {
-        Event newUserEvent = new Event(eventNameText.getText().toString(), "description", ourCalendar);
         Intent i = new Intent(EventCreationActivity.this,ScrollingActivity.class);
-        i.putExtra("RETURN_DATA", newUserEvent);
-
-
+       // i.putExtra("RETURN_DATA", returnEvent);
         setResult(RESULT_OK, i);
         finish();
     }
+
+
 }

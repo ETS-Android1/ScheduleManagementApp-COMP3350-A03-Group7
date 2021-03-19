@@ -2,7 +2,7 @@
 
 ## Architecture diagram 
 
-![architecture](architecture-iter1.png)
+![architecture](Architecture_Iter2.jpg)
 
 ## Presentation Layer
 
@@ -19,6 +19,7 @@
     - transition to CreateAccoutActivity
 [activity/CreateAccountActivity](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/presentation/activity/CreateAccountActivity.java)
 - View for user to adding user details and set password before transition to ScrollingActivity
+
 
 ### Adapter 
 [adapter/RecyclerViewAdapter](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/presentation/adapter/RecyclerViewAdapter.java)
@@ -47,6 +48,13 @@
     - validation for an event 
 - [logic/SORTNAME](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/logic/SORTNAME.java)
     - enum class, contains many way of sorting we want to use 
+- [logic/UserValidator]() add link after push
+    - Used to validate any user input from LoginActivity and CreateAccountActivity
+    - accepts any implementation of the UserPersistenceInterface
+    - Checks if the User is a valid User in the Database
+-[logic/ScheduleController]() add link after push
+    - Accepts any implementation of SchedulePersistenceInterface
+    - Gets the Schedule for the user on the selected date
    
 ### Comparators
 [EventEndAscendingComparator](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/logic/comparators/EventEndAscendingComparator.java)
@@ -65,12 +73,16 @@
 ### exceptions 
 [DbErrorException](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/logic/exceptions/DbErrorException.java)
 - Custom Database exception
-- 
+- Sends a message to the User to inform them of what went wrong, why it went wrong and how to correct it. 
+
 [InvalidEventException](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/logic/exceptions/InvalidEventException.java)
 - Custom invalid event exception
 
 [RandomException](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/logic/exceptions/RandomException.java)
 - this is special, for creating fake database, use only to create random event in EventDbStub
+
+[UserDBException]() add link after push
+- Custom Exception for when User input could not be matched to anything in the UserDatabase
 
 ### logTag
 
@@ -79,10 +91,53 @@
 - we use Log to store debug as well as error info, the tag contains the name of the class when it being call from
 - so when we see the log file, we know where log message come from  
 
+## Application
+[Main]() add link later
+- holds the db file path name
+- Can instantiate new databases files at a given path
+- returns the path to the db file
+
+[DbServiceProvider]() add link later
+- Singleton instantiation of the Databases
+    - User Database
+    - Schedule Database
+    - Event Database 
+- Gives access to the databases based on what database is requested
+- Reloads the Database files in cases where the databases are unsynced
+
+
 ## Persistent Layer
 
-[persistent/EventDB](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/persistence/EventDB.java)
-- interface for all event database 
-[persistent/EventDbStub](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/persistence/EventDbStub.java)
-- fake database, create random n number of fake event 
+[EventPersistenceInterface](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/persistence/EventDB.java) Change the link after push
+- interface for all event database implementation
 
+
+[EventPersistenceStub](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/persistence/EventDbStub.java) Change the link after pushing to master
+- Stub with concrete information
+- Used for integration testing of the Event Database
+
+[EventPersistenceHSQLDB]() add link after push
+- Actual HSQLDB Implementation for EventPersistence
+- Persistent database that saves into a database file in Assets/db
+
+[UserPersistenceInterface]() add link after push
+- Design by contract for all UserPersistence implementation
+
+[UserPersistenceStub]() add link after push
+- Stub that contains 4 entries (the memebers of Group 7)
+- Used for Integration testing
+
+[UserPersistenceHSQLDB]() add link after push
+- Actual HSQLDB Implementation for UserPersistence
+- Persistent database that saves into a database file in Assets/db
+
+[SchedulePersistenceInterface]() add link after push
+- Design by contract for all implementations of SchedulePersistence
+
+[SchedulePersistenceStub]() Add link after push to master
+- Fake Implementation of a Schedule Database/Persistence
+- Used for Integration testing of SchedulePersistence
+
+[SchedulePersistenceHSQLDB]()add link after push
+- Actual HSQLDB Implementation for SchedulePersistence
+- Persistent database that saves into a database file in Assets/db

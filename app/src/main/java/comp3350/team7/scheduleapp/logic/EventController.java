@@ -5,120 +5,184 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.List;
 
-import comp3350.team7.scheduleapp.logic.comparators.EventEndAscendingComparator;
-import comp3350.team7.scheduleapp.logic.comparators.EventEndDescendingComparator;
+import comp3350.team7.scheduleapp.application.DbServiceProvider;
+import comp3350.team7.scheduleapp.logic.comparators.AbstractComparator;
 import comp3350.team7.scheduleapp.logic.comparators.EventStartAscendingComparator;
-import comp3350.team7.scheduleapp.logic.comparators.EventStartDescendingComparator;
 import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
+import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
-import comp3350.team7.scheduleapp.persistence.EventDbStub;
 import comp3350.team7.scheduleapp.objects.Event;
+import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
 
 /*
  * Created By Thai Tran on 22 February,2021
  *
  */
 public class EventController {
-    EventDbStub eventStub;
-    Comparator<Event> wayOfsort;
-
+    private static final String TAG = "EventController";
+    EventPersistenceInterface eventPersistence;
+    AbstractComparator sortingStrategy;
 
     public EventController() {
-        this.eventStub = new EventDbStub(20);
+        eventPersistence = DbServiceProvider
+                .getInstance()
+                .getEventPersistence();
         // default way of sorting
-        wayOfsort = new EventStartAscendingComparator();
+        sortingStrategy = new EventStartAscendingComparator();
     }
 
-    public void setWayOfsort(SORTNAME sortname){
-        switch(sortname)
-        {
-            case TIME_START_DESCENDING:
-                this.wayOfsort = new EventStartDescendingComparator();
-                break;
-            case TIME_START_ASCENDING:
-                this.wayOfsort = new EventStartAscendingComparator();
-                break;
-            case TIME_END_DESCENDING:
-                this.wayOfsort = new EventEndDescendingComparator();
-                break;
-            case TIME_END_ASCENDING:
-                this.wayOfsort = new EventEndAscendingComparator();
-                break;
-
-        }
+    /* dependency inject */
+    public EventController(EventPersistenceInterface eventPersistence) {
+        this.eventPersistence = eventPersistence;
+        sortingStrategy = new EventStartAscendingComparator();
+        // default way of sorting
+        sortingStrategy = new EventStartAscendingComparator();
     }
-    public Event CreateEvent(String eventName, String description, Calendar calStart){
-        Event newEvent = new Event(eventName,description,calStart);
-        eventStub.addEvent(newEvent);
+
+
+    // part of strategy pattern, inject AbstractComparator
+    public void setSortStrategy(AbstractComparator newSortStrategy) {
+        this.sortingStrategy = newSortStrategy;
+    }
+
+//    public Event buildEvent(String userName, String eventName, String description, Calendar calStart) throws EventControllerException {
+//        Event newEvent = new Event(userName, eventName, description, calStart);
+//        try {
+//            EventValidator.validate(newEvent);
+//            return newEvent;
+//        } catch (InvalidEventException err) {
+//            Log.d(TAG, err.getMessage() + "Cause by" + err.getCause());
+//            throw new EventControllerException("Something went wrong, contact admin if needed\n" + err.getMessage());
+//        }
+//    }
+//
+//    public Event buildEvent(String userName, String eventName, String description, Calendar calStart, Calendar calEnd) throws EventControllerException {
+//        Event newEvent = new Event(userName, eventName, description, calStart, calEnd);
+//        try {
+//            EventValidator.validate(newEvent);
+//            return newEvent;
+//        } catch (InvalidEventException err) {
+//            Log.d(TAG, err.getMessage() + "Cause by" + err.getCause());
+//            throw new EventControllerException("Something went wrong, contact admin if needed\n" + err.getMessage());
+//        }
+//    }
+
+    public Event CreateEvent(String userName, String eventName, String description, Calendar calStart) throws EventControllerException {
+        Event newEvent = new Event(userName, eventName, description, calStart);
+        try {
+            EventValidator.validate(newEvent);
+            eventPersistence.addEventNoEnd(newEvent);
+        } catch (DbErrorException error) {
+            Log.d(TAG, error.getMessage() + "Cause by" + error.getCause());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + error.getMessage());
+        } catch (InvalidEventException err) {
+            Log.d(TAG, err.getMessage() + "Cause by" + err.getCause());
+           throw new EventControllerException("Something went wrong, contact admin if needed\n" + err.getMessage()); }
         return newEvent;
     }
 
-    public Event CreateEvent(String eventName, String description, Calendar calStart, Calendar calEnd){
-        Event newEvent = new Event(eventName,description,calStart,calEnd);
-        eventStub.addEvent(newEvent);
+    public Event CreateEvent(String userName, String eventName, String description, Calendar calStart, Calendar calEnd) throws EventControllerException {
+        Event newEvent = new Event(userName, eventName, description, calStart, calEnd);
+        try {
+            EventValidator.validate(newEvent);
+            eventPersistence.addEvent(newEvent);
+        } catch (DbErrorException error) {
+            Log.d(TAG, error.getMessage() + "Cause by" + error.getCause());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + error.getMessage());
+        }catch (InvalidEventException err) {
+            Log.d(TAG, err.getMessage() + "Cause by" + err.getCause());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + err.getMessage()); }
         return newEvent;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public List<Event> getEventList(){
-        List<Event> eventList = eventStub.getEventList();
-        eventList.sort(wayOfsort);
+    public List<Event> getEventList(String userid) throws EventControllerException {
+        List<Event> eventList = new ArrayList<Event>();
+        try {
+            eventList = eventPersistence.getEventList(userid);
+            eventList.sort(sortingStrategy);
+        } catch (DbErrorException e) {
+            Log.d(TAG, e.getMessage() + "\n Cause by " + e.getCause());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + e.getMessage());
+        }
+
+        return eventList;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public List<Event> getScheduleForUserOnDate(String username, Calendar date) throws EventControllerException {
+
+        List<Event> eventList = null;
+        try {
+            eventList = eventPersistence.getScheduleForUserOnDate(username, date);
+            eventList.sort(sortingStrategy);
+        } catch (DbErrorException e) {
+            Log.d(TAG, e.getMessage() + "\n Cause by " + e.getCause());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + e.getMessage());
+        }
+
         return eventList;
     }
 
     // Someone use our api to create an invalid event, let them catch it
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public List<Event> addEvent(Event e) throws InvalidEventException {
-        if (EventValidator.valid(e)){
-            return eventStub.addEvent(e);
-
-        }
-
-        // return this for testing
-        return getEventList();
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public List<Event> removeEvent(Event e) throws InvalidEventException{
+    public void addEvent(Event e) throws EventControllerException {
         try {
-            if(EventValidator.valid(e)){
-                eventStub.removeEvent(e);
-            }
-
-        }catch(DbErrorException err){
-            // need do more than just this
-            Log.e("DbErrorException", err.getMessage());
-            err.printStackTrace();
+            EventValidator.validate(e);
+            if(e.getEventEnd()!=null)
+                eventPersistence.addEvent(e);
+            else
+                eventPersistence.addEventNoEnd(e);
+        } catch (InvalidEventException error) {
+            Log.d(TAG, error.getMessage() + " ,Cause by : " + error.getCause());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + error.getMessage());
+        } catch (DbErrorException dbError) {
+            Log.d(TAG, dbError.getMessage() + " ,Cause by : " + dbError.getCause());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + dbError.getMessage());
         }
-        // return this for testing
-        return getEventList();
-    }
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public List<Event> removeEvent(int position) throws DbErrorException{
-        eventStub.removeEvent(position);
-        // return this for testing
-        return getEventList();
+
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public List<Event> updateEvent(Event old,Event fresh) throws InvalidEventException{
+    public void removeEvent(Event e) throws EventControllerException {
         try {
-            if(EventValidator.valid(old)){
-                eventStub.updateEvent(old,fresh);
-            }
-
-        }catch(DbErrorException err){
-            // need do more than just this
-            Log.e("DbErrorException", err.getMessage());
-            err.printStackTrace();
+            EventValidator.validate(e);
+            eventPersistence.removeEvent(e);
+        } catch (InvalidEventException err) {
+            Log.d(TAG, err.getMessage() + " ,Cause by : " + err.getCause());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + err.getMessage());
+        } catch (DbErrorException dbError) {
+            Log.d(TAG, dbError.getMessage() + " ,Cause by : " + dbError.getCause());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + dbError.getMessage());
         }
-        // return this for testing
-        return getEventList();
+
+    }
+
+    public void removeEvent(String username, int eventId) throws EventControllerException {
+        try {
+            eventPersistence.removeEvent(username, eventId);
+        } catch (DbErrorException dbError) {
+            Log.d(TAG, dbError.getMessage() + " ,Cause by : " + dbError.getCause());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + dbError.getMessage());
+        }
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void updateEvent(Event old, Event fresh) throws EventControllerException {
+        try {
+            EventValidator.validate(old);
+            eventPersistence.updateEvent(old, fresh);
+        } catch (InvalidEventException err) {
+            Log.d(TAG, err.getMessage() + " ,Cause by : " + err.getCause());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + err.getMessage());
+        } catch (DbErrorException dbError) {
+            Log.d(TAG, dbError.getMessage() + " ,Cause by : " + dbError.getCause());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + dbError.getMessage());
+        }
     }
 
 }

@@ -9,45 +9,65 @@ import java.util.Calendar;
 
 //@RequiresApi(api = Build.VERSION_CODES.O)
 
-public class Event implements EventInterface, Parcelable {
+public class Event extends AbstractEvent implements Parcelable {
 
-    private static int id_count = 0;
     private int Event_id;
     private String Event_title;
-    private String Event_location;
     private String Event_description;
+    private String username;
     private Calendar eventStart;
     private Calendar eventEnd;
 
-    public Event(String title, String description, Calendar eventStart, Calendar eventEnd) {
+    public Event(String username, int eid, String title, String description, Calendar eventStart, Calendar eventEnd) {
+        setID(eid);
         setTitle(title);
         setDescription(description);
-        setID();
         setStart(eventStart);
         setEnd(eventEnd);
+        setUserName(username);
 
     }
-
-    public Event(String title, String description, Calendar eventStart) {
+    public Event(String username, int eid, String title, String description, Calendar eventStart) {
+        setID(eid);
         setTitle(title);
         setDescription(description);
-        setID();
         setStart(eventStart);
         setEnd(null);
+        setUserName(username);
+
+    }
+    public Event(String username,String title, String description, Calendar eventStart, Calendar eventEnd) {
+        setTitle(title);
+        setDescription(description);
+        setStart(eventStart);
+        setEnd(eventEnd);
+        setUserName(username);
+
+    }
+    public Event(String username, String title, String description, Calendar eventStart) {
+        setTitle(title);
+        setDescription(description);
+        setStart(eventStart);
+        setEnd(null);
+        setUserName(username);
 
     }
 
-    protected Event(Parcel in) {
-        Event_id = in.readInt();
-        Event_title = in.readString();
-        Event_description = in.readString();
-        eventStart = (Calendar) in.readValue(Calendar.class.getClassLoader());
-        eventEnd = (Calendar) in.readValue(Calendar.class.getClassLoader());
-    }
 
+    public String getUserName(){
+        return this.username;
+    }
+    public void setUserName(String username){
+        this.username = username;
+    }
     public int getID() {
         return Event_id;
     }
+
+    public void setID(int eid) {
+        Event_id = eid;
+    }
+
 
     public String getTitle() {
         return Event_title;
@@ -84,11 +104,6 @@ public class Event implements EventInterface, Parcelable {
         return timeDisplayHelper(eventEnd);
     }
 
-    private void setID() {
-        Event_id = id_count;
-        id_count++;
-    }
-
     private String timeDisplayHelper(Calendar calendar) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String timeFormated = formatter.format(calendar.getTime());
@@ -104,7 +119,24 @@ public class Event implements EventInterface, Parcelable {
         eventEnd = calendar;
     }
 
-    // parceling process
+    @Override
+    public String toString() {
+        return "Event{" +
+                "Event_id=" + Event_id +
+                ", Event_title='" + Event_title + '\'' +
+                ", eventStart=" + eventStart +
+                '}';
+    }
+
+    /* Parceling process */
+    protected Event(Parcel in) {
+        Event_id = in.readInt();
+        Event_title = in.readString();
+        Event_description = in.readString();
+        eventStart = (Calendar) in.readValue(Calendar.class.getClassLoader());
+        eventEnd = (Calendar) in.readValue(Calendar.class.getClassLoader());
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -118,6 +150,7 @@ public class Event implements EventInterface, Parcelable {
         dest.writeValue(eventStart);
         dest.writeValue(eventEnd);
     }
+
     @SuppressWarnings("unused")
     public static final Parcelable.Creator<Event> CREATOR = new Parcelable.Creator<Event>() {
         @Override

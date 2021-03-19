@@ -4,13 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.*;
 
-
 import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.application.DbServiceProvider;
+import comp3350.team7.scheduleapp.application.UserClient;
+import comp3350.team7.scheduleapp.application.ultil.DbHelper;
+import comp3350.team7.scheduleapp.logic.UserValidator;
 import comp3350.team7.scheduleapp.objects.User;
+import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 
 import static android.widget.Toast.*;
 
@@ -18,13 +21,21 @@ public class LoginActivity extends AppCompatActivity{
     static EditText ClientID, ClientPassword;
     static String userID;
     static String userPAC; //Personal access code aka password
-    static User dummyAccount = new User("John", "Doe", "testing123", "123testing");
+    private static UserPersistenceInterface userDB;
+    private static UserValidator validator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        DbHelper.copyDatabaseToDevice(this);
+        userDB = DbServiceProvider
+                .getInstance()
+                .getUserPersistence();
+
+        validator = UserValidator.getValidatorInstance(userDB);          //line 30+31 is pretty much validator = new UserValidator(DbServicesProvicer.getUserPersistence());
+                                                        //broken up for clarity.
         getView();
     }
 
@@ -37,39 +48,6 @@ public class LoginActivity extends AppCompatActivity{
     public void getData(){
         userID = ClientID.getText().toString();
         userPAC = ClientPassword.getText().toString();
-
-        //check if required fields are empty
-        if(TextUtils.isEmpty(userID)){
-            ClientID.setError("Username is required.");
-        }
-        if(TextUtils.isEmpty(userPAC)){
-            ClientPassword.setError("Password is required.");
-        }
-    }
-
-    boolean loginCheck(String username, String password){
-        /*Once database is made
-        boolean loginCheck(User user){
-            db.validate(User) to check if the account exists in database
-            then setErrors based on whether the account exists and why?
-        }
-        */
-        if(dummyAccount.getPassword().equals(password) && dummyAccount.getUserId().equals(username)){
-            makeText(LoginActivity.this, "Login Success", LENGTH_SHORT).show();
-            return true;
-        }
-        else if(!dummyAccount.getUserId().equals(username) && dummyAccount.getPassword().equals(userPAC)){
-            makeText(LoginActivity.this, "Invalid username", LENGTH_SHORT).show();
-            return false;
-        }
-        else if(dummyAccount.getUserId().equals(username) && !dummyAccount.getPassword().equals(userPAC)) {
-            Toast.makeText(LoginActivity.this, "Incorrect password", LENGTH_SHORT).show();
-            return false;
-        }
-        else {
-            Toast.makeText(LoginActivity.this, "Enter Required fields", LENGTH_SHORT).show();
-            return false;
-        }
     }
 
     void launchUserHomePage() {
@@ -87,8 +65,13 @@ public class LoginActivity extends AppCompatActivity{
 
     public void logOn(View v) {
         getData();
-        if (loginCheck(userID, userPAC)) {
+
+        if(validator.validateLogin(userID, userPAC) != null){
+            UserClient.setUserId(userID);
             launchUserHomePage();
+        }
+        else{
+            Toast.makeText(LoginActivity.this, "Incorrect Username/Password", LENGTH_SHORT).show();
         }
     }
 }
