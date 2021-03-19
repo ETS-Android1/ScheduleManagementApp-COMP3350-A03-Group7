@@ -17,19 +17,19 @@ public class ScheduleController {
     private List<Event> scheduleEvents;
     private SchedulePersistenceInterface scheduleDB;
 
-
     public ScheduleController(String username,Calendar date) {
         this.userName = username;
         this.scheduleDB = DbServiceProvider
                 .getInstance()
                 .getSchedulePersistence();
-
     }
+
     public ScheduleController(SchedulePersistenceInterface scheduleDB, String username) {
         this.scheduleDB = scheduleDB;
         this.userName = username;
         scheduleEvents = null;
     }
+
     public List<Event> getScheduleForDay(Calendar specificDate) throws ScheduleControllerException {
         try{
             scheduleEvents = scheduleDB.getScheduleForUserOnDate(this.userName, specificDate);

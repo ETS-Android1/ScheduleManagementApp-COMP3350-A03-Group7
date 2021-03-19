@@ -23,6 +23,8 @@ import comp3350.team7.scheduleapp.logic.EventValidator;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
 import comp3350.team7.scheduleapp.logic.logTag.TAG;
 import comp3350.team7.scheduleapp.objects.Event;
+import comp3350.team7.scheduleapp.objects.User;
+import comp3350.team7.scheduleapp.presentation.base.BaseActivity;
 import comp3350.team7.scheduleapp.presentation.fragment.InvalidInputDialogFragment;
 
 /*
@@ -30,7 +32,7 @@ import comp3350.team7.scheduleapp.presentation.fragment.InvalidInputDialogFragme
  *
  */
 
-public class EventCreationActivity extends AppCompatActivity {
+public class EventCreationActivity extends BaseActivity {
     DatePickerDialog datePicker;
     TimePickerDialog timePicker;
     EditText datePickerText;
@@ -68,20 +70,21 @@ public class EventCreationActivity extends AppCompatActivity {
                 int month = calendar.get(Calendar.MONTH);
                 int year = calendar.get(Calendar.YEAR);
                 datePicker = new DatePickerDialog(EventCreationActivity.this, new DatePickerDialog.OnDateSetListener() {
+
                     @Override
                     public void onDateSet(DatePicker view, int yearOfDecade, int monthOfYear, int dayOfMonth) {
 
-                        if (yearOfDecade >= year && monthOfYear >= month && dayOfMonth >= day) {
-                            if(yearOfDecade == year && monthOfYear == month && dayOfMonth ==day)
-                                isDateSetOnSameDay= true;
+                        //if (yearOfDecade >= year && monthOfYear >= month && dayOfMonth >= day) {
+                           // if(yearOfDecade == year && monthOfYear == month && dayOfMonth ==day)
+                                //isDateSetOnSameDay= true;
                             ourCalendar.set(year, month + 1, dayOfMonth);
                             datePickerText.setText(String.format("%d/%d/%d", dayOfMonth, month + 1, year));
-                            isDateValid = true;
-                        } else {
+                          //  isDateValid = true;
+                       /* } else {
                             InvalidInputDialogFragment invalid_date = new InvalidInputDialogFragment("Invalid Date Input");
                             invalid_date.show(getSupportFragmentManager(), "date input");
-                        }
-                    }
+                        }*/
+                    /**/}
                 }, year, month, day);
                 datePicker.show();
             }
@@ -98,23 +101,23 @@ public class EventCreationActivity extends AppCompatActivity {
                 timePicker = new TimePickerDialog(EventCreationActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfSecond) {
-                        if(isDateValid){
-                            if (!isDateSetOnSameDay || hourOfDay >= hour && minuteOfSecond >= minute) {
+                       // if(isDateValid){
+                           // if (!isDateSetOnSameDay || hourOfDay >= hour && minuteOfSecond >= minute) {
                                 ourCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                                 ourCalendar.set(Calendar.MINUTE, minute);
                                 timePickerText.setText(String.format("%d:%d", hourOfDay, minuteOfSecond));
-                                isTimeValid = true;
-                            }
+                               // isTimeValid = true;
+                          /*  }
                             else{
                                 InvalidInputDialogFragment invalid_time = new InvalidInputDialogFragment("Invalid Time Input\nplease set " +
                                         "a valid future time");
                                 invalid_time.show(getSupportFragmentManager(), "time input");
                                 timePickerText.setText("");
-                            }
-                        }else {
+                            }*/
+                       /* }else {
                             InvalidInputDialogFragment setDateFirst = new InvalidInputDialogFragment("Please Set Date First");
                             setDateFirst.show(getSupportFragmentManager(),"set date first");
-                        }
+                        }*/
 
                     }
 
@@ -125,7 +128,7 @@ public class EventCreationActivity extends AppCompatActivity {
         });
 
         // Save button listener
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        saveButton.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
@@ -138,10 +141,10 @@ public class EventCreationActivity extends AppCompatActivity {
         });
     }
 
-    private boolean isValidateBeforeSave() {
+    private void isValidateBeforeSave(Event event) throws InvalidEventException{
         String eventTitle = eventNameText.getText().toString();
         int titleLength = eventTitle.length();
-        if (!EventValidator.validateEventName(eventTitle)) {
+       /* if (!EventValidator.validateEventName(eventTitle)) {
             InvalidInputDialogFragment invalidEventName = new InvalidInputDialogFragment("Invalid Event Name" +
                     "\nOnly accept any combination of Word character,number and white space");
             invalidEventName.show(getSupportFragmentManager(), "event name");
@@ -152,12 +155,15 @@ public class EventCreationActivity extends AppCompatActivity {
         }else{
             isEventNameValid = true;
         }
-        return isDateValid && isTimeValid && isEventNameValid;
+        return isDateValid && isTimeValid && isEventNameValid;*/
+
+
     }
 
 
     private void returnResult() {
-        Event newUserEvent = new Event(eventNameText.getText().toString(), "description", ourCalendar);
+
+        Event newUserEvent = new Event(User.getUserId(), eventNameText.getText().toString(), "description", ourCalendar);
         Intent i = new Intent(EventCreationActivity.this,ScrollingActivity.class);
         i.putExtra("RETURN_DATA", newUserEvent);
 
@@ -165,4 +171,6 @@ public class EventCreationActivity extends AppCompatActivity {
         setResult(RESULT_OK, i);
         finish();
     }
+
+
 }

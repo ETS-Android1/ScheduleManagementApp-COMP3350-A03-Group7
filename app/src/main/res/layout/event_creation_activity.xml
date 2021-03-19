@@ -55,6 +55,7 @@
         app:layout_constraintVertical_bias="0.117" />
 
     <EditText
+        android:focusableInTouchMode="false"
         android:id="@+id/date_picker_text"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -81,6 +82,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
+        android:focusableInTouchMode="false"
         android:id="@+id/time_picker_text"
         android:layout_width="match_parent"
         android:layout_height="50dp"

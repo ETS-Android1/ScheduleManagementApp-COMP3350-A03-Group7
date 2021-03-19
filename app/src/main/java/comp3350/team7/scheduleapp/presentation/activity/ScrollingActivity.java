@@ -24,6 +24,7 @@ import comp3350.team7.scheduleapp.objects.Event;
 import comp3350.team7.scheduleapp.presentation.UiHelper.ItemOffsetDecoration;
 import comp3350.team7.scheduleapp.presentation.UiHelper.RecyclerViewOnItemtouchHelper;
 import comp3350.team7.scheduleapp.presentation.adapter.RecyclerViewAdapter;
+import comp3350.team7.scheduleapp.presentation.base.BaseActivity;
 
 
 
@@ -32,16 +33,13 @@ import comp3350.team7.scheduleapp.presentation.adapter.RecyclerViewAdapter;
  *
  */
 
-public class ScrollingActivity extends AppCompatActivity {
-
+public class ScrollingActivity extends BaseActivity {
+    private static final String TAG = "ScrollingActivity";
     private final static int REQUEST_CODE = 100;
 
-    /* View */
     RecyclerView recyclerView;
     View scrollingLayout;
     View fba;
-    /* View */
-
     RecyclerViewAdapter adapter;
     List<Event> eventList;
     EventController eventController;
@@ -117,7 +115,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE && data != null) {
-                Log.d(TAG.ScrollingActivity.toString(),"Got result back from CreateEvent");
+                Log.d(TAG,"Got result back from CreateEvent");
                 Event returnEvent = data.getParcelableExtra("RETURN_DATA");
                 addEventAndUpdateView(adapter, returnEvent);
                 Toast.makeText(ScrollingActivity.this, "Event Object Received :" + returnEvent.getTitle()
@@ -133,7 +131,7 @@ public class ScrollingActivity extends AppCompatActivity {
         try {
             eventController.addEvent(e);
         } catch (InvalidEventException err) {
-            Log.e(TAG.ScrollingActivity.toString(),err.getMessage());
+            Log.e(TAG,err.getMessage());
             err.printStackTrace();
         }
         // force redraw

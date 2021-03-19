@@ -13,13 +13,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.Calendar;
 import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.presentation.base.BaseActivity;
 
 /*
  * Created By Thai Tran on 16 March,2021
  *
  */
 
-public class ScheduleViewActivity extends AppCompatActivity {
+public class ScheduleViewActivity extends BaseActivity {
 
     Button viewSchedule;
     TextView selectedDate;
