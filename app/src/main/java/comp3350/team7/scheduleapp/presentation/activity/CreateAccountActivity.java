@@ -14,6 +14,7 @@ import comp3350.team7.scheduleapp.application.DbServiceProvider;
 import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.UserValidator;
 import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
+import comp3350.team7.scheduleapp.logic.exceptions.UserDBException;
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 import comp3350.team7.scheduleapp.presentation.base.BaseActivity;
@@ -96,7 +97,7 @@ public class CreateAccountActivity extends BaseActivity {
                         UserClient.setUser(newUser);
                         try{
                             userDB.addUser(newUser);
-                        }catch(DbErrorException err){
+                        }catch( UserDBException err){
                             Log.e(TAG,"Error cause by:" +err.getCause());
                             err.printStackTrace();
                             onError(err.getMessage());

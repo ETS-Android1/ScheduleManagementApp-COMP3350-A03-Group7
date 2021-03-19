@@ -4,15 +4,12 @@ package comp3350.team7.scheduleapp.application;
 import android.util.Log;
 
 import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
-import comp3350.team7.scheduleapp.persistence.SchedulePersistenceInterface;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 import comp3350.team7.scheduleapp.persistence.hsqldb.EventPersistenceHSQLDB;
-import comp3350.team7.scheduleapp.persistence.hsqldb.ScheduledEventsPersistenceHSQLDB;
 import comp3350.team7.scheduleapp.persistence.hsqldb.UserPersistenceHSQLDB;
 import comp3350.team7.scheduleapp.Application.Main;
 
 import comp3350.team7.scheduleapp.persistence.stubs.EventPersistenceStub;
-import comp3350.team7.scheduleapp.persistence.stubs.SchedulePersistenceStub;
 import comp3350.team7.scheduleapp.persistence.stubs.UserPersistenceStub;
 /*
 Purpose: To put a lock on the calls towards the methods and turn it into a Queue on who gets the database access
@@ -22,7 +19,7 @@ public class DbServiceProvider {
     private static final String TAG = "DbServiceProvider";
     private static UserPersistenceInterface userDatabase = null;
     private static EventPersistenceInterface eventDatabase = null;
-    private static SchedulePersistenceInterface scheduleDatabase = null;
+    //private static SchedulePersistenceInterface scheduleDatabase = null;
     private static String current_deploy_mode = null;
     private static DbServiceProvider instance =null;
 
@@ -45,16 +42,16 @@ public class DbServiceProvider {
             reset();
         }
 
-        if (userDatabase == null && eventDatabase == null && scheduleDatabase == null) {
+        if (userDatabase == null && eventDatabase == null ) {
             if (config.equals("production")) {
                 userDatabase = new UserPersistenceHSQLDB(Main.getDBPathName());
                 eventDatabase = new EventPersistenceHSQLDB(Main.getDBPathName());
-                scheduleDatabase = new ScheduledEventsPersistenceHSQLDB(Main.getDBPathName());
+                //scheduleDatabase = new ScheduledEventsPersistenceHSQLDB(Main.getDBPathName());
 
             } else if (config.equals("debug") || config.equals("development")) {
                 userDatabase = new UserPersistenceStub();
                 eventDatabase = new EventPersistenceStub();
-                scheduleDatabase = new SchedulePersistenceStub();
+                //scheduleDatabase = new SchedulePersistenceStub();
 
             }
             /* Since database only need 1 instance globally. look for dubug log and make sure we only get 1 of this log message */
@@ -70,13 +67,13 @@ public class DbServiceProvider {
         return eventDatabase;
     }
 
-    public synchronized SchedulePersistenceInterface getSchedulePersistence() {
+   /* public synchronized SchedulePersistenceInterface getSchedulePersistence() {
         return scheduleDatabase;
-    }
+    }*/
 
     public synchronized void reset() {
         eventDatabase = null;
-        scheduleDatabase = null;
+        //scheduleDatabase = null;
         userDatabase = null;
     }
 }

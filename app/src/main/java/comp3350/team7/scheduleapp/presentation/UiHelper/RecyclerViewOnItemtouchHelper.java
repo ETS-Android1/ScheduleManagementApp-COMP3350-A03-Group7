@@ -7,6 +7,7 @@ import android.os.Build;
 import android.service.controls.Control;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -74,12 +75,12 @@ public class RecyclerViewOnItemtouchHelper extends ItemTouchHelper.SimpleCallbac
             case ItemTouchHelper.LEFT:
                 //Remove item
                 Adapter.remove(viewHolderPosition);
-                Log.d(TAG.RecyclerViewOnItemtouchHelper.toString(), "Swipped Left");
+                Log.d(TAG.RecyclerViewOnItemtouchHelper.toString(), "Swipped Left, Event removed");
                 break;
         }
 
         Snackbar snackbar = Snackbar
-                .make(view, "You removed a task!", Snackbar.LENGTH_LONG);
+                .make(view, "Event removed!", Snackbar.LENGTH_LONG);
         snackbar.setAction("UNDO", new View.OnClickListener() {
             @Override
             public void onClick(View view) {

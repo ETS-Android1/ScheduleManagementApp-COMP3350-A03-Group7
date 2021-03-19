@@ -46,7 +46,7 @@ public class UserValidator {
         return isMatching;
     }
 
-    public static boolean isUniqueID(String userID) throws InvalidUserException {
+    public static boolean isUniqueID(String userID) {
         boolean uniqueUserID = false;
         try {
             User userInDB = userDB.getUser(userID);
@@ -55,13 +55,12 @@ public class UserValidator {
             }
         } catch (UserDBException err) {
             Log.d(TAG, err.getMessage() + ", Cause by: " + err.getCause());
-            throw new InvalidUserException("Something went wrong, userID may not exits");
         }
 
         return uniqueUserID;
     }
 
-    public static User validateLogin(String userID, String password) throws InvalidUserException {
+    public static User validateLogin(String userID, String password)  {
         try {
             User user = userDB.getUser(userID);
             if (user.getPassword() != password) {
@@ -70,10 +69,8 @@ public class UserValidator {
             return user;
         } catch (UserDBException err) {
             Log.d(TAG, err.getMessage());
-            throw new InvalidUserException("Something went wrong, user with " + userID +"may not exits",err);
         }
-
-
+        return null;
     }
 
     public static boolean passwordLengthCheck(String p) {

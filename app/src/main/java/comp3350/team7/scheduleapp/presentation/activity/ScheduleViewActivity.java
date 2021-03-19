@@ -45,7 +45,7 @@ public class ScheduleViewActivity extends BaseActivity {
                 mDay = calendar.get(Calendar.DATE);
                 mMonth = calendar.get(Calendar.MONTH);
                 mYear = calendar.get(Calendar.YEAR);
-                DatePickerDialog datePickerDialog=new DatePickerDialog(ScheduleView.this,
+                DatePickerDialog datePickerDialog=new DatePickerDialog(ScheduleViewActivity.this,
                         android.R.style.Theme_DeviceDefault_Dialog, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {

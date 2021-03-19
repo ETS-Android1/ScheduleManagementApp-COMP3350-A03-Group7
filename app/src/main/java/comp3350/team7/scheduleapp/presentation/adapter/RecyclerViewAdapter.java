@@ -16,8 +16,10 @@ import java.util.HashSet;
 import java.util.List;
 
 import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.EventController;
 import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
+import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
 import comp3350.team7.scheduleapp.logic.logTag.TAG;
 import comp3350.team7.scheduleapp.objects.Event;
@@ -28,6 +30,7 @@ import comp3350.team7.scheduleapp.objects.Event;
  */
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+    private static final String TAG = "RecyclerViewAdapter";
     private EventController eventController;
     private Context context;
     private List<Event> list;
@@ -40,7 +43,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         /* TODO: 2021-03-15
          *  inject eventController
          */
-        this.list = eventController.getEventList();
+        try{
+            this.list = eventController.getEventList(UserClient.getUserId());
+        }catch (EventControllerException err) {
+            Log.e(TAG,"Developer attention, internal error" );
+            Log.d(TAG,"Cause: " + err.getCause());
+            err.printStackTrace();
+        } {
+
+        }
         this.expandViewHolderPositionSet = new HashSet<>();
 
     }
@@ -71,7 +82,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 if (isViewHolderExpanded(position)) {
@@ -82,8 +92,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 notifyItemChanged(position);
             }
         });
-
-
     }
 
     private boolean isViewHolderExpanded(int position) {
@@ -121,12 +129,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 //        Event deletedItem = list.remove(position);
 //        // NOTE: don't call notifyDataSetChanged(
 //        //       It will cancel any animation
+        Event event = list.get(position);
         try {
-            eventController.removeEvent(position);
-        } catch (DbErrorException e) {
+            eventController.removeEvent(event);
+        } catch (EventControllerException e) {
             // always catch and log
             // we know where the bom init
-            Log.e(TAG.RecyclerViewAdapter.toString(), "Err: in remove " + e.getMessage());
+            Log.e(TAG, "Err: in remove " + e.getMessage());
             e.printStackTrace();
         }
         notifyItemRemoved(position);
@@ -143,10 +152,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // notify item added by position
         try {
             eventController.addEvent(deletedItem);
-        } catch (InvalidEventException e) {
+        } catch (EventControllerException e) {
             // always catch and log
             // we know where the bom init
-            Log.e(TAG.RecyclerViewAdapter.toString(), "Err: in Undo " + e.getMessage());
+            Log.e(TAG, "Err: in Undo " + e.getMessage());
             e.printStackTrace();
         }
         notifyItemInserted(position);
