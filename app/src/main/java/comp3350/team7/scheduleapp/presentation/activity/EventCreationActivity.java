@@ -40,13 +40,7 @@ public class EventCreationActivity extends BaseActivity {
     Button saveButton;
     Calendar calendar;
     Calendar ourCalendar;
-    /*boolean isDateValid = false;
-    boolean isTimeValid = false;
-    boolean isEventNameValid = false;
-    boolean isDateSetOnSameDay= false;
-    final int maxTitleLength = 60;
-    final int maxDescriptionLength =120;
-*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,17 +67,11 @@ public class EventCreationActivity extends BaseActivity {
                     @Override
                     public void onDateSet(DatePicker view, int yearOfDecade, int monthOfYear, int dayOfMonth) {
 
-                        //if (yearOfDecade >= year && monthOfYear >= month && dayOfMonth >= day) {
-                           // if(yearOfDecade == year && monthOfYear == month && dayOfMonth ==day)
-                                //isDateSetOnSameDay= true;
+
                             ourCalendar.set(yearOfDecade, monthOfYear, dayOfMonth);
                             datePickerText.setText(String.format("%d/%d/%d", dayOfMonth, month + 1, year));
-                          //  isDateValid = true;
-                       /* } else {
-                            InvalidInputDialogFragment invalid_date = new InvalidInputDialogFragment("Invalid Date Input");
-                            invalid_date.show(getSupportFragmentManager(), "date input");
-                        }*/
-                    /**/}
+
+                    }
                 }, year, month, day);
                 datePicker.show();
             }
@@ -100,24 +88,10 @@ public class EventCreationActivity extends BaseActivity {
                 timePicker = new TimePickerDialog(EventCreationActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfSecond) {
-                       // if(isDateValid){
-                           // if (!isDateSetOnSameDay || hourOfDay >= hour && minuteOfSecond >= minute) {
+
                                 ourCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                                 ourCalendar.set(Calendar.MINUTE, minuteOfSecond);
                                 timePickerText.setText(String.format("%d:%d", hourOfDay, minuteOfSecond));
-                               // isTimeValid = true;
-                          /*  }
-                            else{
-                                InvalidInputDialogFragment invalid_time = new InvalidInputDialogFragment("Invalid Time Input\nplease set " +
-                                        "a valid future time");
-                                invalid_time.show(getSupportFragmentManager(), "time input");
-                                timePickerText.setText("");
-                            }*/
-                       /* }else {
-                            InvalidInputDialogFragment setDateFirst = new InvalidInputDialogFragment("Please Set Date First");
-                            setDateFirst.show(getSupportFragmentManager(),"set date first");
-                        }*/
-
                     }
 
 
@@ -146,25 +120,6 @@ public class EventCreationActivity extends BaseActivity {
             }
         });
     }
-
-    //private void isValidateBeforeSave(Event event) throws InvalidEventException{
-        //String eventTitle = eventNameText.getText().toString();
-        //int titleLength = eventTitle.length();
-       /* if (!EventValidator.validateEventName(eventTitle)) {
-            InvalidInputDialogFragment invalidEventName = new InvalidInputDialogFragment("Invalid Event Name" +
-                    "\nOnly accept any combination of Word character,number and white space");
-            invalidEventName.show(getSupportFragmentManager(), "event name");
-        } else if(titleLength <4 || titleLength > maxTitleLength ) {
-            InvalidInputDialogFragment invalidEventName = new InvalidInputDialogFragment("Invalid Event Name" +
-                    "\nshould have at least 5 characters and no more than 60 characters");
-            invalidEventName.show(getSupportFragmentManager(), "title length");
-        }else{
-            isEventNameValid = true;
-        }
-        return isDateValid && isTimeValid && isEventNameValid;*/
-
-
-    //}
 
     private void persistEventDetails(Event event){
         EventPersistenceInterface eventPersistent = DbServiceProvider.getInstance().getEventPersistence();

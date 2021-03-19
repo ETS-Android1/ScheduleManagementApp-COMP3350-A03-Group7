@@ -20,12 +20,14 @@ import java.util.Calendar;
 import java.util.List;
 
 import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.application.DbServiceProvider;
 import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.EventController;
 import comp3350.team7.scheduleapp.logic.comparators.EventStartAscendingComparator;
 import comp3350.team7.scheduleapp.logic.comparators.EventStartDescendingComparator;
 import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
 import comp3350.team7.scheduleapp.objects.Event;
+import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
 import comp3350.team7.scheduleapp.presentation.UiHelper.ItemOffsetDecoration;
 import comp3350.team7.scheduleapp.presentation.UiHelper.RecyclerViewOnItemtouchHelper;
 import comp3350.team7.scheduleapp.presentation.adapter.RecyclerViewAdapter;
@@ -75,7 +77,8 @@ public class ScrollingActivity extends BaseActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void init() {
-        eventController = new EventController();
+        EventPersistenceInterface eventPersistence  = DbServiceProvider.getInstance().getEventPersistence();
+        eventController = new EventController(eventPersistence);
         try{
             eventList = eventController.getEventList(UserClient.getUserId());
         }catch (EventControllerException err){
@@ -83,6 +86,8 @@ public class ScrollingActivity extends BaseActivity {
             err.printStackTrace();
             onError(err.getMessage());
         }
+
+        ourCalendar = Calendar.getInstance();
 
 
     }
@@ -95,6 +100,7 @@ public class ScrollingActivity extends BaseActivity {
             }
         });
 
+        // sort ascending
         sortAsc.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -111,6 +117,8 @@ public class ScrollingActivity extends BaseActivity {
                 UpdateView(adapter, list);
             }
         });
+
+        // sort descending
         sortDesc.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -128,6 +136,7 @@ public class ScrollingActivity extends BaseActivity {
             }
         });
 
+        // pick date to see schedule on that date
         datePickerText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

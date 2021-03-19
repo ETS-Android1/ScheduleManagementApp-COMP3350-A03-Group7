@@ -212,7 +212,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
 
         try(final Connection c = connection()) {
             final PreparedStatement msg = c.prepareStatement(
-                    "SELECT * FROM EVENTS WHERE USERID = ? AND  STARTYEAR = ? AND STARTMONTH = ? AND STARTDAY = ?)");
+                    "SELECT * FROM EVENTS WHERE USERID = ? AND  STARTYEAR = ? AND STARTMONTH = ? AND STARTDAY = ?");
             msg.setString(1, username);
             msg.setInt(2, year);
             msg.setInt(2, month);

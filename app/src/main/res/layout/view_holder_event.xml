@@ -8,46 +8,6 @@
     android:orientation="vertical">
 
     <FrameLayout
-        android:id="@+id/backGround"
-        android:layout_width="match_parent"
-        android:layout_height="280dp"
-        android:background="@android:color/holo_green_dark">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            app:layout_constraintBottom_toBottomOf="@+id/check_icon"
-            app:layout_constraintTop_toBottomOf="@+id/check_icon">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="38dp"
-                android:layout_height="23dp"
-                android:layout_marginTop="36dp"
-                android:layout_marginEnd="380dp"
-                android:layout_marginRight="380dp"
-                android:text="@string/done"
-                android:textColor="#fff"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toStartOf="@+id/check_icon"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/check_icon"
-                android:layout_width="75dp"
-                android:layout_height="63dp"
-                android:layout_marginStart="452dp"
-                android:layout_marginLeft="452dp"
-                android:layout_marginTop="16dp"
-                android:contentDescription="@string/imageDescription"
-                android:src="@drawable/round_check_circle_outline_white_24dp"
-                app:layout_constraintStart_toEndOf="@+id/textView2"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </FrameLayout>
-
-    <FrameLayout
         android:id="@+id/foreGround"
         android:layout_width="match_parent"
         android:layout_height="280dp">
@@ -58,8 +18,8 @@
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="383dp"
-                android:layout_height="97dp"
+                android:layout_width="385dp"
+                android:layout_height="98dp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center|start"
                 android:paddingLeft="20dp"
@@ -91,9 +51,10 @@
                 android:layout_height="179dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.683" />
+                app:layout_constraintVertical_bias="1.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

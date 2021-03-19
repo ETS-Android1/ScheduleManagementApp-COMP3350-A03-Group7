@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
@@ -67,21 +68,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         Event event = list.get(position);
         holder.bind(position);
-        if (holder instanceof MyViewHolder) {
-            holder.textView3.setText(event.getTitle());
-            holder.textView4.setText(event.getEventStartToString());
-            holder.description.setText(event.getDescription());
+        holder.textView3.setText(event.getTitle());
+        holder.textView4.setText(event.getEventStartToString());
+        holder.description.setText(event.getDescription());
 
-        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isViewHolderExpanded(position)) {
-                    addExpandViewHolderPostion(position);
-                } else {
                     removeExpandViewHolderPosition(position);
+                } else {
+                    addExpandViewHolderPostion(position);
                 }
-                notifyItemChanged(position);
+                Toast.makeText(v.getContext(), "event clicked", Toast.LENGTH_SHORT).show();
+                notifyDataSetChanged();
             }
         });
     }
@@ -169,7 +169,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             textView3 = itemView.findViewById(R.id.textView3);
             textView4 = itemView.findViewById(R.id.textView4);
             foreGround = itemView.findViewById(R.id.foreGround);
-            backGround = itemView.findViewById(R.id.backGround);
+            //backGround = itemView.findViewById(R.id.backGround);
             holder = itemView.findViewById(R.id.holder);
             expandView = itemView.findViewById(R.id.expand_event_view);
             description = itemView.findViewById(R.id.event_description);
