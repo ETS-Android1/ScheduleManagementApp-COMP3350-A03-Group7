@@ -20,3 +20,5 @@ Deployment branch is where all the group members merged their branches after the
 
 
 ## [worksheet](i1_worksheet.md)
+
+## [Architecture.md](ARCHITECTURE.md)
