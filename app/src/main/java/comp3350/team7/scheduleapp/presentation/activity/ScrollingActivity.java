@@ -177,7 +177,7 @@ public class ScrollingActivity extends BaseActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void initRecyclerView() {
-        adapter = new RecyclerViewAdapter(this, eventController);
+        adapter = new RecyclerViewAdapter(this);
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.item_offset);
         recyclerView.addItemDecoration(itemDecoration);
         ((SimpleItemAnimator)recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);

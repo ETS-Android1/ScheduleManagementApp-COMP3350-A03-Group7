@@ -45,7 +45,7 @@ public class EventControllerIntergrationTest {
     @Test
     public void testAddEvent() throws EventControllerException {
         System.out.println("Starting testAddEvent");
-        final Event eventForAddEvent = eventController.CreateEvent("username","testAddEvent", "this is a test event", testStartDate);
+        final Event eventForAddEvent = eventController.addEvent("username","testAddEvent", "this is a test event", testStartDate);
         eventController.addEvent(eventForAddEvent);
         System.out.println("Finished testAddEvent");
     }
@@ -64,9 +64,9 @@ public class EventControllerIntergrationTest {
         System.out.println("Starting testCreateEvent");
         final Event createdEvent;
         final Event createdEvent1;
-        createdEvent = eventController.CreateEvent("username","testCreateEvent", "this is a test event", testStartDate);
+        createdEvent = eventController.addEvent("username","testCreateEvent", "this is a test event", testStartDate);
         assertNotNull(createdEvent);
-        createdEvent1 = eventController.CreateEvent("username","secondCreateEvent", "this is another test event", testStartDate, testEndDate);
+        createdEvent1 = eventController.addEvent("username","secondCreateEvent", "this is another test event", testStartDate, testEndDate);
         assertNotNull(createdEvent1);
         System.out.println("Finished testCreateEvent");
     }
@@ -75,7 +75,7 @@ public class EventControllerIntergrationTest {
     public void testRemoveEvent() throws EventControllerException {
         System.out.println("Starting testRemoveEvent");
         final Event createdEvent3;
-        createdEvent3 = eventController.CreateEvent("username","testRemoveEvent", "this is a test event", testStartDate);
+        createdEvent3 = eventController.addEvent("username","testRemoveEvent", "this is a test event", testStartDate);
         eventController.addEvent(createdEvent3);
         final List<Event> testEventList1 = eventController.getEventList("username");
         final int sizeOfList = testEventList1.size();
@@ -89,8 +89,8 @@ public class EventControllerIntergrationTest {
         System.out.println("Starting testUpdateEvent");
         final Event createdEvent4, createdEvent5;
         List<Event> eventList;
-        assertNotNull(createdEvent4 = eventController.CreateEvent("username","UpdateEvent1", "this is a testing update", testStartDate));
-        assertNotNull(createdEvent5 = eventController.CreateEvent("username","UpdateEvent2", "this is test for update", testStartDate));
+        assertNotNull(createdEvent4 = eventController.addEvent("username","UpdateEvent1", "this is a testing update", testStartDate));
+        assertNotNull(createdEvent5 = eventController.addEvent("username","UpdateEvent2", "this is test for update", testStartDate));
         eventController.addEvent(createdEvent4);
         eventList = eventController.getEventList("username");
         countBefore = eventList.size();

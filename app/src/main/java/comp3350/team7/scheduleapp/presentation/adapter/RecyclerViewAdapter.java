@@ -17,10 +17,12 @@ import java.util.HashSet;
 import java.util.List;
 
 import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.application.DbServiceProvider;
 import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.EventController;
 import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
 import comp3350.team7.scheduleapp.objects.Event;
+import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
 
 /*
  * Created By Thai Tran on 23 February,2021
@@ -35,25 +37,30 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private HashSet<Integer> expandViewHolderPositionSet;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public RecyclerViewAdapter(Context context, EventController eventController) {
+    public RecyclerViewAdapter(Context context) {
         this.context = context;
-        this.eventController = eventController;
         /* TODO: 2021-03-15
          *  inject eventController
          */
+       init();
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void init(){
+        EventPersistenceInterface eventPersistence = DbServiceProvider.getInstance().getEventPersistence();
+        eventController = new EventController(eventPersistence);
         try{
             this.list = eventController.getEventList(UserClient.getUserId());
         }catch (EventControllerException err) {
             Log.e(TAG,"Developer attention, internal error" );
-            Log.d(TAG,"Cause: " + err.getCause());
+            Log.d(TAG,"Caused by: " + err.getCause());
             err.printStackTrace();
         } {
 
         }
         this.expandViewHolderPositionSet = new HashSet<>();
-
     }
-
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -72,6 +79,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.textView4.setText(event.getEventStartToString());
         holder.description.setText(event.getDescription());
 
+        Log.d(TAG,"onBindViewHolder: "+ event.toString());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,7 +176,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(itemView);
             textView3 = itemView.findViewById(R.id.textView3);
             textView4 = itemView.findViewById(R.id.textView4);
-            foreGround = itemView.findViewById(R.id.foreGround);
+            //foreGround = itemView.findViewById(R.id.foreGround);
             //backGround = itemView.findViewById(R.id.backGround);
             holder = itemView.findViewById(R.id.holder);
             expandView = itemView.findViewById(R.id.expand_event_view);

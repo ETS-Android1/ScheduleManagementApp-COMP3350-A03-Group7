@@ -1,4 +1,4 @@
-package comp3350.team7.scheduleapp.application.ultil;
+package comp3350.team7.scheduleapp.Application.ultil;
 
 import android.content.Context;
 import android.content.res.AssetManager;

@@ -83,10 +83,11 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
             rs.close();
             msg.close();
 
-            return events;
         }catch (final SQLException e){
             throw new DbErrorException("Fail to get event list",e);
         }
+
+        return events;
     }
 
     @Override

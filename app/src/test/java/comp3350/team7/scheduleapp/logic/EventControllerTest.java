@@ -1,14 +1,11 @@
 package comp3350.team7.scheduleapp.logic;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Calendar;
 
-import comp3350.team7.scheduleapp.logic.EventController;
-import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
 import comp3350.team7.scheduleapp.objects.Event;
@@ -51,8 +48,8 @@ public class EventControllerTest {
     @Test
     public void testCreateEvent() throws EventControllerException {
         System.out.println("\nStarting testCreateEvent");
-        assertNotNull(eventController.CreateEvent("username","first test", "this is the first test description", startTestDate));
-        assertNotNull(eventController.CreateEvent("second test","second test","this is the second test description", startTestDate, endTestDate));
+        assertNotNull(eventController.addEvent("username","first test", "this is the first test description", startTestDate));
+        assertNotNull(eventController.addEvent("second test","second test","this is the second test description", startTestDate, endTestDate));
         assertNotNull(eventController.getEventList("username"));
         System.out.println("\nFinish testCreateEvent");
     }

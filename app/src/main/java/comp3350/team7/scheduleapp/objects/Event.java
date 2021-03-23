@@ -61,47 +61,47 @@ public class Event extends AbstractEvent implements Parcelable {
         this.username = username;
     }
     public int getID() {
-        return Event_id;
+        return this.Event_id;
     }
 
     public void setID(int eid) {
-        Event_id = eid;
+        this.Event_id = eid;
     }
 
 
     public String getTitle() {
-        return Event_title;
+        return this.Event_title;
     }
 
     public void setTitle(String title) {
-        Event_title = title;
+        this.Event_title = title;
     }
 
 
     public String getDescription() {
-        return Event_description;
+        return this.Event_description;
     }
 
     public void setDescription(String desc) {
-        Event_description = desc;
+        this.Event_description = desc;
     }
 
 
     public Calendar getEventStart() {
-        return eventStart;
+        return this.eventStart;
     }
 
     public String getEventStartToString() {
-        return timeDisplayHelper(eventStart);
+        return timeDisplayHelper(this.eventStart);
 
     }
 
     public Calendar getEventEnd() {
-        return eventEnd;
+        return this.eventEnd;
     }
 
     public String getEventEndToString() {
-        return timeDisplayHelper(eventEnd);
+        return timeDisplayHelper(this.eventEnd);
     }
 
     private String timeDisplayHelper(Calendar calendar) {
@@ -123,8 +123,9 @@ public class Event extends AbstractEvent implements Parcelable {
     public String toString() {
         return "Event{" +
                 "Event_id=" + Event_id +
-                ", Event_title='" + Event_title + '\'' +
-                ", eventStart=" + eventStart +
+                ", Event_title='" + Event_title +
+                ", Description=" + Event_description+
+                ", eventStart=" + eventStart.toString() +
                 '}';
     }
 

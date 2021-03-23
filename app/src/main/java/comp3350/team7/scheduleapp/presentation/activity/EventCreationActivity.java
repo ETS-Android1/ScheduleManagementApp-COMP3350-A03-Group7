@@ -40,20 +40,32 @@ public class EventCreationActivity extends BaseActivity {
     Button saveButton;
     Calendar calendar;
     Calendar ourCalendar;
-
+    EventController eventController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_creation_activity);
 
-        eventNameText = (EditText) findViewById(R.id.event_name_text);
+        init();
+       getView();
+       onClickListenerHelper();
 
+    }
+
+    private void init(){
+        ourCalendar = Calendar.getInstance();
+        EventPersistenceInterface eventPersistence = DbServiceProvider.getInstance().getEventPersistence();
+        eventController = new EventController(eventPersistence);
+    }
+
+    private void getView(){
+        eventNameText = (EditText) findViewById(R.id.event_name_text);
         datePickerText = (EditText) findViewById(R.id.date_picker_text);
         timePickerText = (EditText) findViewById(R.id.time_picker_text);
         saveButton = (Button) findViewById(R.id.save_event_button);
+    }
 
-        ourCalendar = Calendar.getInstance();
-
+    private void onClickListenerHelper(){
         // date picker input listener
         datePickerText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,8 +80,8 @@ public class EventCreationActivity extends BaseActivity {
                     public void onDateSet(DatePicker view, int yearOfDecade, int monthOfYear, int dayOfMonth) {
 
 
-                            ourCalendar.set(yearOfDecade, monthOfYear, dayOfMonth);
-                            datePickerText.setText(String.format("%d/%d/%d", dayOfMonth, month + 1, year));
+                        ourCalendar.set(yearOfDecade, monthOfYear, dayOfMonth);
+                        datePickerText.setText(String.format("%d/%d/%d", dayOfMonth, month + 1, year));
 
                     }
                 }, year, month, day);
@@ -89,9 +101,9 @@ public class EventCreationActivity extends BaseActivity {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfSecond) {
 
-                                ourCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                                ourCalendar.set(Calendar.MINUTE, minuteOfSecond);
-                                timePickerText.setText(String.format("%d:%d", hourOfDay, minuteOfSecond));
+                        ourCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        ourCalendar.set(Calendar.MINUTE, minuteOfSecond);
+                        timePickerText.setText(String.format("%d:%d", hourOfDay, minuteOfSecond));
                     }
 
 
@@ -102,36 +114,23 @@ public class EventCreationActivity extends BaseActivity {
 
         // Save button listener
         saveButton.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View v) {
-                Event newEvent = new Event(UserClient.getUserId(),eventNameText.getText().toString(), "description", ourCalendar);
+                Event newEvent = null;
                 try {
-                    EventValidator.validate(newEvent);
-
-                }catch(InvalidEventException error) {
-                    Log.d(TAG,error.getMessage());
-                    onError(error.getMessage());
+                    newEvent = eventController.buildEvent(UserClient.getUserId(),eventNameText.getText().toString(), "description", ourCalendar);
+                    eventController.addEvent(newEvent);
+                    returnResult();
+                    Log.d(TAG, "Saved");
+                } catch (EventControllerException e) {
+                    Log.d(TAG,"Caused by: " + e.getCause());
+                    onError(e.getMessage());
+                    e.printStackTrace();
                 }
-                persistEventDetails(newEvent);
-                returnResult();
-                Log.d(TAG, "Saved");
-
             }
         });
     }
 
-    private void persistEventDetails(Event event){
-        EventPersistenceInterface eventPersistent = DbServiceProvider.getInstance().getEventPersistence();
-        EventController eventController = new EventController(eventPersistent);
-        try {
-            eventController.addEvent(event);
-        }catch(EventControllerException e) {
-            Log.e(TAG,"Error cause by:" +e.getCause());
-            e.printStackTrace();
-            onError(e.getMessage());
-        }
-    }
     private void returnResult() {
         Intent i = new Intent(EventCreationActivity.this,ScrollingActivity.class);
        // i.putExtra("RETURN_DATA", returnEvent);

@@ -49,29 +49,29 @@ public class EventController {
         this.sortingStrategy = newSortStrategy;
     }
 
-//    public Event buildEvent(String userName, String eventName, String description, Calendar calStart) throws EventControllerException {
-//        Event newEvent = new Event(userName, eventName, description, calStart);
-//        try {
-//            EventValidator.validate(newEvent);
-//            return newEvent;
-//        } catch (InvalidEventException err) {
-//            Log.d(TAG, err.getMessage() + "Cause by" + err.getCause());
-//            throw new EventControllerException("Something went wrong, contact admin if needed\n" + err.getMessage());
-//        }
-//    }
-//
-//    public Event buildEvent(String userName, String eventName, String description, Calendar calStart, Calendar calEnd) throws EventControllerException {
-//        Event newEvent = new Event(userName, eventName, description, calStart, calEnd);
-//        try {
-//            EventValidator.validate(newEvent);
-//            return newEvent;
-//        } catch (InvalidEventException err) {
-//            Log.d(TAG, err.getMessage() + "Cause by" + err.getCause());
-//            throw new EventControllerException("Something went wrong, contact admin if needed\n" + err.getMessage());
-//        }
-//    }
+    public Event buildEvent(String userName, String eventName, String description, Calendar calStart) throws EventControllerException {
+        Event newEvent = new Event(userName, eventName, description, calStart);
+        try {
+            EventValidator.validate(newEvent);
+            return newEvent;
+        } catch (InvalidEventException err) {
+            Log.d(TAG, err.getMessage() + "Cause by" + err.getCause());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + err.getMessage());
+        }
+    }
 
-    public Event CreateEvent(String userName, String eventName, String description, Calendar calStart) throws EventControllerException {
+    public Event buildEvent(String userName, String eventName, String description, Calendar calStart, Calendar calEnd) throws EventControllerException {
+        Event newEvent = new Event(userName, eventName, description, calStart, calEnd);
+        try {
+            EventValidator.validate(newEvent);
+            return newEvent;
+        } catch (InvalidEventException err) {
+            Log.d(TAG, err.getMessage() + "Cause by" + err.getCause());
+            throw new EventControllerException("Something went wrong, contact admin if needed\n" + err.getMessage());
+        }
+    }
+
+  /*  public Event addEvent(String userName, String eventName, String description, Calendar calStart) throws EventControllerException {
         Event newEvent = new Event(userName, eventName, description, calStart);
         try {
             EventValidator.validate(newEvent);
@@ -85,7 +85,7 @@ public class EventController {
         return newEvent;
     }
 
-    public Event CreateEvent(String userName, String eventName, String description, Calendar calStart, Calendar calEnd) throws EventControllerException {
+    public Event addEvent(String userName, String eventName, String description, Calendar calStart, Calendar calEnd) throws EventControllerException {
         Event newEvent = new Event(userName, eventName, description, calStart, calEnd);
         try {
             EventValidator.validate(newEvent);
@@ -97,7 +97,7 @@ public class EventController {
             Log.d(TAG, err.getMessage() + "Cause by" + err.getCause());
             throw new EventControllerException("Something went wrong, contact admin if needed\n" + err.getMessage()); }
         return newEvent;
-    }
+    }*/
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public List<Event> getEventList(String userid) throws EventControllerException {
