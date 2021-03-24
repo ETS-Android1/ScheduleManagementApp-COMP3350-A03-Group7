@@ -10,7 +10,7 @@ import android.widget.*;
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.application.DbServiceProvider;
 import comp3350.team7.scheduleapp.application.UserClient;
-import comp3350.team7.scheduleapp.application.ultil.DbHelper;
+import comp3350.team7.scheduleapp.Application.ultil.DbHelper;
 import comp3350.team7.scheduleapp.logic.UserValidator;
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
