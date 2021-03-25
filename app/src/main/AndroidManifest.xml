@@ -22,7 +22,6 @@
             android:name=".presentation.activity.ScrollingActivity"
             android:label="@string/app_name" />
         <receiver android:name=".logic.AlarmService.AlarmReceiver" android:exported="true" android:enabled="true"/>
-        <receiver android:name=".logic.AlarmService.AlarmBoardcast" android:exported="true" android:enabled="true"/>
         <activity android:name=".presentation.activity.AlarmActivity"/>
     </application>
 

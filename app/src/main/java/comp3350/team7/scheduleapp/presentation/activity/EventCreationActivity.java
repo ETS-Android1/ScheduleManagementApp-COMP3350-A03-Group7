@@ -2,7 +2,6 @@ package comp3350.team7.scheduleapp.presentation.activity;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -22,16 +21,11 @@ import android.widget.TimePicker;
 
 import androidx.appcompat.app.AlertDialog;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.application.DbServiceProvider;
 import comp3350.team7.scheduleapp.application.UserClient;
-import comp3350.team7.scheduleapp.logic.AlarmService.AlarmBoardcast;
 import comp3350.team7.scheduleapp.logic.AlarmService.AlarmReceiver;
 import comp3350.team7.scheduleapp.logic.EventController;
 import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
