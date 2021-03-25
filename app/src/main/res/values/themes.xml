@@ -10,17 +10,25 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.ScheduleApp.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="Theme.ScheduleApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="Theme.ScheduleApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="ThemeOverlay.ScheduleApp.FullscreenContainer" parent="">
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
         <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
+
+    <style name="Theme.App" parent="Theme.MaterialComponents.DayNight">
+        ...
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
+    </style>
+
+    <style name="ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorSecondary">@color/colorPrimaryDark</item>
+        <item name="colorSurface">@color/colorAccent</item>
+        <item name="colorOnSurface">@color/colorAccent</item>
+        <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.App.Title.Text</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.App.Button</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Widget.App.Button</item>
     </style>
 </resources>

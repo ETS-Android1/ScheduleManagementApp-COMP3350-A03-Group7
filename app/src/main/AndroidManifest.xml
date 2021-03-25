@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ScheduleApp">
-        <activity android:name=".presentation.activity.ScheduleView" />
         <activity android:name=".presentation.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,8 +20,10 @@
         <activity android:name=".presentation.activity.EventCreationActivity" />
         <activity
             android:name=".presentation.activity.ScrollingActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.ScheduleApp.NoActionBar" />
+            android:label="@string/app_name" />
+        <receiver android:name=".logic.AlarmService.AlarmReceiver" android:exported="true" android:enabled="true"/>
+        <receiver android:name=".logic.AlarmService.AlarmBoardcast" android:exported="true" android:enabled="true"/>
+        <activity android:name=".presentation.activity.AlarmActivity"/>
     </application>
 
 </manifest>

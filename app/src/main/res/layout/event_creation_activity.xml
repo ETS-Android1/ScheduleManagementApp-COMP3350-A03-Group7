@@ -17,13 +17,15 @@
         android:id="@+id/create_event_title"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="330dp"
         android:gravity="center"
         android:text="Create Event"
         android:textColor="@color/primary_text"
         android:textColorLink="#FFFFFF"
         android:textSize="30sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/switch1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,6 +40,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:autoSizeTextType="uniform"
+        android:drawableTint="@color/cardview_dark_background"
         android:background="@drawable/form"
         android:drawableStart="@drawable/ic_book"
         android:drawableLeft="@drawable/ic_book"
@@ -55,7 +58,6 @@
         app:layout_constraintVertical_bias="0.117" />
 
     <EditText
-        android:focusableInTouchMode="false"
         android:id="@+id/date_picker_text"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -69,6 +71,7 @@
         android:drawableStart="@drawable/ic_book"
         android:drawableLeft="@drawable/ic_book"
         android:drawablePadding="@dimen/padd_10"
+        android:focusableInTouchMode="false"
         android:hint="Set a date"
         android:inputType="date"
         android:maxLines="1"
@@ -82,7 +85,34 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
+        android:id="@+id/date_picker_text2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:autoSizeTextType="uniform"
+        android:drawableTint="@color/cardview_dark_background"
+        android:background="@drawable/form"
+        android:drawableStart="@drawable/ic_book"
+        android:drawableLeft="@drawable/ic_book"
+        android:drawablePadding="@dimen/padd_10"
         android:focusableInTouchMode="false"
+        android:hint="Set a date"
+        android:inputType="date"
+        android:maxLines="1"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_name_text"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
         android:id="@+id/time_picker_text"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -92,10 +122,12 @@
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:autoSizeTextType="uniform"
+        android:drawableTint="@color/cardview_dark_background"
         android:background="@drawable/form"
         android:drawableStart="@drawable/ic_book"
         android:drawableLeft="@drawable/ic_book"
         android:drawablePadding="@dimen/padd_10"
+        android:focusableInTouchMode="false"
         android:hint="Set time"
         android:inputType="time"
         android:maxLines="1"
@@ -107,6 +139,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/date_picker_text"
         app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+
+        android:id="@+id/reminder"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/form"
+        android:clickable="false"
+        android:drawablePadding="@dimen/padd_10"
+        android:drawableTint="@color/cardview_dark_background"
+        android:focusableInTouchMode="false"
+        android:gravity="start|top"
+        android:maxLines="1"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:text="@string/alarm_reminder_before_1"
+        android:textFontWeight="500"
+        app:drawableLeftCompat="@drawable/ic_alarms"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/time_picker_text"
+        app:layout_constraintVertical_bias="0.031" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="89dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="48dp"
+        android:layout_marginRight="48dp"
+        android:layout_marginBottom="12dp"
+        android:text="Switch"
+        android:focusable="true"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/reminder"
+        app:layout_constraintEnd_toEndOf="@+id/reminder"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <Button
         android:id="@+id/save_event_button"
@@ -121,6 +195,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/reminder_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/alarm_reminder_before_2"
+        android:autoSizeTextType="uniform"
+        android:elevation="5dp"
+        app:layout_constraintStart_toStartOf="@+id/reminder"
+        app:layout_constraintTop_toTopOf="@+id/reminder" />
 
     <!--    <DatePicker-->
     <!--        android:id="@+id/date_picker"-->

@@ -80,7 +80,6 @@ public class UserValidator {
         if ((p.length() >= 8) && (p.length() <= 16)) {
             correctLength = true;
         }
-
         return correctLength;
     }
 
