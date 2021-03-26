@@ -42,6 +42,24 @@ public class LoginActivityTest {
     }
 
     @Test
+    public void visibilityTest(){
+        System.out.println("Starting visibilityTest.");
+
+        //check if Login Username textbox is visible
+        onView(withId(R.id.LoginUsernameInput)).check(matches(isDisplayed()));
+
+        //check if login password textbox is visible
+        onView(withId(R.id.LoginPasswordInput)).check(matches(isDisplayed()));
+
+        //check if login button is visible
+        onView(withId(R.id.loginButton)).check(matches(isDisplayed()));
+
+        //check if Create New Account button is visible
+        onView(withId(R.id.NewAccountButton)).check(matches(isDisplayed()));
+        System.out.println("Finished visibility Test");
+    }
+
+    @Test
     public void testUsernameInputText(){
         System.out.println("Starting testUsernameInputText.");
         onView(withId(R.id.LoginUsernameInput)).perform(typeText(usernameInput), closeSoftKeyboard());
