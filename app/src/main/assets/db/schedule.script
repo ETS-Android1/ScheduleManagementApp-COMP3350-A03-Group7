@@ -13,4 +13,4 @@ SET SCHEMA PUBLIC
 INSERT INTO USERS VALUES('ajoson', '123456', 'Aaron', 'Joson')
 INSERT INTO USERS VALUES('aanuraj', '123456', 'Antony','Anuraj')
 INSERT INTO USERS VALUES('ttran', '123456', 'Thai', 'Tran')
-INSERT INTO USERS VALUES('troy', '123456', 'Taylor', 'Roy'
+INSERT INTO USERS VALUES('troy', '123456', 'Taylor', 'Roy')
