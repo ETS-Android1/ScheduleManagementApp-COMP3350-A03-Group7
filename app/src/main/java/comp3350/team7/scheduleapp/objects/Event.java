@@ -17,6 +17,7 @@ public class Event extends AbstractEvent implements Parcelable {
     private String username;
     private Calendar eventStart;
     private Calendar eventEnd;
+    private Calendar alarm;
 
     public Event(String username, int eid, String title, String description, Calendar eventStart, Calendar eventEnd) {
         setID(eid);
@@ -25,6 +26,17 @@ public class Event extends AbstractEvent implements Parcelable {
         setStart(eventStart);
         setEnd(eventEnd);
         setUserName(username);
+        setAlarm(null);
+
+    }
+    public Event(String username, int eid, String title, String description, Calendar eventStart, Calendar eventEnd,Calendar alarm) {
+        setID(eid);
+        setTitle(title);
+        setDescription(description);
+        setStart(eventStart);
+        setEnd(eventEnd);
+        setUserName(username);
+        setAlarm(alarm);
 
     }
     public Event(String username, int eid, String title, String description, Calendar eventStart) {
@@ -34,6 +46,7 @@ public class Event extends AbstractEvent implements Parcelable {
         setStart(eventStart);
         setEnd(null);
         setUserName(username);
+        setAlarm(null);
 
     }
     public Event(String username,String title, String description, Calendar eventStart, Calendar eventEnd) {
@@ -42,7 +55,15 @@ public class Event extends AbstractEvent implements Parcelable {
         setStart(eventStart);
         setEnd(eventEnd);
         setUserName(username);
-
+        setAlarm(null);
+    }
+    public Event(String username,String title, String description, Calendar eventStart, Calendar eventEnd,Calendar alarm) {
+        setTitle(title);
+        setDescription(description);
+        setStart(eventStart);
+        setEnd(eventEnd);
+        setUserName(username);
+        setAlarm(alarm);
     }
     public Event(String username, String title, String description, Calendar eventStart) {
         setTitle(title);
@@ -50,6 +71,7 @@ public class Event extends AbstractEvent implements Parcelable {
         setStart(eventStart);
         setEnd(null);
         setUserName(username);
+        setAlarm(null);
 
     }
 
@@ -100,6 +122,10 @@ public class Event extends AbstractEvent implements Parcelable {
         return this.eventEnd;
     }
 
+    public Calendar getAlarm(){
+        return this.alarm;
+    }
+
     public String getEventEndToString() {
         return timeDisplayHelper(this.eventEnd);
     }
@@ -118,6 +144,9 @@ public class Event extends AbstractEvent implements Parcelable {
     public void setEnd(Calendar calendar) {
         eventEnd = calendar;
     }
+    public void setAlarm(Calendar alarm){
+        this.alarm = alarm;
+    }
 
     @Override
     public String toString() {
@@ -129,11 +158,16 @@ public class Event extends AbstractEvent implements Parcelable {
                 '}';
     }
 
-    /* Parceling process */
+
+
+
+
+
     protected Event(Parcel in) {
         Event_id = in.readInt();
         Event_title = in.readString();
         Event_description = in.readString();
+        username = in.readString();
         eventStart = (Calendar) in.readValue(Calendar.class.getClassLoader());
         eventEnd = (Calendar) in.readValue(Calendar.class.getClassLoader());
     }
@@ -148,6 +182,7 @@ public class Event extends AbstractEvent implements Parcelable {
         dest.writeInt(Event_id);
         dest.writeString(Event_title);
         dest.writeString(Event_description);
+        dest.writeString(username);
         dest.writeValue(eventStart);
         dest.writeValue(eventEnd);
     }

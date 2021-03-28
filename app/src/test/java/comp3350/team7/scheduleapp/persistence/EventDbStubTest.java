@@ -9,7 +9,7 @@ import java.util.Calendar;
 import comp3350.team7.scheduleapp.persistence.stubs.EventPersistenceStub;
 import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.objects.Event;
-import comp3350.team7.scheduleapp.persistence.stubs.EventPersistenceStub;
+
 import static org.junit.Assert.*;
 
 /*
@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 public class EventDbStubTest {
 
     private EventPersistenceStub eventDbStub;
-    private Event event;
+    private void event;
     private Event freshEvent;
     private Calendar calendar;
 

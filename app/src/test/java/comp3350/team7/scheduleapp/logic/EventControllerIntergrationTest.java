@@ -11,7 +11,6 @@ import java.util.List;
 
 import comp3350.team7.scheduleapp.Helper.TestHelper;
 import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
-import comp3350.team7.scheduleapp.objects.Event;
 import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
 import comp3350.team7.scheduleapp.persistence.hsqldb.EventPersistenceHSQLDB;
 
@@ -45,7 +44,7 @@ public class EventControllerIntergrationTest {
     @Test
     public void testAddEvent() throws EventControllerException {
         System.out.println("Starting testAddEvent");
-        final Event eventForAddEvent = eventController.addEvent("username","testAddEvent", "this is a test event", testStartDate);
+        final Void eventForAddEvent = eventController.addEvent("username","testAddEvent", "this is a test event", testStartDate);
         eventController.addEvent(eventForAddEvent);
         System.out.println("Finished testAddEvent");
     }
@@ -53,7 +52,7 @@ public class EventControllerIntergrationTest {
     @Test
     public void testGetEventList() throws EventControllerException {
         System.out.println("Starting testGetEventList");
-        final List<Event> testEventList;
+        final List<Void> testEventList;
         testEventList = eventController.getEventList("username");
         assertNotNull(testEventList);
         System.out.println("Finished testGetEventList");
@@ -62,8 +61,8 @@ public class EventControllerIntergrationTest {
     @Test
     public void testCreateEvent() throws EventControllerException {
         System.out.println("Starting testCreateEvent");
-        final Event createdEvent;
-        final Event createdEvent1;
+        final Void createdEvent;
+        final Void createdEvent1;
         createdEvent = eventController.addEvent("username","testCreateEvent", "this is a test event", testStartDate);
         assertNotNull(createdEvent);
         createdEvent1 = eventController.addEvent("username","secondCreateEvent", "this is another test event", testStartDate, testEndDate);
@@ -74,10 +73,10 @@ public class EventControllerIntergrationTest {
     @Test
     public void testRemoveEvent() throws EventControllerException {
         System.out.println("Starting testRemoveEvent");
-        final Event createdEvent3;
+        final Void createdEvent3;
         createdEvent3 = eventController.addEvent("username","testRemoveEvent", "this is a test event", testStartDate);
         eventController.addEvent(createdEvent3);
-        final List<Event> testEventList1 = eventController.getEventList("username");
+        final List<Void> testEventList1 = eventController.getEventList("username");
         final int sizeOfList = testEventList1.size();
         eventController.removeEvent(createdEvent3);
         assertEquals(sizeOfList-1,(eventController.getEventList("username")).size());
@@ -87,8 +86,9 @@ public class EventControllerIntergrationTest {
     @Test
     public void testUpdateEvent() throws EventControllerException {
         System.out.println("Starting testUpdateEvent");
-        final Event createdEvent4, createdEvent5;
-        List<Event> eventList;
+        final Void createdEvent4;
+        final void createdEvent5;
+        List<Void> eventList;
         assertNotNull(createdEvent4 = eventController.addEvent("username","UpdateEvent1", "this is a testing update", testStartDate));
         assertNotNull(createdEvent5 = eventController.addEvent("username","UpdateEvent2", "this is test for update", testStartDate));
         eventController.addEvent(createdEvent4);

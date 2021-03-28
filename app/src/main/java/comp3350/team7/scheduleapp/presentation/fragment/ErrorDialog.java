@@ -38,11 +38,7 @@ public class ErrorDialog extends DialogFragment {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(displayMessage)
-//                    .setPositiveButton(R.string.fire, new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int id) {
-//                            // FIRE ZE MISSILES!
-//                        }
-//                    })
+                .setIcon(android.R.drawable.ic_dialog_alert)
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User cancelled the dialog

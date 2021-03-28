@@ -5,6 +5,8 @@ package comp3350.team7.scheduleapp.logic.exceptions.base;
  *
  */
 
+import android.util.Log;
+
 public class BaseException extends Exception{
     public BaseException(String message) {
         super(message);
@@ -13,4 +15,5 @@ public class BaseException extends Exception{
     public BaseException(String message, Throwable cause) {
         super(message, cause);
     }
+
 }

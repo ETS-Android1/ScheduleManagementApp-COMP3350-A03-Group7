@@ -39,10 +39,16 @@
         android:layout_marginRight="20dp"
         android:layout_marginBottom="250dp"
         app:cardCornerRadius="30dp"
-        app:cardElevation="0dp"
-        android:layout_alignParentEnd="true"
+        app:cardElevation="0dp">
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginRight="17dp"
+        androandroid:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_centerHorizontal="true">
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        id:layout_marginBottom="259dp"
 
         <ImageButton
 
@@ -181,17 +187,17 @@
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switch1"
-                android:layout_width="89dp"
-                android:layout_height="wrap_content"
+                android:layout_width="98dp"
+                android:layout_height="33dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="13dp"
+                android:layout_marginBottom="4dp"
+                android:autoSizeTextType="uniform"
                 android:elevation="5dp"
                 android:focusable="true"
                 android:text="Switch"
                 app:layout_constraintBottom_toBottomOf="@+id/reminder"
-                app:layout_constraintEnd_toEndOf="@+id/reminder"
-                 />
+                app:layout_constraintEnd_toEndOf="@+id/reminder" />
 
             <Button
 
@@ -215,7 +221,7 @@
                 android:textFontWeight="500"
                 app:drawableLeftCompat="@drawable/alarm_on"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

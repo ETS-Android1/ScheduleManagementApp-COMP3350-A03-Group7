@@ -16,7 +16,7 @@ import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
  *
  */
 public class EventPersistenceStub implements EventPersistenceInterface {
-    private final List<Event> eventList;
+    private final ArrayList<Event> eventList;
     private final int numEventStub =20;
     private static int id =0;
     public EventPersistenceStub() {
@@ -32,7 +32,7 @@ public class EventPersistenceStub implements EventPersistenceInterface {
         for (int i = 0; i < numEventStub; i++) {
             randCalendar = getRandCalendarInstance();
             randEventName = getRandEventName();
-            eventList.add(new Event("username",++id, randEventName, randEventDesciption, randCalendar));
+            eventList.add(new Event("username",++id, randEventName, randEventDesciption, randCalendar,null));
         }
     }
 
@@ -109,11 +109,11 @@ public class EventPersistenceStub implements EventPersistenceInterface {
     public void addEvent(Event e) {
         eventList.add(e);
     }
-
-    @Override
-    public void addEventNoEnd(Event newEvent) throws DbErrorException {
-        eventList.add(newEvent);
-    }
+//
+//    @Override
+//    public void addEventNoEnd(Event newEvent) throws DbErrorException {
+//        eventList.add(newEvent);
+//    }
 
     @Override
     public void removeEvent(Event e) throws DbErrorException {
@@ -133,13 +133,12 @@ public class EventPersistenceStub implements EventPersistenceInterface {
     }
 
     @Override
-    public Event updateEvent(Event old, Event fresh) throws DbErrorException {
-        int index = eventList.indexOf(old);
+    public void updateEvent(Event fresh) throws DbErrorException {
+        int index  = fresh.getID();
         if (index < 0) {
-            throw new DbErrorException(String.format("%s %s %s", "Event: ", old.toString(), "not exist in the database."));
+            throw new DbErrorException(String.format("%s %s %s", "Event: ", fresh.toString(), "not exist in the database."));
         }
         eventList.set(index, fresh);
-        return eventList.get(index);
     }
 
     @Override
@@ -155,7 +154,7 @@ public class EventPersistenceStub implements EventPersistenceInterface {
 
     @Override
     public List<Event> getScheduleForUserOnDate(String username, Calendar date) throws DbErrorException {
-        List<Event> res =new ArrayList<Event>();
+        List<Event> res =new ArrayList<>();
         for (int i = 0; i < eventList.size() ; i++) {
             Event tempEvent = eventList.get(i);
            if(date.get(Calendar.DATE) ==  tempEvent.getEventStart().get(Calendar.DATE))

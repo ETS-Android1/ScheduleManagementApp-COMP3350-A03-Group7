@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created By Thai Tran on 25 March,2021
+  ~
+  -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <item android:state_enabled="true" android:state_focused="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/rad_5" />
+            <stroke android:width="3dp" android:color="@color/primary" />
+            <padding android:bottom="@dimen/padd_10" android:left="@dimen/padd_10" android:right="@dimen/padd_10" android:top="@dimen/padd_10" />
+            <solid android:color="@color/white" />
+        </shape>
+    </item>
+
+    <item android:state_enabled="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/rad_5" />
+            <stroke android:width="3px" android:color="@color/design_default_color_on_secondary" />
+            <padding android:bottom="@dimen/padd_10" android:left="@dimen/padd_10" android:right="@dimen/padd_10" android:top="@dimen/padd_10" />
+        </shape>
+    </item>
+
+
+</selector>
+

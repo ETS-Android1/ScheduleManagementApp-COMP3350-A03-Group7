@@ -13,7 +13,7 @@ import comp3350.team7.scheduleapp.objects.Event;
 
 public class EventValidatorTest {
 
-    public Event testEvent;
+    public Void testEvent;
     boolean worked;
 
     @Before

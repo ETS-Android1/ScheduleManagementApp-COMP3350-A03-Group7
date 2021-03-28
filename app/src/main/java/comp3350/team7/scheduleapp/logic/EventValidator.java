@@ -19,14 +19,19 @@ public class EventValidator {
     public static void validate(Event e) throws InvalidEventException {
         if (e != null && e.getEventStart() != null && e.getDescription() != null
                 && e.getTitle() != null && e.getUserName() != null) {
-
+            Calendar now = Calendar.getInstance();
+            Calendar start = e.getEventStart();
+            Calendar end = e.getEventEnd();
+            Calendar alarm = e.getAlarm();
             validateEventName(e.getTitle());
             validateEventDescription(e.getDescription());
-            if (e.getEventEnd() != null)
-                validateEventStartAndEndTime(e.getEventStart(), e.getEventEnd(), Calendar.getInstance());
+            if (end != null)
+                validateEventStartAndEndTime(start, end, now);
             else {
-                validateEventStartTime(e.getEventStart(), Calendar.getInstance());
+                validateEventStartTime(start, now);
             }
+            if(alarm!=null)
+                validateAlarm(start,now,alarm);
         } else {
             throw new InvalidEventException("Some thing missing");
         }
@@ -40,7 +45,7 @@ public class EventValidator {
                     "\nOnly accept any combination of Word character,number and white space");
         else if (description.length() > 120)
             throw new InvalidEventException("Invalid Event Description" +
-                    "\nShould have at least 5 characters and no more than " + maxDescriptionLength + "characters");
+                    "\nShould have at least 5 characters and no more than " + maxDescriptionLength + " characters");
     }
     /*
      * valid if eName match combination of
@@ -56,7 +61,7 @@ public class EventValidator {
                     "\nOnly accept any combination of Word character,number and white space");
         else if (eName.length() > 30)
             throw new InvalidEventException("Invalid Event Name" +
-                    "\nShould have at least 5 characters and no more than " + maxTitleLength+ "characters");
+                    "\nShould have at least 5 characters and no more than " + maxTitleLength+ " characters");
 
     }
 
@@ -65,7 +70,7 @@ public class EventValidator {
      */
     public static void validateEventStartTime(Calendar eStart, Calendar now) throws InvalidEventException {
         if (!eStart.after(now))
-            throw new InvalidEventException("Invalid Event Start Time");
+            throw new InvalidEventException("Invalid Event Start Time\nStart time has to be set in the future");
 
     }
 
@@ -73,9 +78,15 @@ public class EventValidator {
      * valid if eEnd set after eStart and after now
      */
     public static void validateEventStartAndEndTime(Calendar eEnd, Calendar eStart, Calendar now) throws InvalidEventException {
+        validateEventStartTime(eStart, now);
         if (!eEnd.after(eStart))
             throw new InvalidEventException("Invalid Event End Time");
-        else if(!eStart.after(now))
-            throw new InvalidEventException("Invalid Event Start Time");
+
     }
+    public static void validateAlarm(Calendar start, Calendar now, Calendar alarm) throws InvalidEventException {
+       if(start.before(alarm) || alarm.before(now)){
+           throw new InvalidEventException("Invalid Alarm, Alarm should be set between current time and event'starting time");
+       }
+    }
+
 }

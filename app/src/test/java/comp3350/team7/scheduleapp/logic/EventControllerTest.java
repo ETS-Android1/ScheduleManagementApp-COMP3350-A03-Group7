@@ -22,8 +22,8 @@ public class EventControllerTest {
     private EventController eventController;
     private Calendar startTestDate;
     private Calendar endTestDate;
-    private Event testEvent;
-    private Event finalTestEvent;
+    private Void testEvent;
+    private void finalTestEvent;
     private int beforeCount, afterCount;
 
     @Before
@@ -83,7 +83,7 @@ public class EventControllerTest {
     @Test
     public void testRemoveInvalidEvent() {
         System.out.println("\nStarting testRemoveInvalidEvent");
-        Event nullEvent = null;
+        Void nullEvent = null;
         assertThrows(EventControllerException.class,()-> {
             eventController.removeEvent(nullEvent);
         });

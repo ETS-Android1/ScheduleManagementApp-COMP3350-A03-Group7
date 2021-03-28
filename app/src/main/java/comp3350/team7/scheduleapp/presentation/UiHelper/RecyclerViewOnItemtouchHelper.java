@@ -1,6 +1,5 @@
 package comp3350.team7.scheduleapp.presentation.UiHelper;
 
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;

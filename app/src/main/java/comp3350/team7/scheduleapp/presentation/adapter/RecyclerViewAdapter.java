@@ -1,18 +1,25 @@
 package comp3350.team7.scheduleapp.presentation.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -23,6 +30,7 @@ import comp3350.team7.scheduleapp.logic.EventController;
 import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
 import comp3350.team7.scheduleapp.objects.Event;
 import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
+import comp3350.team7.scheduleapp.presentation.activity.EventCreationActivity;
 
 /*
  * Created By Thai Tran on 23 February,2021
@@ -34,14 +42,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private EventController eventController;
     private Context context;
     private List<Event> list;
-    private HashSet<Integer> expandViewHolderPositionSet;
+    private static HashSet<Integer> expandViewHolderPositionSet;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public RecyclerViewAdapter(Context context) {
         this.context = context;
-        /* TODO: 2021-03-15
-         *  inject eventController
-         */
        init();
 
     }
@@ -66,7 +71,41 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
         v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_event, parent, false);
-        return new MyViewHolder(v);
+        //MyViewHolder holder = new MyViewHolder(v, new )
+        MyViewHolder holder =  new MyViewHolder(v, new MyViewHolder.MyClickListener() {
+            @Override
+            public void onEdit(int position) {
+                Log.d(TAG,"onEdit clicked");
+                Event onEditEvent = list.get(position);
+                Intent intent = new Intent(context,EventCreationActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("EVENT_USER_ID", onEditEvent.getUserName());
+                bundle.putInt("EVENT_ID",onEditEvent.getID());
+                intent.putExtra("EVENT_UNIQUE",bundle );
+                //intent.putExtra("EVENT_ID", onEditEvent.getID());
+                //intent.putExtra("EVENT_USER_ID", onEditEvent.getUserName());
+                //Bundle bundle = new Bundle();
+                //bundle.putParcelable("EVENT_DATA", onEditEvent);
+                //context.startActivity(intent,bundle);
+                context.startActivity(intent);
+            }
+            @Override
+            public void onClick(int position){
+                if (isViewHolderExpanded(position)) {
+                    removeExpandViewHolderPosition(position);
+                } else {
+                    addExpandViewHolderPostion(position);
+                }
+                Toast.makeText(v.getContext(), "event clicked", Toast.LENGTH_SHORT).show();
+                notifyDataSetChanged();
+            }
+            @Override
+            public void onDelete(int position) {
+                Log.d(TAG,"onDelete clicked");
+            }
+        });
+        return holder;
+
     }
 
 
@@ -78,23 +117,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.textView3.setText(event.getTitle());
         holder.textView4.setText(event.getEventStartToString());
         holder.description.setText(event.getDescription());
-
-        Log.d(TAG,"onBindViewHolder: "+ event.toString());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isViewHolderExpanded(position)) {
-                    removeExpandViewHolderPosition(position);
-                } else {
-                    addExpandViewHolderPostion(position);
-                }
-                Toast.makeText(v.getContext(), "event clicked", Toast.LENGTH_SHORT).show();
-                notifyDataSetChanged();
-            }
-        });
+        Calendar alarm = event.getAlarm();
+        if(alarm!=null) {
+//            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+//            String timeString = formatter.format(new Date((long)alarm));
+            SimpleDateFormat dateformatter = new SimpleDateFormat("dd/MM/yyyy\nHH:mm");
+            String dateString = dateformatter.format(new Date(alarm.getTimeInMillis()));
+            holder.remindMe.setText(dateString);
+        }
     }
 
-    private boolean isViewHolderExpanded(int position) {
+    private static boolean isViewHolderExpanded(int position) {
         return expandViewHolderPositionSet.contains(position);
     }
 
@@ -161,19 +194,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         notifyItemInserted(position);
     }
 
-    public void click(Event clickedEvent, int position) {
 
-    }
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView textView3;
         public TextView textView4;
         public TextView description;
         public TextView remindMe;
+        public ImageView alarm_ic, edit_ic;
         public View holder, foreGround, backGround, expandView;
-
-        public MyViewHolder(View itemView) {
+        MyClickListener listener;
+        public MyViewHolder(View itemView,MyClickListener listener) {
             super(itemView);
+            this.listener = listener;
             textView3 = itemView.findViewById(R.id.textView3);
             textView4 = itemView.findViewById(R.id.textView4);
             //foreGround = itemView.findViewById(R.id.foreGround);
@@ -182,13 +214,42 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             expandView = itemView.findViewById(R.id.expand_event_view);
             description = itemView.findViewById(R.id.event_description);
             remindMe = itemView.findViewById(R.id.remind_me);
+            alarm_ic = itemView.findViewById(R.id.alarm_ic);
+            edit_ic  = itemView.findViewById(R.id.edit_ic);
 
+            alarm_ic.setOnClickListener(this);
+            edit_ic.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
         private void bind(int position) {
             expandView.setVisibility(isViewHolderExpanded(position) ? View.VISIBLE : View.GONE);
-
         }
 
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.edit_ic:
+                    listener.onEdit(this.getLayoutPosition());
+                    break;
+                case R.id.alarm_ic:
+                    listener.onDelete(this.getLayoutPosition());
+                    break;
+                default:
+                    listener.onClick(this.getLayoutPosition());
+                    break;
+
+
+            }
+        }
+        public interface MyClickListener{
+            void onEdit(int position);
+            void onDelete(int position);
+            void onClick(int position);
+        }
+
+
     }
+
+
 }
