@@ -16,9 +16,9 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
@@ -31,6 +31,7 @@ import java.util.Date;
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.application.DbServiceProvider;
 import comp3350.team7.scheduleapp.application.UserClient;
+import comp3350.team7.scheduleapp.logic.AlarmController;
 import comp3350.team7.scheduleapp.logic.AlarmService.AlarmReceiver;
 import comp3350.team7.scheduleapp.logic.EventController;
 import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
@@ -48,21 +49,16 @@ public class EventCreationActivity extends BaseActivity {
     final int ALARM_BROADCAST_REQUEST_CODE = 0;
     DatePickerDialog datePicker;
     TimePickerDialog timePicker;
-    EditText datePickerText;
-    EditText eventNameText;
-    EditText timePickerText;
-    EditText description;
-    Button saveButton;
-    Button alarmSettingButton;
-    Button setImage;
+    EditText datePickerText, eventNameText, timePickerText, description;
+    Button saveButton, alarmSettingButton;
     TextView reminder_info;
+    SwitchCompat sw;
+
+    int minPiorAlarm = 5;  // default
     Calendar tempCalendar, startCalendar, alarmCalendar;
     EventController eventController;
-    SwitchCompat sw;
-    int minPiorAlarm = 5;  // default
     Resources res;
     Event onReturnEditEvent;
-    Object alarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,30 +71,47 @@ public class EventCreationActivity extends BaseActivity {
     }
 
     private void init() {
-        EventPersistenceInterface eventPersistence = DbServiceProvider.getInstance().getEventPersistence();
-        eventController = new EventController(eventPersistence);
-        res = getResources();
-        Bundle bundle = getOnReturnEditEventId();
+
+        EventPersistenceInterface eventPersistence = DbServiceProvider.getInstance().getEventPersistence(); // get event database
+        eventController = new EventController(eventPersistence); // inject db to event controller
+        res = getResources(); // get application resource
+        Bundle bundle = getBundleFromOnReturnEditEventId(); // get bundle for event returns from edit action
+        onReturnEditEvent = getEventFromOnReturnEditEvent(bundle); // get event returns from edit action
+        if (onReturnEditEvent != null) {
+            startCalendar = onReturnEditEvent.getEventStart();
+            alarmCalendar = onReturnEditEvent.getAlarm();
+            setView(onReturnEditEvent); // set view according for the return event
+            Log.d(TAG,"Finish Init For Edit Event");
+        } else {
+            startCalendar = Calendar.getInstance();
+            Log.d(TAG,"Finish Init For New Event");
+        }
+
+        setAlarmInfo(minPiorAlarm);
+
+
+    }
+
+    public Event getEventFromOnReturnEditEvent(Bundle bundle){
+        Event retEvent = null;
+        if(bundle!=null){
+            String userId = bundle.getString("EVENT_USER_ID");
+            int eventId = bundle.getInt("EVENT_ID");
+            retEvent = getEvent(userId, eventId);
+        }
+        return retEvent;
+
+
+    }
+    public Event getEvent(String userId, int eventId){
+        Event retEvent = null;
         try {
-            onReturnEditEvent = eventController.getEvent(bundle.getString("EVENT_USER_ID"),bundle.getInt("EVENT_ID"));
+            retEvent = eventController.getEvent(userId,eventId);
         } catch (EventControllerException e) {
             Log.d(TAG, "Caused by : " + e.getCause());
             onError(e.getMessage());
         }
-        if (onReturnEditEvent != null) {
-            Log.d(TAG, onReturnEditEvent.toString());
-            startCalendar = onReturnEditEvent.getEventStart();
-            alarmCalendar = onReturnEditEvent.getAlarm();
-            setView(onReturnEditEvent);
-        }
-        else{
-            startCalendar = Calendar.getInstance();
-            Log.d(TAG,"startCalandar new instance");
-        }
-
-        setAlarmInfo();
-
-
+        return retEvent;
     }
 
     private void getView() {
@@ -123,11 +136,11 @@ public class EventCreationActivity extends BaseActivity {
         String dateString = dateformatter.format(new Date(event.getEventStart().getTimeInMillis()));
         timePickerText.setText(timeString);
         datePickerText.setText(dateString);
-        Calendar alarm  = event.getAlarm();
+        Calendar alarm = event.getAlarm();
         if (alarm != null) {
             sw.setChecked(true);
             Log.d(TAG, "switch change state");
-            minPiorAlarm= getAlarmTriggerAtMinFromMillis(event.getEventStart().getTimeInMillis(), alarm.getTimeInMillis());
+            minPiorAlarm = AlarmController.getAlarmTriggerAtMinFromMillis(event.getEventStart().getTimeInMillis(), alarm.getTimeInMillis());
         }
 
 
@@ -195,7 +208,7 @@ public class EventCreationActivity extends BaseActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 minPiorAlarm = (which + 1) * 5;
-                                setAlarmInfo();
+                                setAlarmInfo(minPiorAlarm);
                             }
                         })
                         .create()
@@ -222,7 +235,7 @@ public class EventCreationActivity extends BaseActivity {
             public void onClick(View v) {
                 String eventTitle = eventNameText.getText().toString();
                 String eventDescription = description.getText().toString();
-                long triggerAtMillis = getAlarmTriggerAtMilliSecondFromMin(startCalendar.getTimeInMillis(),minPiorAlarm);
+                long triggerAtMillis = AlarmController.getAlarmTriggerAtMilliSecondFromMin(startCalendar.getTimeInMillis(), minPiorAlarm);
                 alarmCalendar = Calendar.getInstance();
                 alarmCalendar.setTimeInMillis(triggerAtMillis);
                 Log.d(TAG, alarmCalendar.getTime().toString());
@@ -231,32 +244,31 @@ public class EventCreationActivity extends BaseActivity {
                 try {
                     if (sw.isChecked()) {
                         newEvent = eventController.buildEvent(UserClient.getUserId(), eventTitle, eventDescription, startCalendar, null, alarmCalendar);
-                        setAlarmService(eventTitle, triggerAtMillis);
-                    }
-                    else
+                        AlarmController.setAlarmService(getApplicationContext(),eventTitle, triggerAtMillis);
+                    } else
                         newEvent = eventController.buildEvent(UserClient.getUserId(), eventTitle, eventDescription, startCalendar, null);
                 } catch (EventControllerException e) {
                     Log.d(TAG, "Caused by " + e.getCause());
                     onError(e.getMessage());
                 }
 
-                if(newEvent!=null){
+                if (newEvent != null) {
                     if (onReturnEditEvent != null) {
                         try {
-                            onReturnEditEvent= eventController.updateEvent(onReturnEditEvent, newEvent);
-                            // clean up
-                            onReturnEditEvent = null;
+                            onReturnEditEvent = eventController.updateEvent(onReturnEditEvent, newEvent); // edited event
+                            onReturnEditEvent = null;  // clean up
                             returnResult();
                             Log.d(TAG, "Event Update Successfully and Saved");
-
+                            Toast.makeText(EventCreationActivity.this,"Event Update Successfully",Toast.LENGTH_SHORT).show();;
                         } catch (EventControllerException e) {
                             e.printStackTrace();
                         }
                     } else {
                         try {
-                            eventController.addEvent(newEvent);
+                            eventController.addEvent(newEvent); // created event
                             returnResult();
-                            Log.d(TAG, "Event Created and Saved");
+                            Log.d(TAG, "Event Created Successfully and Saved");
+                            Toast.makeText(EventCreationActivity.this,"Event Created Successfully",Toast.LENGTH_SHORT).show();;
                         } catch (EventControllerException e) {
                             Log.d(TAG, "Caused by: " + e.getCause());
                             onError(e.getMessage());
@@ -270,23 +282,18 @@ public class EventCreationActivity extends BaseActivity {
         });
     }
 
-    //    @RequiresApi(api = Build.VERSION_CODES.N)
-//    private void updateEvent(Event onReturnEditEvent, Event fresh){
-//        try {
-//            eventController.updateEvent(onReturnEditEvent,fresh);
-//        } catch (EventControllerException e) {
-//            onReturnEditEvent =null;
-//            onError(e.getMessage());
-//            Log.d(TAG,"Caused by: " + e.getCause());
-//            e.printStackTrace();
-//        }
-//    }
+
+  /*  private String setAlarmContetent(String eventName, int minPiorAlarm) {
+        return String.format(String.valueOf(R.string.alarm_content), minPiorAlarm, eventName);
+    }
+
     private long getAlarmTriggerAtMilliSecondFromMin(long millisStart, int minPiorAlarm) {
         long minPiorAlarmAtMillis = minPiorAlarm * 60000L;
         //Log.d(TAG,minPiorAlarmAtMillis +" | " + (startCalendar.getTimeInMillis() - minPiorAlarmAtMillis) );
         return millisStart - minPiorAlarmAtMillis;
     }
-    private int getAlarmTriggerAtMinFromMillis(long millisStart,long millisPiorAlarm){
+
+    private int getAlarmTriggerAtMinFromMillis(long millisStart, long millisPiorAlarm) {
         return (int) (millisStart - millisPiorAlarm) / 60000;
     }
 
@@ -299,15 +306,9 @@ public class EventCreationActivity extends BaseActivity {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(EventCreationActivity.this, ALARM_BROADCAST_REQUEST_CODE, intent, 0);
         alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
 
-    }
+    }*/
 
-//    private void updateOnReturnEditEvent(Event e, String EventTitle, String description, Calendar start) {
-//        e.setTitle(EventTitle);
-//        e.setDescription(description);
-//        e.setStart(start);
-//    }
-
-    private void setAlarmInfo() {
+    private void setAlarmInfo(int minPiorAlarm) {
         String alarm_info = String.format(String.valueOf(res.getString(R.string.alarm_reminder_before_2)), minPiorAlarm);
         reminder_info.setText(alarm_info);
     }
@@ -319,12 +320,8 @@ public class EventCreationActivity extends BaseActivity {
         finish();
     }
 
-    private Bundle getOnReturnEditEventId() {
+    private Bundle getBundleFromOnReturnEditEventId() {
         return getIntent().getBundleExtra("EVENT_UNIQUE");
     }
-
-
-
-
 
 }
