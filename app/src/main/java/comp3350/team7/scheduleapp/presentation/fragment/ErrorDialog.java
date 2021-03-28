@@ -8,8 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-import org.jetbrains.annotations.NotNull;
-
 import comp3350.team7.scheduleapp.R;
 
 /*
