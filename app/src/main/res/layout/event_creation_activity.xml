@@ -29,32 +29,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="0.791" />
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="250dp"
-        app:cardCornerRadius="30dp"
-        app:cardElevation="0dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerHorizontal="true">
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_marginStart="20dp"-->
+<!--        android:layout_marginLeft="20dp"-->
+<!--        android:layout_marginEnd="20dp"-->
+<!--        android:layout_marginRight="20dp"-->
+<!--        android:layout_marginBottom="250dp"-->
+<!--        app:cardCornerRadius="30dp"-->
+<!--        app:cardElevation="0dp"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        android:layout_centerHorizontal="true">-->
 
-        <ImageButton
+<!--        <ImageButton-->
 
-            android:id="@+id/imageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="185dp"
-            android:background="@drawable/round_corners"
-            android:scaleType="centerCrop"
-            android:src="@drawable/unsplash2" />
-
-
-    </androidx.cardview.widget.CardView>
+<!--            android:id="@+id/imageButton"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="185dp"-->
+<!--            android:background="@drawable/round_corners"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:src="@drawable/unsplash2" />-->
+<!--    </androidx.cardview.widget.CardView>-->
 
     <EditText
         android:id="@+id/description"

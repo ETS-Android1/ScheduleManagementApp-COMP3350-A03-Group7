@@ -1,5 +1,6 @@
 package comp3350.team7.scheduleapp.presentation.UiHelper;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
@@ -36,15 +37,15 @@ public class RecyclerViewOnItemtouchHelper extends ItemTouchHelper.SimpleCallbac
         getDefaultUIUtil().clearView(foregroundView);
     }
 
-//    @Override
-//    public void onChildDraw(Canvas c, RecyclerView recyclerView,
-//                            RecyclerView.ViewHolder viewHolder, float dX, float dY,
-//                            int actionState, boolean isCurrentlyActive) {
-//        final View foregroundView = ((RecyclerViewAdapter.MyViewHolder) viewHolder).foreGround;
-//
-//        getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,
-//                actionState, isCurrentlyActive);
-//    }
+    @Override
+    public void onChildDraw(Canvas c, RecyclerView recyclerView,
+                            RecyclerView.ViewHolder viewHolder, float dX, float dY,
+                            int actionState, boolean isCurrentlyActive) {
+        final View foregroundView = ((RecyclerViewAdapter.MyViewHolder) viewHolder).foreGround;
+
+        getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,
+                actionState, isCurrentlyActive);
+    }
 
     @Override
     public int convertToAbsoluteDirection(int flags, int layoutDirection) {
@@ -68,7 +69,6 @@ public class RecyclerViewOnItemtouchHelper extends ItemTouchHelper.SimpleCallbac
             case ItemTouchHelper.LEFT:
                 //Remove item
                 Adapter.remove(viewHolderPosition);
-                Log.d(TAG, "Swipped Left, Event removed");
                 break;
         }
 

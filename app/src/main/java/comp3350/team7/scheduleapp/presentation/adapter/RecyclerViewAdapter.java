@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -55,18 +56,25 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private void init(){
         EventPersistenceInterface eventPersistence = DbServiceProvider.getInstance().getEventPersistence();
         eventController = new EventController(eventPersistence);
+        setAdapterList(getEventListFromController(eventController));
+        expandViewHolderPositionSet = new HashSet<>();
+    }
+    private void setAdapterList(List<Event> list){
+        this.list = list;
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private List<Event> getEventListFromController(EventController eventController){
+        List<Event> list = null;
         try{
-            this.list = eventController.getEventList(UserClient.getUserId());
+            list = eventController.getEventList(UserClient.getUserId());
         }catch (EventControllerException err) {
             Log.e(TAG,"Developer attention, internal error" );
             Log.d(TAG,"Caused by: " + err.getCause());
             err.printStackTrace();
-        } {
-
         }
-        this.expandViewHolderPositionSet = new HashSet<>();
-    }
+        return list;
 
+    }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
@@ -99,10 +107,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Toast.makeText(v.getContext(), "event clicked", Toast.LENGTH_SHORT).show();
                 notifyDataSetChanged();
             }
-            @Override
-            public void onDelete(int position) {
-                Log.d(TAG,"onDelete clicked");
-            }
+//            @Override
+//            public void onDelete(int position) {
+//                Log.d(TAG,"onDelete clicked");
+//            }
         });
         return holder;
 
@@ -165,13 +173,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Event event = list.get(position);
         try {
             eventController.removeEvent(event);
+            setAdapterList(getEventListFromController(eventController));
+            notifyItemRemoved(position);
+            Log.d(TAG, "Swipped Left, Event removed");
         } catch (EventControllerException e) {
             // always catch and log
             // we know where the bom init
-            Log.e(TAG, "Err: in remove " + e.getMessage());
+
+
+            Log.e(TAG, "Error: in remove." + e.getMessage()+ "\nCaused by: " + e.getCause());
             e.printStackTrace();
         }
-        notifyItemRemoved(position);
     }
 
     public void swap(int firstPosition, int secondPosition) {
@@ -185,13 +197,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // notify item added by position
         try {
             eventController.addEvent(deletedItem);
+            setAdapterList(getEventListFromController(eventController));
+            notifyItemInserted(position);
+            Log.d(TAG, "Undo removed Event");
         } catch (EventControllerException e) {
             // always catch and log
             // we know where the bom init
-            Log.e(TAG, "Err: in Undo " + e.getMessage());
+            Log.e(TAG, "Error: in Undo." + e.getMessage()+ "\nCaused by: " + e.getCause());
+
             e.printStackTrace();
         }
-        notifyItemInserted(position);
     }
 
 
@@ -208,8 +223,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             this.listener = listener;
             textView3 = itemView.findViewById(R.id.textView3);
             textView4 = itemView.findViewById(R.id.textView4);
-            //foreGround = itemView.findViewById(R.id.foreGround);
-            //backGround = itemView.findViewById(R.id.backGround);
+            foreGround = itemView.findViewById(R.id.foreGround);
+            backGround = itemView.findViewById(R.id.backGround);
             holder = itemView.findViewById(R.id.holder);
             expandView = itemView.findViewById(R.id.expand_event_view);
             description = itemView.findViewById(R.id.event_description);
@@ -232,9 +247,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 case R.id.edit_ic:
                     listener.onEdit(this.getLayoutPosition());
                     break;
-                case R.id.alarm_ic:
-                    listener.onDelete(this.getLayoutPosition());
-                    break;
+//                case R.id.alarm_ic:
+//                    listener.onDelete(this.getLayoutPosition());
+//                    break;
                 default:
                     listener.onClick(this.getLayoutPosition());
                     break;
@@ -244,7 +259,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
         public interface MyClickListener{
             void onEdit(int position);
-            void onDelete(int position);
+//            void onDelete(int position);
             void onClick(int position);
         }
 

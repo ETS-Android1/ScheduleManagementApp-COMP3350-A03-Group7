@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.application.DbServiceProvider;
@@ -184,7 +185,7 @@ public class ScrollingActivity extends BaseActivity {
         adapter = new RecyclerViewAdapter(this);
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.item_offset);
         recyclerView.addItemDecoration(itemDecoration);
-        ((SimpleItemAnimator)recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        ((SimpleItemAnimator) Objects.requireNonNull(recyclerView.getItemAnimator())).setSupportsChangeAnimations(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
@@ -224,7 +225,7 @@ public class ScrollingActivity extends BaseActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void UpdateView(RecyclerViewAdapter a, List<Event> events) {
         a.setList(events);
-        recyclerView.setAdapter(a);
+        recyclerView.setAdapter(a); // redraw
         Log.d(TAG,"Updated View");
     }
 

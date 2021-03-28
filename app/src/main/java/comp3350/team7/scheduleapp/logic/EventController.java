@@ -170,11 +170,11 @@ public class EventController {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void removeEvent(Event e) throws EventControllerException {
         try {
-            EventValidator.validate(e);
+            //EventValidator.validate(e);
             eventPersistence.removeEvent(e);
-        } catch (InvalidEventException err) {
-            Log.d(TAG, err.getMessage() + " ,Cause by : " + err.getCause());
-            throw new EventControllerException("Something went wrong, contact admin if needed\n" + err.getMessage());
+//        } catch (InvalidEventException err) {
+//            Log.d(TAG, err.getMessage() + " ,Cause by : " + err.getCause());
+//            throw new EventControllerException("Something went wrong, contact admin if needed\n" + err.getMessage());
         } catch (DbErrorException dbError) {
             Log.d(TAG, dbError.getMessage() + " ,Cause by : " + dbError.getCause());
             throw new EventControllerException("Something went wrong, contact admin if needed\n" + dbError.getMessage());
