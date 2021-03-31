@@ -12,6 +12,6 @@ The purpose of our Application is to help our Clients effectively manage their d
     - This will bring you to your homepage which displays your Schedule of events.
 4. Start Managing your schedule.
 
-## [Vision](VISION.md)
+#### [Vision](VISION.md)
 
-## [Architecture.md](ARCHITECTURE.md)
+#### [Architecture.md](ARCHITECTURE.md)
