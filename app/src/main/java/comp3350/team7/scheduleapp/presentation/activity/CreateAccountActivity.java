@@ -1,25 +1,24 @@
 package comp3350.team7.scheduleapp.presentation.activity;
 //C:\Users\FatCave\Desktop\Bailey's\School\COMP3350\Team-7\app\src\main\res\layout
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.*;
-
+import android.widget.Button;
+import android.widget.EditText;
 
 import comp3350.team7.scheduleapp.R;
-import comp3350.team7.scheduleapp.application.DbServiceProvider;
+import comp3350.team7.scheduleapp.application.DbClient;
 import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.UserValidator;
-import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.logic.exceptions.UserDBException;
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 import comp3350.team7.scheduleapp.presentation.base.BaseActivity;
 
-import static android.widget.Toast.*;
+import static android.widget.Toast.LENGTH_SHORT;
+import static android.widget.Toast.makeText;
 
 public class CreateAccountActivity extends BaseActivity {
 
@@ -47,24 +46,24 @@ public class CreateAccountActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
-        userDB = DbServiceProvider
+        userDB = DbClient
                 .getInstance()
                 .getUserPersistence(); //can be replaced with  = new UserPersistenceStub() for testing
         validator = UserValidator.getValidatorInstance(userDB);
         getView();
     }
 
-    protected void getView(){
-        firstNameInput = (EditText) findViewById(R.id.Firstname);
-        lastNameInput = (EditText) findViewById(R.id.Lastname);
-        usernameInput = (EditText) findViewById(R.id.Username);
-        passwordInput = (EditText) findViewById(R.id.newPassword);
-        confirmPasswordInput = (EditText) findViewById(R.id.confirmPassword);
+    protected void getView() {
+        firstNameInput = findViewById(R.id.Firstname);
+        lastNameInput = findViewById(R.id.Lastname);
+        usernameInput = findViewById(R.id.Username);
+        passwordInput = findViewById(R.id.newPassword);
+        confirmPasswordInput = findViewById(R.id.confirmPassword);
 
-        createAccount = (Button) findViewById(R.id.Create_Account);
+        createAccount = findViewById(R.id.Create_Account);
     }
 
-    public void getData(){
+    public void getData() {
         firstname = firstNameInput.getText().toString();
         lastname = lastNameInput.getText().toString();
         username = usernameInput.getText().toString();
@@ -84,20 +83,21 @@ public class CreateAccountActivity extends BaseActivity {
 
     public void createOnClick(View v) {
         getData();
-        boolean validInput = validator.validateInput(firstname, lastname, username, password, confirmPassword);
+        boolean validInput = UserValidator.validateInput(firstname, lastname, username, password, confirmPassword);
 
         if(validInput){ //check if all the fields arent empty
-            if(validator.userIDLengthCheck(username) && validator.passwordLengthCheck(password)){
+            if (UserValidator.userIDLengthCheck(username) && UserValidator.passwordLengthCheck(password)) {
 
-                if (validator.validateConfirmPassword(password, confirmPassword)) {
+                if (UserValidator.validateConfirmPassword(password, confirmPassword)) {
 
-                    if(validator.isUniqueID(username)) {
+                    if (UserValidator.isUniqueID(username)) {
 
-                        newUser = new User(firstname,lastname,username,password);
-                        try{
+                        newUser = new User(firstname, lastname, username, password);
+                        try {
                             userDB.addUser(newUser);
-                        }catch( UserDBException err){
-                            Log.e(TAG,"Error cause by:" +err.getCause());
+                            UserClient.setUserId(username);
+                        } catch (UserDBException err) {
+                            Log.e(TAG, "Error cause by:" + err.getCause());
                             err.printStackTrace();
                             onError(err.getMessage());
                         }
@@ -111,10 +111,10 @@ public class CreateAccountActivity extends BaseActivity {
             }//end if password and userIDLengthCheck
 
             else{ //Give the user a Useful message
-                if(validator.userIDLengthCheck(username) == false){
+                if (UserValidator.userIDLengthCheck(username) == false) {
                     makeText(CreateAccountActivity.this, "UserID must be 8-16 characters.", LENGTH_SHORT).show();
                 }
-                if(validator.passwordLengthCheck(password) == false){
+                if (UserValidator.passwordLengthCheck(password) == false) {
                     makeText(CreateAccountActivity.this, "Password must be 8-16 characters.", LENGTH_SHORT).show();
                 }
 
