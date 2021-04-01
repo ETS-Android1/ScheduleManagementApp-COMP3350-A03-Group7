@@ -33,16 +33,16 @@ public class EventValidator {
             if(alarm!=null)
                 validateAlarm(start,now,alarm);
         } else {
-            throw new InvalidEventException("Some thing missing");
+            throw new InvalidEventException("Some_thing_missing");
         }
     }
 
-    public static void validateEventDescription(String description) throws InvalidEventException{
-        Pattern pattern = Pattern.compile("[\\w\\s*]+");
-        Matcher matcher = pattern.matcher(description);
+    public static void validateEventDescription(String description) throws InvalidEventException {
+        Pattern pattern = Pattern.compile("\\w+[\\w+\\s*]+");
+        Matcher matcher = pattern.matcher(description.trim());
         if (!matcher.matches())
             throw new InvalidEventException("Invalid Event Description" +
-                    "\nOnly accept any combination of Word character,number and white space");
+                    "\nOnly accept Word character or number");
         else if (description.length() > 120)
             throw new InvalidEventException("Invalid Event Description" +
                     "\nShould have at least 5 characters and no more than " + maxDescriptionLength + " characters");
@@ -54,14 +54,14 @@ public class EventValidator {
      * white spaces
      */
     public static void validateEventName(String eName) throws InvalidEventException {
-        Pattern pattern = Pattern.compile("[\\w\\s*]+");
-        Matcher matcher = pattern.matcher(eName);
+        Pattern pattern = Pattern.compile("\\w+[\\w+\\s*]+");
+        Matcher matcher = pattern.matcher(eName.trim());
         if (!matcher.matches())
             throw new InvalidEventException("Invalid Event Title" +
-                    "\nOnly accept any combination of Word character,number and white space");
+                    "\nOnly accept Word character or number");
         else if (eName.length() > 30)
             throw new InvalidEventException("Invalid Event Name" +
-                    "\nShould have at least 5 characters and no more than " + maxTitleLength+ " characters");
+                    "\nShould have at least 5 characters and no more than " + maxTitleLength + " characters");
 
     }
 
