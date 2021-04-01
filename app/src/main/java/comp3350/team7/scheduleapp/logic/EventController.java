@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import comp3350.team7.scheduleapp.application.DbServiceProvider;
+import comp3350.team7.scheduleapp.application.DbClient;
 import comp3350.team7.scheduleapp.logic.comparators.AbstractComparator;
 import comp3350.team7.scheduleapp.logic.comparators.EventStartAscendingComparator;
 import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
@@ -28,7 +28,7 @@ public class EventController {
     AbstractComparator sortingStrategy;
 
     public EventController() {
-        eventPersistence = DbServiceProvider
+        eventPersistence = DbClient
                 .getInstance()
                 .getEventPersistence();
         // default way of sorting
@@ -136,13 +136,23 @@ public class EventController {
         return eventList;
     }
 
+    public int getEventListLength(String userId) throws EventControllerException {
+        int res = -1;
+        try {
+            res = eventPersistence.getEventListLength(userId);
+        } catch (DbErrorException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public List<Event> getScheduleForUserOnDate(String username, Calendar date) throws EventControllerException {
 
         List<Event> eventList = null;
         try {
             eventList = eventPersistence.getScheduleForUserOnDate(username, date);
-            if(eventList!=null)
+            if (eventList != null)
                 eventList.sort(sortingStrategy);
         } catch (DbErrorException e) {
             Log.d(TAG, e.getMessage() + "\n Cause by " + e.getCause());
