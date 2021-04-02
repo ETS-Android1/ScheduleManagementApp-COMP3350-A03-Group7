@@ -95,7 +95,7 @@ public class CreateAccountActivity extends BaseActivity {
 
                 if (validator.validateConfirmPassword(password, confirmPassword)) {
 
-                    if(validator.isUniqueID(username)) {
+                    if(validator.isUniqueID(username, password)) {
 
                         dbManager.register(firstname,lastname,username,password);
 

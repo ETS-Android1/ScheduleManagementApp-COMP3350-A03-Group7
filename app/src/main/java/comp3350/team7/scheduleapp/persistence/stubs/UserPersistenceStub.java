@@ -31,7 +31,8 @@ public class UserPersistenceStub implements UserPersistenceInterface {
     }
 
     @Override
-    public User addUser(User newUser){
+    public boolean addUser(User newUser){
+        boolean returnVal = false;
         boolean existingUser = false;
         User dbEntry;
 
@@ -43,29 +44,28 @@ public class UserPersistenceStub implements UserPersistenceInterface {
             }
         }
 
-        if(existingUser) {
+        if(!existingUser) {
             userDB.add(newUser);
+            returnVal = true;
         }
-        return newUser;
+        return returnVal;
 
     }
 
     @Override
-    public User getUser(String username){
+    public boolean getUser(String username, String password){
         User userCheck;
-        User userExists = null;
         boolean userFound = false;
 
-        for(int index = 0; index < userDB.size() && userFound; index++){
+        for(int index = 0; index < userDB.size() && !userFound; index++){
             userCheck = userDB.get(index);
 
-            if(userCheck.getUserId().equals(username)){
+            if(userCheck.getUserId().equals(username) && userCheck.getPassword().equals(password)){
                 userFound = true;
-                userExists = userCheck;
             }
         }
 
-        return userExists;
+        return userFound;
     }
 
     @Override

@@ -15,9 +15,9 @@ public interface UserPersistenceInterface {
 
    List<User> getUserDB();
 
-   User addUser(User newUser);
+   boolean addUser(User newUser);
 
-   User getUser(String username);
+   boolean getUser(String username);
 
    void deleteUser(User user);
 

@@ -60,17 +60,16 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
     }
 
     @Override
-    public User getUser(String username){
-        User userExists =null;
+    public boolean getUser(String username, String password){
+        boolean returnVal = false;
 
         try(final Connection c = connection()) {
-            final PreparedStatement msg = c.prepareStatement("SELECT * FROM USERS WHERE USERID = ?");
+            final PreparedStatement msg = c.prepareStatement("SELECT * FROM USERS WHERE USERID = ? AND PASSWORD = ?");
             msg.setString(1, username);
+            msg.setString(2, password);
 
-            final ResultSet rs = msg.executeQuery();
-            if(rs.next())
-                userExists = fromResultSet(rs);
-
+            ResultSet rs = msg.executeQuery();
+            returnVal = rs.next();
             rs.close();
             msg.close();
 
@@ -79,11 +78,12 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
             Log.w("Getting user", e.toString());
             e.printStackTrace();
         }
-        return userExists;
+        return returnVal;
     }
 
     @Override
-    public User addUser(User newUser){
+    public boolean addUser(User newUser){
+        boolean returnVal = false;
         try(final Connection c = connection()) {
             final PreparedStatement msg = c.prepareStatement("INSERT INTO USERS(USERID, PASSWORD, FIRSTNAME, LASTNAME) VALUES(?,?,?,?)");
             msg.setString(1, newUser.getUserId());
@@ -93,14 +93,14 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
 
             int val = msg.executeUpdate();
 
-            if(val != 1){
-                newUser = null;
+            if(val == 1){
+                returnVal = true;
             }
         }catch (final SQLException e){
             Log.w("Adding user", e.toString());
             e.printStackTrace();
         }
-        return newUser;
+        return returnVal;
     }
 
     @Override

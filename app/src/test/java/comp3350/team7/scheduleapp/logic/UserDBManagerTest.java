@@ -27,16 +27,16 @@ public class UserDBManagerTest {
 
     @Test
     public void testLoginSuccess(){
-        when(userDB.getUser("ajoson")).thenReturn(userDB.getUser("ajoson"));
+        when(userDB.getUser("ajoson", "123456")).thenReturn(true);
         assertEquals(dbManager.login("ajoson", "123456"), UserDBManager.SUCCESS);
-        verify(userDB).getUser("ajoson");
+        verify(userDB).getUser("ajoson", "123456");
     }
 
     @Test
     public void testLoginFail(){
-        when(userDB.getUser("mikehawk123>")).thenReturn(userDB.getUser("mikehawk123"));
+        when(userDB.getUser("mikehawk123", "12345678")).thenReturn(false);
         assertEquals(dbManager.login("mikehawk123", "12345678"), UserDBManager.DB_FAIL);
-        verify(userDB).getUser("mikehawk123");
+        verify(userDB).getUser("mikehawk123", "12345678");
 
         //invalid input
         assertEquals(dbManager.login("",""), UserDBManager.INPUT_FAILURE);
@@ -44,7 +44,7 @@ public class UserDBManagerTest {
 
     @Test
     public void testRegisterSuccess(){
-        when(userDB.addUser(testUser)).thenReturn(testUser);
+        when(userDB.addUser(testUser)).thenReturn(true);
         assertEquals(dbManager.register(testUser.getFirstName(),
                 testUser.getLastName(),
                 testUser.getUserId(),
@@ -55,12 +55,9 @@ public class UserDBManagerTest {
 
     @Test
     public void testRegisterFail(){
-        when(userDB.addUser(testUser)).thenReturn(null);
-        assertEquals(dbManager.register(testUser.getFirstName(),
-                testUser.getLastName(),
-                testUser.getUserId(),
-                testUser.getPassword()), UserDBManager.DB_FAIL);
+        when(userDB.addUser(testUser)).thenReturn(false);
+        assertEquals(dbManager.register(testUser.getFirstName(), testUser.getLastName(), testUser.getUserId(), testUser.getPassword()), UserDBManager.DB_FAIL);
 
-        assertEquals(dbManager.register("who","dis","dude","123"),UserDBManager.INPUT_FAILURE);
+        assertEquals(dbManager.register("who","dis","dude","123"), dbManager.INPUT_FAILURE);
     }
 }
