@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Objects;
 
 import comp3350.team7.scheduleapp.R;
-import comp3350.team7.scheduleapp.application.DbServiceProvider;
+import comp3350.team7.scheduleapp.application.DbClient;
 import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.EventController;
 import comp3350.team7.scheduleapp.logic.comparators.EventStartAscendingComparator;
@@ -78,7 +78,7 @@ public class ScrollingActivity extends BaseActivity {
 
     private void getView() {
         recyclerView = findViewById(R.id.recylerview);
-        scrollingLayout = (View) findViewById(R.id.ScrollingLayout);
+        scrollingLayout = findViewById(R.id.ScrollingLayout);
         fba = findViewById(R.id.include);
         sortAsc = findViewById(R.id.sortAsc);
         sortDesc = findViewById( R.id.sortDes);
@@ -87,7 +87,7 @@ public class ScrollingActivity extends BaseActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void init() {
-        EventPersistenceInterface eventPersistence  = DbServiceProvider.getInstance().getEventPersistence();
+        EventPersistenceInterface eventPersistence = DbClient.getInstance().getEventPersistence();
         eventController = new EventController(eventPersistence);
         eventList = getEventList(eventController);
 
@@ -206,27 +206,27 @@ public class ScrollingActivity extends BaseActivity {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_CODE && data != null) {
-                Log.d(TAG,"Got back from CreateEvent Activity");
-                eventList =getEventList(eventController);
-                UpdateView(adapter,eventList);
-
-            }
-        }
-    }
+//    @RequiresApi(api = Build.VERSION_CODES.N)
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (resultCode == RESULT_OK) {
+//            if (requestCode == REQUEST_CODE && data != null) {
+//                Log.d(TAG,"Got back from CreateEvent Activity");
+//                eventList =getEventList(eventController);
+//                UpdateView(adapter,eventList);
+//
+//            }
+//        }
+//    }
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void UpdateView(RecyclerViewAdapter a, List<Event> events) {
         a.setList(events);
         recyclerView.setAdapter(a); // redraw
-        Log.d(TAG,"Updated View");
+        Log.d(TAG, "Updated View");
     }
 
 

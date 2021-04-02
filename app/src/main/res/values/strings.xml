@@ -38,4 +38,12 @@
     <string name="alarm_reminder_before_2">%d minutes before the event start</string>
     <string name="alarm_reminder_after">Reminder has been set</string>
     <string name="alarm_content">Event start in %d minute: %s</string>
+    <string name="Invalid_Event_Description">"Invalid Event Description"\nOnly accept Word character or number"</string>
+    <string name="Invalid_Event_Description_Too_Long">"Invalid Event Description\nShould have at least 5 characters and no more than %s characters"</string>
+    <string name="Invalid_Event_Title_Too_Long">"Invalid Event Name\nShould have at least 5 characters and no more than %s characters"</string>
+    <string name="Invalid_Event_Title">"Invalid Event Title\nOnly accept Word character or number"</string>
+    <string name="Invalid_Event_Start_Time">"Invalid Event Start Time\nStart time has to be set in the future"</string>
+    <string name="Invalid_Event_End_Time">"Invalid Event End Time"</string>
+    <string name="Invalid_Event_Alarm">"Invalid Alarm, Alarm should be set between current time and event'starting time"</string>
+    <string name="Some_thing_missing">"Some thing missing</string>
 </resources>

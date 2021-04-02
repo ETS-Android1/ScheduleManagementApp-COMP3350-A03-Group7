@@ -1,21 +1,21 @@
 package comp3350.team7.scheduleapp.presentation.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import comp3350.team7.scheduleapp.R;
-import comp3350.team7.scheduleapp.application.DbServiceProvider;
+import comp3350.team7.scheduleapp.application.DbClient;
 import comp3350.team7.scheduleapp.application.UserClient;
-import comp3350.team7.scheduleapp.Application.ultil.DbHelper;
+import comp3350.team7.scheduleapp.application.ultil.DbHelper;
 import comp3350.team7.scheduleapp.logic.UserValidator;
-import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 
-import static android.widget.Toast.*;
+import static android.widget.Toast.LENGTH_SHORT;
 
 public class LoginActivity extends AppCompatActivity{
     static EditText ClientID, ClientPassword;
@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity{
         setContentView(R.layout.activity_login);
 
         DbHelper.copyDatabaseToDevice(this);
-        userDB = DbServiceProvider
+        userDB = DbClient
                 .getInstance()
                 .getUserPersistence();
 
@@ -39,9 +39,9 @@ public class LoginActivity extends AppCompatActivity{
         getView();
     }
 
-    protected void getView(){
-        ClientID = (EditText) findViewById(R.id.LoginUsernameInput);
-        ClientPassword = (EditText) findViewById(R.id.LoginPasswordInput);
+    protected void getView() {
+        ClientID = findViewById(R.id.LoginUsernameInput);
+        ClientPassword = findViewById(R.id.LoginPasswordInput);
 
     }
 
@@ -66,11 +66,10 @@ public class LoginActivity extends AppCompatActivity{
     public void logOn(View v) {
         getData();
 
-        if(validator.validateLogin(userID, userPAC) != null){
+        if (UserValidator.validateLogin(userID, userPAC) != null) {
             UserClient.setUserId(userID);
             launchUserHomePage();
-        }
-        else{
+        } else {
             Toast.makeText(LoginActivity.this, "Incorrect Username/Password", LENGTH_SHORT).show();
         }
     }

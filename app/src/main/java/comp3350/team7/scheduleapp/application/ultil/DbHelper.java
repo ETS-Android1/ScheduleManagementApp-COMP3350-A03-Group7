@@ -1,13 +1,14 @@
-package comp3350.team7.scheduleapp.Application.ultil;
+package comp3350.team7.scheduleapp.application.ultil;
 
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import comp3350.team7.scheduleapp.application.Main;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import comp3350.team7.scheduleapp.application.DbClient;
 
 
 public class DbHelper {
@@ -28,7 +29,7 @@ public class DbHelper {
 
             copyAssetsToDirectory(context, assetNames, dataDirectory);
 
-            Main.setDBPathName(dataDirectory.toString() + "/" + Main.getDBPathName());
+            DbClient.setDBPathName(dataDirectory.toString() + "/" + DbClient.getScriptName());
 
         } catch (final IOException ioe) {
             System.out.println("Unable to access application data: " + ioe.getMessage());
@@ -36,7 +37,7 @@ public class DbHelper {
 
     }
 
-    private static void copyAssetsToDirectory(Context context, String[] assets, File directory) throws  IOException {
+    private static void copyAssetsToDirectory(Context context, String[] assets, File directory) throws IOException {
         AssetManager assetManager = context.getAssets();
 
         for (String asset : assets) {

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -25,7 +23,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import comp3350.team7.scheduleapp.R;
-import comp3350.team7.scheduleapp.application.DbServiceProvider;
+import comp3350.team7.scheduleapp.application.DbClient;
 import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.EventController;
 import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
@@ -41,7 +39,7 @@ import comp3350.team7.scheduleapp.presentation.activity.EventCreationActivity;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
     private static final String TAG = "RecyclerViewAdapter";
     private EventController eventController;
-    private Context context;
+    private final Context context;
     private List<Event> list;
     private static HashSet<Integer> expandViewHolderPositionSet;
 
@@ -54,7 +52,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void init(){
-        EventPersistenceInterface eventPersistence = DbServiceProvider.getInstance().getEventPersistence();
+        EventPersistenceInterface eventPersistence = DbClient.getInstance().getEventPersistence();
         eventController = new EventController(eventPersistence);
         setAdapterList(getEventListFromController(eventController));
         expandViewHolderPositionSet = new HashSet<>();
