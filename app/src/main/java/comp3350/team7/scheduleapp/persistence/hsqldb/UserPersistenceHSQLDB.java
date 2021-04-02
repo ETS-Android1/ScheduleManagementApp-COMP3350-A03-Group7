@@ -1,5 +1,7 @@
 package comp3350.team7.scheduleapp.persistence.hsqldb;
 
+import android.util.Log;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -35,7 +37,7 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
 
 
     @Override
-    public List<User> getUserDB() throws UserDBException {
+    public List<User> getUserDB() {
         final List<User> users = new ArrayList<>();
 
         try(final Connection c =  connection()) {
@@ -48,14 +50,17 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
             rs.close();
             msg.close();
 
-            return users;
+
         }catch (final SQLException e){
-            throw new UserDBException("Fail to get users from database", e);
+            Log.w("Getting userDB", e.toString());
+            e.printStackTrace();
         }
+
+        return users;
     }
 
     @Override
-    public User getUser(String username) throws UserDBException {
+    public User getUser(String username){
         User userExists =null;
 
         try(final Connection c = connection()) {
@@ -65,22 +70,20 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
             final ResultSet rs = msg.executeQuery();
             if(rs.next())
                 userExists = fromResultSet(rs);
-            /*if(rs.getFetchSize() < 1)
-                userExists = null;
-            else
-                userExists = fromResultSet(rs);*/
 
             rs.close();
             msg.close();
 
-            return userExists;
+
         }catch (final SQLException e){
-            throw new UserDBException("Fail to get user: " + username + "from database",e);
+            Log.w("Getting user", e.toString());
+            e.printStackTrace();
         }
+        return userExists;
     }
 
     @Override
-    public User addUser(User newUser) throws UserDBException {
+    public User addUser(User newUser){
         try(final Connection c = connection()) {
             final PreparedStatement msg = c.prepareStatement("INSERT INTO USERS(USERID, PASSWORD, FIRSTNAME, LASTNAME) VALUES(?,?,?,?)");
             msg.setString(1, newUser.getUserId());
@@ -88,23 +91,28 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
             msg.setString(3, newUser.getFirstName());
             msg.setString(4, newUser.getLastName());
 
-            msg.executeUpdate();
+            int val = msg.executeUpdate();
 
-            return newUser;
+            if(val != 1){
+                newUser = null;
+            }
         }catch (final SQLException e){
-            throw new UserDBException("Username is already taken.",e);
+            Log.w("Adding user", e.toString());
+            e.printStackTrace();
         }
+        return newUser;
     }
 
     @Override
-    public void deleteUser(User user) throws UserDBException {
+    public void deleteUser(User user) {
         try(final Connection c = connection()){
             final PreparedStatement msg = c.prepareStatement("DELETE FROM USER WHERE USERID = ?");
             msg.setString(1, user.getUserId());
             msg.executeUpdate();
 
         }catch (final SQLException e){
-            throw new UserDBException(user.toString() + "doesn't exits in database",e);
+            Log.w("Deleting user", e.toString());
+            e.printStackTrace();
         }
     }
 }
