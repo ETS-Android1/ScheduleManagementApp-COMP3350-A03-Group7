@@ -22,6 +22,7 @@ import java.util.Calendar;
 
 import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.EventController;
+import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
 import comp3350.team7.scheduleapp.presentation.activity.EventCreationActivity;
 import comp3350.team7.scheduleapp.presentation.activity.ScrollingActivity;
 import comp3350.team7.scheduleapp.ultils.TestHelper;
@@ -83,20 +84,7 @@ public class AddEventSystemTest {
         testId = 0;
         UserClient.setUserId("ttran");
         eventController = new EventController();
-
-        UserClient.setUserId(UserClient.getUserId());
-
         Intents.init();
-    }
-
-
-    @Ignore
-    public void testToast(int toastId, int message) {
-
-
-        //activityRule.getScenario().moveToState(Lifecycle.State.RESUMED).onActivity(activity -> {
-
-        //});
     }
 
 
@@ -214,26 +202,14 @@ public class AddEventSystemTest {
 
 
     @Test
-    public void addValidEventWithoutAlarm() {
-      /*  Intents.init();
-        onView(withId(R.id.include))
-                .perform(click());
-        onView(withId(R.id.event_name_text))
-                .perform(click(),typeText("Valid Event Title"), closeSoftKeyboard());
-        onView(withId(R.id.description))
-                .perform(click(),typeText("Valid Event Description"), closeSoftKeyboard());
-
-
-        TestHelper.setDate(R.id.date_picker_text,validDate);
-        TestHelper.setTime(R.id.time_picker_text,validTime);
-        Intents.release();*/
+    public void addValidEventWithoutAlarm() throws EventControllerException {
 
         addEventWith(CASE.No_Alarm);
         clickSaveButton();
         int eventSize = TestHelper.matchEventListSize(eventController, testId);
         TestHelper.testMatchReceivedIntent(ScrollingActivity.class.getName());
-        TestHelper.matchItemWithTextOnRecyclerView(validTitleTestId);
-        TestHelper.matchItemAtPositionOnRecyclerView(eventSize - 1, validTitleTestId);
+        TestHelper.matchItemWithTextOnRecyclerViewAndPerformClick(validTitleTestId);
+        TestHelper.matchItemAtPositionWithTextOnRecyclerView(eventSize - 1, validTitleTestId);
 
     }
 
@@ -244,15 +220,6 @@ public class AddEventSystemTest {
         clickSaveButton();
         TestHelper.matchDisplayDialogMessage(titleErrorDialogMessage);
     }
-//    @Test
-//    public void addValidEventWithAlarm(){
-////        addValidEventWithoutAlarm();
-////        onView(withId(R.id.switch1))
-////                .perform(click())
-////                .check(matches(isChecked()));
-//        addEventWith( CASE.Valid);
-//
-//        TestHelper.testMatchReceivedIntent(ScrollingActivity.class.getName());
 
     @Test
     public void addEventWithEmptyEventDescription() {
@@ -276,49 +243,38 @@ public class AddEventSystemTest {
     }
 
     @Test
-    public void addValidEventWithSettingAlarm5MinutePiorEventStart() {
+    public void addValidEventWithSettingAlarm5MinutePiorEventStart() throws EventControllerException {
         addEventWith(CASE.Valid_Alarm_Spinner_Position_0);
         clickSaveButton();
         int eventSize = TestHelper.matchEventListSize(eventController, testId);
         TestHelper.testMatchReceivedIntent(ScrollingActivity.class.getName());
-        TestHelper.matchItemWithTextOnRecyclerView(validTitleTestId);
-        TestHelper.matchItemAtPositionOnRecyclerView(eventSize - 1, validTitleTestId);
+        TestHelper.matchItemWithTextOnRecyclerViewAndPerformClick(validTitleTestId);
+        TestHelper.matchItemAtPositionWithTextOnRecyclerView(eventSize - 1, validTitleTestId);
     }
 
     @Test
-    public void addValidEventWithSettingAlarm10MinutePiorEventStart() {
+    public void addValidEventWithSettingAlarm10MinutePiorEventStart() throws EventControllerException {
 
         addEventWith(CASE.Valid_Alarm_Spinner_Position_1);
         clickSaveButton();
 
         int eventSize = TestHelper.matchEventListSize(eventController, testId);
         TestHelper.testMatchReceivedIntent(ScrollingActivity.class.getName());
-        TestHelper.matchItemWithTextOnRecyclerView(validTitleTestId);
-        TestHelper.matchItemAtPositionOnRecyclerView(eventSize - 1, validTitleTestId);   // check position of the item
+        TestHelper.matchItemWithTextOnRecyclerViewAndPerformClick(validTitleTestId);
+        TestHelper.matchItemAtPositionWithTextOnRecyclerView(eventSize - 1, validTitleTestId);   // check position of the item
 
 
     }
 
     @Test
-    public void addValidEventWithSettingAlarm25MinutePiorEventStart() {
+    public void addValidEventWithSettingAlarm25MinutePiorEventStart() throws EventControllerException, InterruptedException {
 
         addEventWith(CASE.Valid_Alarm_Spinner_Position_2);
         clickSaveButton();
         int eventSize = TestHelper.matchEventListSize(eventController, testId);
         TestHelper.testMatchReceivedIntent(ScrollingActivity.class.getName());
-        TestHelper.matchItemWithTextOnRecyclerView(validTitleTestId);
-        TestHelper.matchItemAtPositionOnRecyclerView(eventSize - 1, validTitleTestId);  // check position of the item
-        //TestHelper.testMatchToast(eventCreatedToastmessage);
-//         TestHelper.onRecyclerViewAction("Valid Event Title" + testId);
-        //TestHelper.onLayerAt(0).check(matches(isDisplayed()));
-        //onView(withId(R.id.recylerview)).check(matches(atPosition(0, withText("Valid Title")))))
-//        TestHelper.testMatchToast(eventCreatedToastmessage);
-//        TestHelper.testMatchToast(eventCreatedToastmessage,activityRule);
-//        TestHelper.testMatchReceivedIntent(ScrollingActivity.class.getName());
-      /*  onView(withText(eventCreatedToastmessage))
-                .noActivity()
-                .check(matches(isDisplayed()));*/
-        //has,contains(EventCreationActivity.class.getName(),ScrollingActivity.class.getName()));
+        TestHelper.matchItemWithTextOnRecyclerViewAndPerformClick(validTitleTestId);
+        TestHelper.matchItemAtPositionWithTextOnRecyclerView(eventSize - 1, validTitleTestId);  // check position of the item
     }
 
     @Test

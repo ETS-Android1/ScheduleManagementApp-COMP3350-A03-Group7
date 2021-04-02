@@ -25,6 +25,7 @@ import java.util.Objects;
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.application.DbClient;
 import comp3350.team7.scheduleapp.application.UserClient;
+import comp3350.team7.scheduleapp.application.ultil.DbHelper;
 import comp3350.team7.scheduleapp.logic.EventController;
 import comp3350.team7.scheduleapp.logic.comparators.EventStartAscendingComparator;
 import comp3350.team7.scheduleapp.logic.comparators.EventStartDescendingComparator;
@@ -87,6 +88,9 @@ public class ScrollingActivity extends BaseActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void init() {
+        if (DbClient.getDBPathName() == null) {
+            DbHelper.copyDatabaseToDevice(this);
+        }
         EventPersistenceInterface eventPersistence = DbClient.getInstance().getEventPersistence();
         eventController = new EventController(eventPersistence);
         eventList = getEventList(eventController);
@@ -206,24 +210,8 @@ public class ScrollingActivity extends BaseActivity {
 
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.N)
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (resultCode == RESULT_OK) {
-//            if (requestCode == REQUEST_CODE && data != null) {
-//                Log.d(TAG,"Got back from CreateEvent Activity");
-//                eventList =getEventList(eventController);
-//                UpdateView(adapter,eventList);
-//
-//            }
-//        }
-//    }
-
-
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void UpdateView(RecyclerViewAdapter a, List<Event> events) {
+    public void UpdateView(RecyclerViewAdapter a, List<Event> events) {
         a.setList(events);
         recyclerView.setAdapter(a); // redraw
         Log.d(TAG, "Updated View");
