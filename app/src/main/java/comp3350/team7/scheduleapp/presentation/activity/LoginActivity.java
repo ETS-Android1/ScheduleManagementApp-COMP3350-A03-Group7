@@ -7,10 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
+import comp3350.team7.scheduleapp.Application.ultil.DbHelper;
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.application.DbServiceProvider;
 import comp3350.team7.scheduleapp.application.UserClient;
-import comp3350.team7.scheduleapp.Application.ultil.DbHelper;
+import comp3350.team7.scheduleapp.logic.UserDBManager;
 import comp3350.team7.scheduleapp.logic.UserValidator;
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
@@ -22,20 +23,19 @@ public class LoginActivity extends AppCompatActivity{
     static String userID;
     static String userPAC; //Personal access code aka password
     private static UserPersistenceInterface userDB;
-    private static UserValidator validator;
+    private static UserDBManager dbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        DbHelper.copyDatabaseToDevice(this);
         userDB = DbServiceProvider
                 .getInstance()
                 .getUserPersistence();
 
-        validator = UserValidator.getValidatorInstance(userDB);          //line 30+31 is pretty much validator = new UserValidator(DbServicesProvicer.getUserPersistence());
-                                                        //broken up for clarity.
+        dbManager = new UserDBManager(userDB);
+
         getView();
     }
 
@@ -66,12 +66,12 @@ public class LoginActivity extends AppCompatActivity{
     public void logOn(View v) {
         getData();
 
-        if(validator.validateLogin(userID, userPAC) != null){
+        if(dbManager.login(userID, userPAC) == UserDBManager.SUCCESS){
             UserClient.setUserId(userID);
             launchUserHomePage();
         }
         else{
-            Toast.makeText(LoginActivity.this, "Incorrect Username/Password", LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Incorrect Username/Password", LENGTH_LONG).show();
         }
     }
 }
