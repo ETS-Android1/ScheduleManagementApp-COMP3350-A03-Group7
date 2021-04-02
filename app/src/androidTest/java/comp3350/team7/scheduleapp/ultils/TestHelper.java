@@ -13,6 +13,8 @@ import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.intent.matcher.BundleMatchers;
+import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
@@ -36,7 +38,6 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
@@ -49,6 +50,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 
 
@@ -109,6 +111,7 @@ public class TestHelper {
                 .inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));
     }
+
     public static <T extends Activity> T getActivity(ActivityScenarioRule<T> activityRule) {
         AtomicReference<T> activityRef = new AtomicReference<>();
         activityRule.getScenario().onActivity(activityRef::set);
@@ -119,13 +122,28 @@ public class TestHelper {
         Intents.intended(allOf(hasComponent(activity), toPackage(PACKAGE_NAME)));
     }
 
-    public static <T> void testMatchReceivedIntentData(String key, T value) {
-        Intents.intended(hasExtra(key, value));
+    public static <T> void testMatchReceivedIntentData(String activity, String key, T value) {
+        Intents.intended(allOf(hasComponent(activity),
+                IntentMatchers.hasExtras(
+                        BundleMatchers.hasEntry(equalTo("EVENT_UNIQUE"),
+                                BundleMatchers.hasEntry(equalTo(key), equalTo(value)))
+                )));
     }
 
-    public static void matchItemAtPositionOnRecyclerView(int Position, String text) {
-        onView(allOf(withId(R.id.recylerview), isDisplayed())).perform(RecyclerViewActions.actionOnItemAtPosition(Position, click()))
+    public static void matchItemAtPositionWithTextOnRecyclerView(int Position, String text) {
+        onView(allOf(withId(R.id.recylerview),
+                isDisplayed()))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(Position, click()))
                 .check(matches(hasDescendant(withText(containsString(text)))));
+    }
+
+    public static void matchEditAlarmButtonOnRecyclerView(int Position) {
+        ViewInteraction viewInteraction = onView(allOf(withId(R.id.recylerview),
+                isDisplayed()));
+        viewInteraction.perform(RecyclerViewActions.actionOnItemAtPosition(Position, click()));
+        onView(withId(R.id.edit_ic)).perform(click());
+        //viewInteraction.perform(RecyclerViewActions.actionOnItem(hasDescendant(withId(R.id.edit_ic)), click()));
+
     }
 
     public static void matchItemWithTextOnRecyclerView(String text) {
@@ -137,14 +155,11 @@ public class TestHelper {
                 click()));
     }
 
-    public static int matchEventListSize(EventController eContrl, int size) {
+    public static int matchEventListSize(EventController eContrl, int size) throws EventControllerException {
         int eventsSize = -1;
-        try {
-            eventsSize = eContrl.getEventListLength(UserClient.getUserId());
-            assertThat(eventsSize, Matchers.equalTo(size));
-        } catch (EventControllerException e) {
-            e.printStackTrace();
-        }
+        eventsSize = eContrl.getEventListLength(UserClient.getUserId());
+        assertThat(eventsSize, Matchers.equalTo(size));
+
         return eventsSize;
     }
 
