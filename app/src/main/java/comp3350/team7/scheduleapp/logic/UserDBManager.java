@@ -56,20 +56,4 @@ public class UserDBManager {
         return returnVal;
     }
 
-    public static int deactivate(String username, String password){
-        int returnVal = SUCCESS;
-        User fromDB;
-
-        if(username.length() > 0 && password.length() >0){
-            fromDB = db.getUser(username);
-            if(fromDB.getPassword() != password){
-                returnVal = DB_FAIL;
-            }
-        }
-        else {
-            returnVal = INPUT_FAILURE;
-        }
-
-        return returnVal;
-    }
 }
