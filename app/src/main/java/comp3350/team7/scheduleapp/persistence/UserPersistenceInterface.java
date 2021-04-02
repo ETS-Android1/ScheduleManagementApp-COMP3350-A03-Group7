@@ -17,7 +17,9 @@ public interface UserPersistenceInterface {
 
    boolean addUser(User newUser);
 
-   boolean getUser(String username);
+   boolean addUser(String username, String password, String firstname, String lastname);
+
+   boolean getUser(String username, String password);
 
    void deleteUser(User user);
 

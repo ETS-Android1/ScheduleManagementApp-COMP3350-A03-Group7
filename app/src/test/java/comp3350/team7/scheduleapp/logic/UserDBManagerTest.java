@@ -16,13 +16,11 @@ import static org.mockito.Mockito.when;
 public class UserDBManagerTest {
     UserPersistenceInterface userDB;
     private UserDBManager dbManager;
-    private User testUser;
 
     @Before
     public void setup(){
         userDB = mock(UserPersistenceInterface.class);
         dbManager = new UserDBManager(userDB);
-        testUser = new User("mike","hawk","mikehawk123","12345678");
     }
 
     @Test
@@ -44,20 +42,17 @@ public class UserDBManagerTest {
 
     @Test
     public void testRegisterSuccess(){
-        when(userDB.addUser(testUser)).thenReturn(true);
-        assertEquals(dbManager.register(testUser.getFirstName(),
-                testUser.getLastName(),
-                testUser.getUserId(),
-                testUser.getPassword()), UserDBManager.SUCCESS);
-
-        verify(userDB).addUser(testUser);
+        when(userDB.addUser("mike", "hawk", "mikehawk123", "12345678")).thenReturn(true);
+        assertEquals(dbManager.register("mike","hawk","mikehawk123","12345678"), UserDBManager.SUCCESS);
+        verify(userDB).addUser("mike","hawk","mikehawk123","12345678");
     }
 
     @Test
     public void testRegisterFail(){
-        when(userDB.addUser(testUser)).thenReturn(false);
-        assertEquals(dbManager.register(testUser.getFirstName(), testUser.getLastName(), testUser.getUserId(), testUser.getPassword()), UserDBManager.DB_FAIL);
+        when(userDB.addUser("mike", "hawk", "mikehawk123", "12345678")).thenReturn(false);
+        assertEquals(dbManager.register("mike", "hawk", "mikehawk123", "12345678"), UserDBManager.DB_FAIL);
+        verify(userDB).addUser("mike", "hawk", "mikehawk123", "12345678");
 
-        assertEquals(dbManager.register("who","dis","dude","123"), dbManager.INPUT_FAILURE);
+        assertEquals(dbManager.register("who","dis","dude","123"), UserDBManager.INPUT_FAILURE);
     }
 }

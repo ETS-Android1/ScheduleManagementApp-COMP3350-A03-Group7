@@ -53,6 +53,28 @@ public class UserPersistenceStub implements UserPersistenceInterface {
     }
 
     @Override
+    public boolean addUser(String username, String password, String firstname, String lastname){
+        boolean returnVal = false;
+        boolean existingUser = false;
+        User dbEntry;
+
+        for(int i = 0; i < userDB.size() && !existingUser; i++){
+            dbEntry = userDB.get(i);
+
+            if(dbEntry.getUserId().equals(username)){
+                existingUser = true;
+            }
+        }
+
+        if(!existingUser){
+            userDB.add(new User(firstname, lastname, username, password));
+            returnVal = true;
+        }
+
+        return returnVal;
+    }
+
+    @Override
     public boolean getUser(String username, String password){
         User userCheck;
         boolean userFound = false;

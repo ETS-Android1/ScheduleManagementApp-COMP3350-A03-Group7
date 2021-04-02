@@ -30,10 +30,12 @@ public class UserDBManager {
         int returnVal = SUCCESS;
 
         if(username.length() <=16 && username.length() >= 8 && password.length() <= 16 && password.length() >=8){
-            if(!db.addUser(new User(firstname, lastname, username, password))){
+            if(!db.addUser(firstname, lastname, username, password)){
                 returnVal = DB_FAIL;
             }
-            else { returnVal = INPUT_FAILURE;}
+        }
+        else{
+            returnVal = INPUT_FAILURE;
         }
         return  returnVal;
     }
