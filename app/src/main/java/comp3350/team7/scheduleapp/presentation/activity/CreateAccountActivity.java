@@ -1,26 +1,23 @@
 package comp3350.team7.scheduleapp.presentation.activity;
 //C:\Users\FatCave\Desktop\Bailey's\School\COMP3350\Team-7\app\src\main\res\layout
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
 
-
+import comp3350.team7.scheduleapp.Application.ultil.DbHelper;
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.application.DbServiceProvider;
-import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.UserDBManager;
 import comp3350.team7.scheduleapp.logic.UserValidator;
-import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
-import comp3350.team7.scheduleapp.logic.exceptions.UserDBException;
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 import comp3350.team7.scheduleapp.presentation.base.BaseActivity;
 
-import static android.widget.Toast.*;
+import static android.widget.Toast.LENGTH_LONG;
+import static android.widget.Toast.makeText;
 
 public class CreateAccountActivity extends BaseActivity {
 
@@ -48,6 +45,8 @@ public class CreateAccountActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
+
+        DbHelper.copyDatabaseToDevice(this);
 
         userDB = DbServiceProvider
                 .getInstance()

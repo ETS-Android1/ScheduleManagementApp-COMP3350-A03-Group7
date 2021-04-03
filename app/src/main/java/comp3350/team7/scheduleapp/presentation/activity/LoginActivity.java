@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
+import comp3350.team7.scheduleapp.Application.ultil.DbHelper;
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.application.DbServiceProvider;
 import comp3350.team7.scheduleapp.application.UserClient;
@@ -29,11 +30,12 @@ public class LoginActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        DbHelper.copyDatabaseToDevice(this);
         userDB = DbServiceProvider
                 .getInstance()
                 .getUserPersistence();
 
-        dbManager = new UserDBManager(userDB);
+        dbManager = new UserDBManager();
 
         getView();
     }
