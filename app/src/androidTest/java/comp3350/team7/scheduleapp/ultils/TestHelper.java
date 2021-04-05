@@ -6,9 +6,13 @@ package comp3350.team7.scheduleapp.ultils;
  */
 
 import android.app.Activity;
+import android.util.Log;
+import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
@@ -18,7 +22,10 @@ import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
+import org.hamcrest.TypeSafeMatcher;
 
 import java.util.Calendar;
 import java.util.List;
@@ -35,6 +42,10 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.swipeDown;
+import static androidx.test.espresso.action.ViewActions.swipeLeft;
+import static androidx.test.espresso.action.ViewActions.swipeRight;
+import static androidx.test.espresso.action.ViewActions.swipeUp;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
@@ -56,7 +67,7 @@ import static org.hamcrest.Matchers.not;
 
 public class TestHelper {
     private static final String PACKAGE_NAME = "comp3350.team7.scheduleapp";
-
+    private static final String TAG = "TestHelper";
     public static void loginSetup() {
         onView(ViewMatchers.withId(R.id.LoginUsernameInput))
                 .check(matches(isCompletelyDisplayed()))
@@ -137,16 +148,7 @@ public class TestHelper {
                 .check(matches(hasDescendant(withText(containsString(text)))));
     }
 
-    public static void matchEditAlarmButtonOnRecyclerView(int Position) {
-        ViewInteraction viewInteraction = onView(allOf(withId(R.id.recylerview),
-                isDisplayed()));
-        viewInteraction.perform(RecyclerViewActions.actionOnItemAtPosition(Position, click()));
-        onView(withId(R.id.edit_ic)).perform(click());
-        //viewInteraction.perform(RecyclerViewActions.actionOnItem(hasDescendant(withId(R.id.edit_ic)), click()));
-
-    }
-
-    public static void matchItemWithTextOnRecyclerView(String text) {
+    public static void matchItemWithTextOnRecyclerViewAndPerformClick(String text) {
         ViewInteraction viewInteraction = onView(allOf(withId(R.id.recylerview),
                 hasDescendant(withText(containsString(text))),
                 isDisplayed()));
@@ -154,6 +156,7 @@ public class TestHelper {
         viewInteraction.perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(containsString(text))),
                 click()));
     }
+
 
     public static int matchEventListSize(EventController eContrl, int size) throws EventControllerException {
         int eventsSize = -1;
@@ -180,4 +183,47 @@ public class TestHelper {
                 .inRoot(isDialog())
                 .check(matches(isDisplayed()));
     }
+
+    public static ViewInteraction swipeRecyclerItemInDir(String dir) {
+        ViewAction swipeInDir;
+        switch (dir) {
+            case "RIGHT":
+                swipeInDir = swipeRight();
+                break;
+            case "LEFT":
+                swipeInDir = swipeLeft();
+                break;
+            case "UP":
+                swipeInDir = swipeUp();
+                break;
+            case "DOWN":
+                swipeInDir = swipeDown();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + dir);
+        }
+
+        return onView(allOf(withId(R.id.recylerview),
+                hasDescendant(withId(R.id.backGround)),
+                isDisplayed()))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, swipeInDir));
+    }
+
+    public static Matcher<View> withRecyclerViewSize(final int size) {
+        return new TypeSafeMatcher<View>() {
+
+            @Override
+            public boolean matchesSafely(final View view) {
+                final int actualListSize = ((RecyclerView) view).getAdapter().getItemCount();
+                Log.d(TAG, "RecyclerView actual size " + actualListSize);
+                return actualListSize == size;
+            }
+
+            @Override
+            public void describeTo(final Description description) {
+                description.appendText("RecyclerView should have " + size + " items");
+            }
+        };
+    }
+
 }
