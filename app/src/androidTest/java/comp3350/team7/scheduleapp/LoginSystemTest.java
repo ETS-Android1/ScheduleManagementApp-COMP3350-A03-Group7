@@ -4,19 +4,25 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.After;
-import org.junit.runner.RunWith;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.Before;
+import org.junit.runner.RunWith;
 
 import comp3350.team7.scheduleapp.presentation.activity.LoginActivity;
+
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.*;
-import static androidx.test.espresso.assertion.ViewAssertions.*;
-import static androidx.test.espresso.matcher.ViewMatchers.*;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-public class LoginActivityTest {
+@LargeTest
+public class LoginSystemTest {
     private String usernameInput;
     private String passwordInput;
     private String invalidUsername;
@@ -27,8 +33,8 @@ public class LoginActivityTest {
 
     @Before
     public void setup(){
-        usernameInput = "josona1234";
-        passwordInput = "12345678";
+        usernameInput = "ajoson";
+        passwordInput = "123456";
         invalidUsername = "dummy1234";
         invalidPassword = "87654321";
     }
@@ -42,21 +48,22 @@ public class LoginActivityTest {
     }
 
     @Test
-    public void visibilityTest(){
-        System.out.println("Starting visibilityTest.");
+    public void testVisibility(){
+        System.out.println("Starting testVisibility");
 
-        //check if Login Username textbox is visible
+        //Check if LoginUsername text box is visible
         onView(withId(R.id.LoginUsernameInput)).check(matches(isDisplayed()));
 
-        //check if login password textbox is visible
+        //Check if LoginPassword text box is visible
         onView(withId(R.id.LoginPasswordInput)).check(matches(isDisplayed()));
 
-        //check if login button is visible
+        //Check if Create New Account Button is visible
+        onView(withId(R.id.NewAccountButton)).check(matches(isDisplayed()));
+
+        //Check if Login Button is visible
         onView(withId(R.id.loginButton)).check(matches(isDisplayed()));
 
-        //check if Create New Account button is visible
-        onView(withId(R.id.NewAccountButton)).check(matches(isDisplayed()));
-        System.out.println("Finished visibility Test");
+        System.out.println("Finished testVisibility.\n");
     }
 
     @Test
@@ -79,22 +86,9 @@ public class LoginActivityTest {
         System.out.println("Finished testpasswordInputText.\n");
     }
 
-    @Test
-    public void testSuccessfulLogin(){
-        System.out.println("Starting testSuccessfulLogin");
-        System.out.println("Typing in an invalid username and password");
-        onView(withId(R.id.LoginUsernameInput)).perform(typeText(usernameInput), closeSoftKeyboard());
-        onView(withId(R.id.LoginPasswordInput)).perform(typeText(passwordInput), closeSoftKeyboard());
-
-        System.out.println("Clicking Login Button");
-        onView(withId(R.id.loginButton)).perform(click());
-
-        onView(withId(R.id.ScrollingLayout)).check(matches(isDisplayed()));
-        System.out.println("Finished testSuccessfulLogin.\n");
-    }
 
     @Test
-    public void testFailedLogin(){
+    public void testFailedLogin() {
         System.out.println("Starting testFailedLogin");
         System.out.println("Typing in an invalid username and password");
         onView(withId(R.id.LoginUsernameInput)).perform(typeText(invalidUsername), closeSoftKeyboard());
@@ -108,7 +102,7 @@ public class LoginActivityTest {
         System.out.println("Finsihed testFailedLogin.\n");
     }
 
-    @Test
+        @Test
     public void testCreateAccountButton(){
         System.out.println("Starting testCreateAccountButton.");
         System.out.println("Clicking Create New Account button.");
