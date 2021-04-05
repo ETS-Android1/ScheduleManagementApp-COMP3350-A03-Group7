@@ -5,11 +5,14 @@ package comp3350.team7.scheduleapp;
  *
  */
 
+import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -27,6 +30,7 @@ import comp3350.team7.scheduleapp.presentation.activity.ScrollingActivity;
 import comp3350.team7.scheduleapp.ultils.TestHelper;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -36,7 +40,6 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 
 public class EditEventSystemTest {
-    private static int testId;
     private static EventController eventController;
     @Rule
     public ActivityScenarioRule<ScrollingActivity> activityRule = new ActivityScenarioRule<ScrollingActivity>(ScrollingActivity.class);
@@ -71,6 +74,15 @@ public class EditEventSystemTest {
         activityRule.getScenario().close();
     }
 
+    @Ignore
+    public static void matchEditButtonOnRecyclerView(int Position) {
+        ViewInteraction viewInteraction = onView(allOf(withId(R.id.recylerview),
+                isDisplayed()));
+        viewInteraction.perform(RecyclerViewActions.actionOnItemAtPosition(Position, click()));
+        onView(withId(R.id.edit_ic)).perform(click());
+
+    }
+
     @Test
     public void checkClickableEditButton() {
 
@@ -81,7 +93,7 @@ public class EditEventSystemTest {
         // Assert match event description
         TestHelper.matchItemAtPositionWithTextOnRecyclerView(0, "Testing Description");
         // Assert if there is a clickable edit button, perform click
-        TestHelper.matchEditAlarmButtonOnRecyclerView(0);
+        matchEditButtonOnRecyclerView(0);
         // Assert if the if EventCreation Activity receive a correct bundle containing correct data
         TestHelper.testMatchReceivedIntentData(EventCreationActivity.class.getName(), "EVENT_USER_ID", UserClient.getUserId());
         // Assert view display a correct event title
@@ -101,5 +113,4 @@ public class EditEventSystemTest {
                 .check(matches(isChecked()));
 
     }
-
 }
