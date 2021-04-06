@@ -15,10 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -26,6 +24,7 @@ import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.application.DbClient;
 import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.EventController;
+import comp3350.team7.scheduleapp.logic.TimeController;
 import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
 import comp3350.team7.scheduleapp.objects.Event;
 import comp3350.team7.scheduleapp.persistence.EventPersistenceInterface;
@@ -124,12 +123,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.textView4.setText(event.getEventStartToString());
         holder.description.setText(event.getDescription());
         Calendar alarm = event.getAlarm();
-        if(alarm!=null) {
-//            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-//            String timeString = formatter.format(new Date((long)alarm));
-            SimpleDateFormat dateformatter = new SimpleDateFormat("dd/MM/yyyy\nHH:mm");
-            String dateString = dateformatter.format(new Date(alarm.getTimeInMillis()));
+        if (alarm != null) {
+            String dateString = TimeController.dateTimeFormatHelper(alarm);
             holder.remindMe.setText(dateString);
+        } else {
+            holder.remindMe.setText("No Alarm Set");
         }
     }
 
@@ -245,9 +243,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 case R.id.edit_ic:
                     listener.onEdit(this.getLayoutPosition());
                     break;
-//                case R.id.alarm_ic:
-//                    listener.onDelete(this.getLayoutPosition());
-//                    break;
                 default:
                     listener.onClick(this.getLayoutPosition());
                     break;
@@ -257,7 +252,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
         public interface MyClickListener{
             void onEdit(int position);
-//            void onDelete(int position);
             void onClick(int position);
         }
 
