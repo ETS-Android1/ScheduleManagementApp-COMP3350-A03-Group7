@@ -3,16 +3,17 @@ package comp3350.team7.scheduleapp.persistence.hsqldb;
 import android.util.Log;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.Statement;
 import java.sql.Timestamp;
-import java.sql.Date;
+import java.sql.Types;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Calendar;
+import java.util.List;
 
 import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.objects.Event;
@@ -131,7 +132,7 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
     public void addEvent(Event newEvent) throws DbErrorException {
         try(final Connection c = connection()) {
             final PreparedStatement msg = c.prepareStatement(
-                    "INSERT INTO EVENTS VALUES(DEFAULT, ?, ?, ?, ?, ?, ?)");
+                    "INSERT INTO EVENTS (USERID, TITLE, DESCRIPTION, START,END,ALARM) VALUES( ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             msg.setString(1, newEvent.getUserName());
             msg.setString(2, newEvent.getTitle());
             msg.setString(3, newEvent.getDescription());
@@ -153,16 +154,17 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
             }
 
             Calendar alarm = newEvent.getAlarm();
-            if(alarm!=null){
-                Log.d(TAG,"alarm stored");
-                msg.setTimestamp(6,new Timestamp(alarm.getTimeInMillis()));
-            }else{
+            if (alarm != null) {
+                Log.d(TAG, "alarm stored");
+                msg.setTimestamp(6, new Timestamp(alarm.getTimeInMillis()));
+            } else {
                 msg.setNull(6, Types.NULL);
             }
-
-
             msg.executeUpdate();
-
+            ResultSet generatedKeys = msg.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                newEvent.setID(generatedKeys.getInt(1));
+            }
         }catch (final SQLException e){
             throw new DbErrorException("Fail to add event to the database",e);
         }
