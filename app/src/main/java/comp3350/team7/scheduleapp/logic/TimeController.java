@@ -9,7 +9,6 @@ import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 public class TimeController {
@@ -24,15 +23,23 @@ public class TimeController {
     public static int millisecondsToMin(long millis){
         return (int) (millis/ OffSetInMills);
     }
-    public static String dateFormatHelper(Calendar cal){
-        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT,location);
-        Log.d(TAG,cal.getTimeZone().getDisplayName());
-        return formatter.format(cal.getTime());
-    }
-    public static String timeFormatHelper(Calendar cal){
-        SimpleDateFormat formatter = new SimpleDateFormat(TIME_FORMAT,location);
-        Log.d(TAG,cal.getTimeZone().getDisplayName());
+
+    public static String dateFormatHelper(Calendar cal) {
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT, location);
+        Log.d(TAG, cal.getTimeZone().getDisplayName());
         return formatter.format(cal.getTime());
     }
 
+    public static String timeFormatHelper(Calendar cal) {
+        SimpleDateFormat formatter = new SimpleDateFormat(TIME_FORMAT, location);
+        Log.d(TAG, cal.getTimeZone().getDisplayName());
+        return formatter.format(cal.getTime());
+    }
+
+    public static String dateTimeFormatHelper(Calendar cal) {
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT + '\n' + TIME_FORMAT, location);
+        Log.d(TAG, cal.getTimeZone().getDisplayName());
+        return formatter.format(cal.getTime());
+
+    }
 }
