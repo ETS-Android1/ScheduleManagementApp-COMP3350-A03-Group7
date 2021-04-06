@@ -19,9 +19,7 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.EventController;
@@ -46,29 +44,25 @@ import static org.hamcrest.Matchers.containsString;
 
 public class RemoveUndoEventSystemTest {
     private final static int ItemsTestSize = 1;
-    private static EventController eventController;
     @Rule
     public ActivityScenarioRule<ScrollingActivity> activityRule = new ActivityScenarioRule<ScrollingActivity>(ScrollingActivity.class);
     Calendar start, alarm;
 
     @Before
-    public void setup() throws EventControllerException {
+    public void setup() {
         start = TestHelper.getCustomizeCalendarInstance(Calendar.MINUTE, 30);
         alarm = TestHelper.getCustomizeCalendarInstance(Calendar.MINUTE, 20);
         UserClient.setUserId("ttran");
-        eventController = new EventController();
+        EventController eventController = new EventController();
         activityRule.getScenario().onActivity(activity -> {
             Event testEvent = null;
-            List<Event> list = new ArrayList<>();
             try {
                 testEvent = eventController.buildEvent(UserClient.getUserId(), "Testing Title", "Testing Description", start, null, alarm);
-                list = eventController.getEventList(UserClient.getUserId());
                 eventController.addEvent(testEvent);
             } catch (EventControllerException e) {
                 activity.onError(e.getMessage());
             }
         }).recreate();
-
         Intents.init();
     }
 

@@ -26,7 +26,7 @@ public class EventValidator {
             validateEventName(e.getTitle());
             validateEventDescription(e.getDescription());
             if (end != null)
-                validateEventStartAndEndTime(start, end, now);
+                validateEventStartAndEndTime(end, start, now);
             else {
                 validateEventStartTime(start, now);
             }

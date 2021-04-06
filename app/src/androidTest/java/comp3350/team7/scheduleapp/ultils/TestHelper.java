@@ -38,6 +38,7 @@ import comp3350.team7.scheduleapp.logic.EventController;
 import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
 import comp3350.team7.scheduleapp.objects.Event;
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -62,6 +63,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 
@@ -112,12 +114,25 @@ public class TestHelper {
         onView(withText("OK")).perform(click());
     }
 
-    public static <T extends Activity> void testMatchToast(String toastMessage,  ActivityScenarioRule<T> mActivityRule) {
+    public static void pickAlarmSpinnerItems(int spinnerPosition, ActivityScenarioRule activityRule) throws ArrayIndexOutOfBoundsException {
+        Activity activity = TestHelper.getActivity(activityRule);
+        String[] min_prior_alarm_array_string = activity.getResources().getStringArray(R.array.min_prior_alarm_array_string);
+        int size = min_prior_alarm_array_string.length;
+        if (spinnerPosition < size) {
+            onView(withId(R.id.reminder)).perform(click());
+            onData(is(min_prior_alarm_array_string[spinnerPosition])).perform(click());
+        }
+        if (spinnerPosition >= size)
+            throw new ArrayIndexOutOfBoundsException("Invalid input \"int spinnerPosition\"");
+    }
+
+    public static <T extends Activity> void testMatchToast(String toastMessage, ActivityScenarioRule<T> mActivityRule) {
         onView(withText(toastMessage))
                 .inRoot(withDecorView(not(getActivity(mActivityRule).getWindow().getDecorView())))
                 .check(matches(isDisplayed()));
     }
-    public static <T extends Activity> void testMatchToast(String toastMessage ){
+
+    public static <T extends Activity> void testMatchToast(String toastMessage) {
         onView(withText(toastMessage))
                 .inRoot(new ToastMatcher())
                 .check(matches(isDisplayed()));

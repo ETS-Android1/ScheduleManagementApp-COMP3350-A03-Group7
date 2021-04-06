@@ -5,8 +5,6 @@ package comp3350.team7.scheduleapp;
  *
  */
 
-import android.app.Activity;
-
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -27,7 +25,6 @@ import comp3350.team7.scheduleapp.presentation.activity.EventCreationActivity;
 import comp3350.team7.scheduleapp.presentation.activity.ScrollingActivity;
 import comp3350.team7.scheduleapp.ultils.TestHelper;
 
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -38,7 +35,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static org.hamcrest.Matchers.is;
+import static comp3350.team7.scheduleapp.ultils.TestHelper.pickAlarmSpinnerItems;
 
 // for assertions on Java 8 types (Streams and java.util.Optional)
 
@@ -59,7 +56,6 @@ public class AddEventSystemTest {
     private static String validDescriptionTestId;
     private static String invalidDescriptionTestId;
     private static int testId;
-    private static EventController eventController;
     @Rule
     public ActivityScenarioRule<EventCreationActivity> activityRule = new ActivityScenarioRule<EventCreationActivity>(EventCreationActivity.class);
 
@@ -83,7 +79,6 @@ public class AddEventSystemTest {
 
         testId = 0;
         UserClient.setUserId("ttran");
-        eventController = new EventController();
         Intents.init();
     }
 
@@ -91,7 +86,7 @@ public class AddEventSystemTest {
     @After
     public void teardown() {
         Intents.release();
-        TestHelper.cleanDb(eventController);
+        TestHelper.cleanDb(new EventController());
         activityRule.getScenario().close();
     }
 
@@ -108,7 +103,7 @@ public class AddEventSystemTest {
             case Invalid_Too_Long_Title:
                 onView(withId(titleTextViewId))
                         .check(matches(isCompletelyDisplayed()))
-                        .perform(click(), clearText(), typeText(String.format("%60s", invalidTitleTestId)), closeSoftKeyboard());
+                        .perform(click(), clearText(), typeText(String.format(" %60s", invalidTitleTestId)), closeSoftKeyboard());
                 break;
             default:
                 onView(withId(titleTextViewId))
@@ -125,7 +120,7 @@ public class AddEventSystemTest {
             case Invalid_Too_Long_Description:
                 onView(withId(descriptionTextViewId))
                         .check(matches(isCompletelyDisplayed()))
-                        .perform(click(), typeText(String.format("%120s", invalidDescriptionTestId)), closeSoftKeyboard());
+                        .perform(click(), typeText(String.format(" %120s", invalidDescriptionTestId)), closeSoftKeyboard());
                 break;
             default:
                 onView(withId(descriptionTextViewId))
@@ -154,16 +149,16 @@ public class AddEventSystemTest {
             case No_Alarm:
                 break;
             case Valid_Alarm_Spinner_Position_1:
-                pickAlarmSpinnerItems(1);
+                pickAlarmSpinnerItems(1, activityRule);
                 checkAlarmOption();
                 break;
             case Valid_Alarm_Spinner_Position_2:
-                pickAlarmSpinnerItems(2);
+                pickAlarmSpinnerItems(2, activityRule);
                 checkAlarmOption();
                 break;
             case Valid_Alarm_Spinner_Position_0:
             default:
-                pickAlarmSpinnerItems(0);
+                pickAlarmSpinnerItems(0, activityRule);
                 checkAlarmOption();
                 break;
 
@@ -172,18 +167,7 @@ public class AddEventSystemTest {
 
     }
 
-    @Ignore("Grouping with other test")
-    private void pickAlarmSpinnerItems(int spinnerPosition) throws ArrayIndexOutOfBoundsException {
-        Activity activity = TestHelper.getActivity(activityRule);
-        String[] min_prior_alarm_array_string = activity.getResources().getStringArray(R.array.min_prior_alarm_array_string);
-        int size = min_prior_alarm_array_string.length;
-        if (spinnerPosition < size) {
-            onView(withId(R.id.reminder)).perform(click());
-            onData(is(min_prior_alarm_array_string[spinnerPosition])).perform(click());
-        }
-        if (alarmSpinnerItemIndex >= size)
-            throw new ArrayIndexOutOfBoundsException("Invalid input \"int spinnerPosition\"");
-    }
+
 
     @Ignore("Grouping with other test")
     private void checkAlarmOption() {
@@ -202,14 +186,16 @@ public class AddEventSystemTest {
 
 
     @Test
-    public void addValidEventWithoutAlarm() throws EventControllerException {
+    public void addValidEventWithoutAlarm() throws EventControllerException, InterruptedException {
 
         addEventWith(CASE.No_Alarm);
         clickSaveButton();
-        int eventSize = TestHelper.matchEventListSize(eventController, testId);
+        Thread.sleep(500);
+        TestHelper.withRecyclerViewSize(testId);
+//        int eventSize = TestHelper.matchEventListSize(eventController, testId);
         TestHelper.testMatchReceivedIntent(ScrollingActivity.class.getName());
         TestHelper.matchItemWithTextOnRecyclerViewAndPerformClick(validTitleTestId);
-        TestHelper.matchItemAtPositionWithTextOnRecyclerView(eventSize - 1, validTitleTestId);
+        TestHelper.matchItemAtPositionWithTextOnRecyclerView(testId - 1, validTitleTestId);
 
     }
 
@@ -243,25 +229,27 @@ public class AddEventSystemTest {
     }
 
     @Test
-    public void addValidEventWithSettingAlarm5MinutePiorEventStart() throws EventControllerException {
+    public void addValidEventWithSettingAlarm5MinutePiorEventStart() throws EventControllerException, InterruptedException {
         addEventWith(CASE.Valid_Alarm_Spinner_Position_0);
         clickSaveButton();
-        int eventSize = TestHelper.matchEventListSize(eventController, testId);
+        Thread.sleep(500);
+        TestHelper.withRecyclerViewSize(testId);
         TestHelper.testMatchReceivedIntent(ScrollingActivity.class.getName());
         TestHelper.matchItemWithTextOnRecyclerViewAndPerformClick(validTitleTestId);
-        TestHelper.matchItemAtPositionWithTextOnRecyclerView(eventSize - 1, validTitleTestId);
+        TestHelper.matchItemAtPositionWithTextOnRecyclerView(testId - 1, validTitleTestId);
     }
 
     @Test
-    public void addValidEventWithSettingAlarm10MinutePiorEventStart() throws EventControllerException {
+    public void addValidEventWithSettingAlarm10MinutePiorEventStart() throws EventControllerException, InterruptedException {
 
         addEventWith(CASE.Valid_Alarm_Spinner_Position_1);
         clickSaveButton();
 
-        int eventSize = TestHelper.matchEventListSize(eventController, testId);
+        Thread.sleep(500);
+        TestHelper.withRecyclerViewSize(testId);
         TestHelper.testMatchReceivedIntent(ScrollingActivity.class.getName());
         TestHelper.matchItemWithTextOnRecyclerViewAndPerformClick(validTitleTestId);
-        TestHelper.matchItemAtPositionWithTextOnRecyclerView(eventSize - 1, validTitleTestId);   // check position of the item
+        TestHelper.matchItemAtPositionWithTextOnRecyclerView(testId - 1, validTitleTestId);   // check position of the item
 
 
     }
@@ -271,10 +259,11 @@ public class AddEventSystemTest {
 
         addEventWith(CASE.Valid_Alarm_Spinner_Position_2);
         clickSaveButton();
-        int eventSize = TestHelper.matchEventListSize(eventController, testId);
+        Thread.sleep(500);
+        TestHelper.withRecyclerViewSize(testId);
         TestHelper.testMatchReceivedIntent(ScrollingActivity.class.getName());
         TestHelper.matchItemWithTextOnRecyclerViewAndPerformClick(validTitleTestId);
-        TestHelper.matchItemAtPositionWithTextOnRecyclerView(eventSize - 1, validTitleTestId);  // check position of the item
+        TestHelper.matchItemAtPositionWithTextOnRecyclerView(testId - 1, validTitleTestId);  // check position of the item
     }
 
     @Test
@@ -323,8 +312,5 @@ public class AddEventSystemTest {
         Valid_Alarm_Spinner_Position_1,
         Valid_Alarm_Spinner_Position_2,
         No_Alarm,
-        Valid
-
-
     }
 }

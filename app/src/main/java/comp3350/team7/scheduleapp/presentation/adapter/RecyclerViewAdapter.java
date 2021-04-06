@@ -37,56 +37,63 @@ import comp3350.team7.scheduleapp.presentation.activity.EventCreationActivity;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
     private static final String TAG = "RecyclerViewAdapter";
-    private EventController eventController;
-    private final Context context;
-    private List<Event> list;
     private static HashSet<Integer> expandViewHolderPositionSet;
+    private final Context context;
+    private EventController eventController;
+    private List<Event> list;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public RecyclerViewAdapter(Context context) {
         this.context = context;
-       init();
+        init();
 
     }
 
+    private static boolean isViewHolderExpanded(int position) {
+        return expandViewHolderPositionSet.contains(position);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void init(){
+    private void init() {
         EventPersistenceInterface eventPersistence = DbClient.getInstance().getEventPersistence();
         eventController = new EventController(eventPersistence);
         setAdapterList(getEventListFromController(eventController));
         expandViewHolderPositionSet = new HashSet<>();
     }
-    private void setAdapterList(List<Event> list){
+
+    private void setAdapterList(List<Event> list) {
         this.list = list;
     }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private List<Event> getEventListFromController(EventController eventController){
+    private List<Event> getEventListFromController(EventController eventController) {
         List<Event> list = null;
-        try{
+        try {
             list = eventController.getEventList(UserClient.getUserId());
-        }catch (EventControllerException err) {
-            Log.e(TAG,"Developer attention, internal error" );
-            Log.d(TAG,"Caused by: " + err.getCause());
+        } catch (EventControllerException err) {
+            Log.e(TAG, "Developer attention, internal error");
+            Log.d(TAG, "Caused by: " + err.getCause());
             err.printStackTrace();
         }
         return list;
 
     }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
         v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_holder_event, parent, false);
         //MyViewHolder holder = new MyViewHolder(v, new )
-        MyViewHolder holder =  new MyViewHolder(v, new MyViewHolder.MyClickListener() {
+        MyViewHolder holder = new MyViewHolder(v, new MyViewHolder.MyClickListener() {
             @Override
             public void onEdit(int position) {
-                Log.d(TAG,"onEdit clicked");
+                Log.d(TAG, "onEdit clicked");
                 Event onEditEvent = list.get(position);
-                Intent intent = new Intent(context,EventCreationActivity.class);
+                Intent intent = new Intent(context, EventCreationActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("EVENT_USER_ID", onEditEvent.getUserName());
-                bundle.putInt("EVENT_ID",onEditEvent.getID());
-                intent.putExtra("EVENT_UNIQUE",bundle );
+                bundle.putInt("EVENT_ID", onEditEvent.getID());
+                intent.putExtra("EVENT_UNIQUE", bundle);
                 //intent.putExtra("EVENT_ID", onEditEvent.getID());
                 //intent.putExtra("EVENT_USER_ID", onEditEvent.getUserName());
                 //Bundle bundle = new Bundle();
@@ -94,8 +101,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 //context.startActivity(intent,bundle);
                 context.startActivity(intent);
             }
+
             @Override
-            public void onClick(int position){
+            public void onClick(int position) {
                 if (isViewHolderExpanded(position)) {
                     removeExpandViewHolderPosition(position);
                 } else {
@@ -113,14 +121,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
 
-
     // bind view holder with a given position in RecyclerView
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         Event event = list.get(position);
         holder.bind(position);
         holder.textView3.setText(event.getTitle());
-        holder.textView4.setText(event.getEventStartToString());
+        holder.textView4.setText(TimeController.dateTimeFormatHelper(event.getEventStart()));
         holder.description.setText(event.getDescription());
         Calendar alarm = event.getAlarm();
         if (alarm != null) {
@@ -129,10 +136,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         } else {
             holder.remindMe.setText("No Alarm Set");
         }
-    }
-
-    private static boolean isViewHolderExpanded(int position) {
-        return expandViewHolderPositionSet.contains(position);
     }
 
     private void addExpandViewHolderPostion(int position) {
@@ -177,7 +180,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             // we know where the bom init
 
 
-            Log.e(TAG, "Error: in remove." + e.getMessage()+ "\nCaused by: " + e.getCause());
+            Log.e(TAG, "Error: in remove." + e.getMessage() + "\nCaused by: " + e.getCause());
             e.printStackTrace();
         }
     }
@@ -199,14 +202,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         } catch (EventControllerException e) {
             // always catch and log
             // we know where the bom init
-            Log.e(TAG, "Error: in Undo." + e.getMessage()+ "\nCaused by: " + e.getCause());
+            Log.e(TAG, "Error: in Undo." + e.getMessage() + "\nCaused by: " + e.getCause());
 
             e.printStackTrace();
         }
     }
 
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView textView3;
         public TextView textView4;
         public TextView description;
@@ -214,7 +217,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ImageView alarm_ic, edit_ic;
         public View holder, foreGround, backGround, expandView;
         MyClickListener listener;
-        public MyViewHolder(View itemView,MyClickListener listener) {
+
+        public MyViewHolder(View itemView, MyClickListener listener) {
             super(itemView);
             this.listener = listener;
             textView3 = itemView.findViewById(R.id.textView3);
@@ -226,7 +230,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             description = itemView.findViewById(R.id.event_description);
             remindMe = itemView.findViewById(R.id.remind_me);
             alarm_ic = itemView.findViewById(R.id.alarm_ic);
-            edit_ic  = itemView.findViewById(R.id.edit_ic);
+            edit_ic = itemView.findViewById(R.id.edit_ic);
 
             alarm_ic.setOnClickListener(this);
             edit_ic.setOnClickListener(this);
@@ -239,7 +243,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.edit_ic:
                     listener.onEdit(this.getLayoutPosition());
                     break;
@@ -250,8 +254,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             }
         }
-        public interface MyClickListener{
+
+        public interface MyClickListener {
             void onEdit(int position);
+
             void onClick(int position);
         }
 
