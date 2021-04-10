@@ -1,102 +1,140 @@
-package comp3350.team7.scheduleapp.persistence.stubs;
+package comp3350.team7.scheduleapp.persistence.hsqldb;
 
+import android.util.Log;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
+public class UserPersistenceHSQLDB implements UserPersistenceInterface {
 
+    private final String dbPath;
 
-public class UserPersistenceStub implements UserPersistenceInterface {
-    private List<User> userDB;
-
-    public UserPersistenceStub(){
-        this.userDB = new ArrayList<>();
-
-        userDB.add(new User("Aaron", "Joson","josona", "aaron1234"));
-        userDB.add(new User("Anthony", "Anuraj","anuraja", "anthony1234"));
-        userDB.add(new User("Thai", "Tran","tranttt", "thai1234"));
-        userDB.add(new User("Taylor", "Roy","royt34", "taylor1234"));
-
+    public UserPersistenceHSQLDB(final String dbPath){
+        this.dbPath = dbPath;
     }
 
-    public UserPersistenceStub(List<User> userDB){
-        this.userDB = userDB;
+
+    public Connection connection() throws  SQLException{
+        return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
+    }
+
+    private User fromResultSet(final ResultSet rs) throws SQLException {
+        final String username = rs.getString("userID");
+        final String password = rs.getString("password");
+        final String firstName = rs.getString("firstName");
+        final String lastName = rs.getString("lastName");
+        return new User(firstName,lastName,username,password);
+    }
+
+
+    @Override
+    public List<User> getUserDB() {
+        final List<User> users = new ArrayList<>();
+
+        try(final Connection c =  connection()) {
+            final Statement msg = c.createStatement();
+            final ResultSet rs =  msg.executeQuery("SELECT * FROM USERS");
+            while(rs.next()) {
+                final User user = fromResultSet(rs);
+                users.add(user);
+            }
+            rs.close();
+            msg.close();
+
+
+        }catch (final SQLException e){
+            Log.w("Getting userDB", e.toString());
+            e.printStackTrace();
+        }
+
+        return users;
     }
 
     @Override
-    public List<User> getUserDB(){
-        return Collections.unmodifiableList(userDB);
+    public boolean getUser(String username, String password){
+        boolean returnVal = false;
+
+        try(final Connection c = connection()) {
+            final PreparedStatement msg = c.prepareStatement("SELECT * FROM USERS WHERE USERID = ? AND PASSWORD = ?");
+            msg.setString(1, username);
+            msg.setString(2, password);
+
+            ResultSet rs = msg.executeQuery();
+            returnVal = rs.next();
+            rs.close();
+            msg.close();
+
+
+        }catch (final SQLException e){
+            Log.w("Getting user", e.toString());
+            e.printStackTrace();
+        }
+        return returnVal;
     }
 
     @Override
     public boolean addUser(User newUser){
         boolean returnVal = false;
-        boolean existingUser = false;
-        User dbEntry;
+        try(final Connection c = connection()) {
+            final PreparedStatement msg = c.prepareStatement("INSERT INTO USERS(USERID, PASSWORD, FIRSTNAME, LASTNAME) VALUES(?,?,?,?)");
+            msg.setString(1, newUser.getUserId());
+            msg.setString(2, newUser.getPassword());
+            msg.setString(3, newUser.getFirstName());
+            msg.setString(4, newUser.getLastName());
 
-        for(int i = 0; i< userDB.size() && !existingUser; i++){
-            dbEntry = userDB.get(i);
+            int val = msg.executeUpdate();
 
-            if(dbEntry.getUserId().equals(newUser.getUserId())){
-                existingUser = true;
+            if(val == 1){
+                returnVal = true;
             }
-        }
-
-        if(!existingUser) {
-            userDB.add(newUser);
-            returnVal = true;
+        }catch (final SQLException e){
+            Log.w("Adding user", e.toString());
+            e.printStackTrace();
         }
         return returnVal;
-
     }
 
     @Override
-    public boolean addUser(String username, String password, String firstname, String lastname){
+    public boolean addUser(String firstname, String lastname, String username, String password){
         boolean returnVal = false;
-        boolean existingUser = false;
-        User dbEntry;
 
-        for(int i = 0; i < userDB.size() && !existingUser; i++){
-            dbEntry = userDB.get(i);
+        try(final Connection c = connection()) {
+            final PreparedStatement msg = c.prepareStatement("INSERT INTO USERS(USERID, PASSWORD, FIRSTNAME, LASTNAME) VALUES(?,?,?,?)");
+            msg.setString(1, username);
+            msg.setString(2, password);
+            msg.setString(3, firstname);
+            msg.setString(4, lastname);
 
-            if(dbEntry.getUserId().equals(username)){
-                existingUser = true;
+            int val = msg.executeUpdate();
+
+            if(val == 1){
+                returnVal = true;
             }
+        }catch (final SQLException e){
+            Log.w("Adding user", e.toString());
+            e.printStackTrace();
         }
-
-        if(!existingUser){
-            userDB.add(new User(firstname, lastname, username, password));
-            returnVal = true;
-        }
-
         return returnVal;
     }
 
     @Override
-    public boolean getUser(String username, String password){
-        User userCheck;
-        boolean userFound = false;
+    public void deleteUser(User user) {
+        try(final Connection c = connection()){
+            final PreparedStatement msg = c.prepareStatement("DELETE FROM USER WHERE USERID = ? ");
+            msg.setString(1, user.getUserId());
+            msg.executeUpdate();
 
-        for(int index = 0; index < userDB.size() && !userFound; index++){
-            userCheck = userDB.get(index);
-
-            if(userCheck.getUserId().equals(username) && userCheck.getPassword().equals(password)){
-                userFound = true;
-            }
-        }
-
-        return userFound;
-    }
-
-    @Override
-    public void deleteUser(User currentUser){
-        int userIndex;
-
-        userIndex = userDB.indexOf(currentUser);
-        if(userIndex >= 0 ){
-            userDB.remove(userIndex);
+        }catch (final SQLException e){
+            Log.w("Deleting user", e.toString());
+            e.printStackTrace();
         }
     }
 }
