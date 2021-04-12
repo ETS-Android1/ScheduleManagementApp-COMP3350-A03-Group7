@@ -54,13 +54,13 @@
     - Used to validate any user input from LoginActivity and CreateAccountActivity
     - accepts any implementation of the UserPersistenceInterface
     - Checks if the User is a valid User in the Database
--[logic/ScheduleController]()
+-[logic/ScheduleController]( add link later)
     - Accepts any implementation of SchedulePersistenceInterface
     - Gets the Schedule for the user on the selected date
--[logic/UserDBManager]()
+-[logic/UserDBManager]( add link later)
     - Used to manage the interaction between the UI Activities and the UserPersistence
     - Accepts any implementation of UserPersistenceInterface
-    - Handles creating new User accounts, User Login and removing a user account from any implementations of UserPersistenceInterface
+    - Handles creating new User accounts and logging into user's account from any implementations of UserPersistenceInterface
 -[logic/AlarmController]()
 -[logic/TimeController]()
    
