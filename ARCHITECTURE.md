@@ -19,9 +19,8 @@
     - transition to CreateAccoutActivity
 [activity/CreateAccountActivity](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/presentation/activity/CreateAccountActivity.java)
 - View for user to adding user details and set password before transition to ScrollingActivity
-
-[activity/AlarmActivity]
-- View containing the alarms for a User's scheduled event
+[activity/AlarmActivity](add link later)
+- View creating/managing the alarms for a User's scheduled event
 
 ### Adapter 
 [adapter/RecyclerViewAdapter](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/presentation/adapter/RecyclerViewAdapter.java)
@@ -54,15 +53,18 @@
     - Used to validate any user input from LoginActivity and CreateAccountActivity
     - accepts any implementation of the UserPersistenceInterface
     - Checks if the User is a valid User in the Database
--[logic/ScheduleController]( add link later)
+- [logic/ScheduleController]( add link later)
     - Accepts any implementation of SchedulePersistenceInterface
     - Gets the Schedule for the user on the selected date
--[logic/UserDBManager]( add link later)
+- [logic/UserDBManager]( add link later)
     - Used to manage the interaction between the UI Activities and the UserPersistence
     - Accepts any implementation of UserPersistenceInterface
-    - Handles creating new User accounts and logging into user's account from any implementations of UserPersistenceInterface
--[logic/AlarmController]()
--[logic/TimeController]()
+    - Handles new User registrations and User logins
+- [logic/AlarmController]()
+    - This contains the logic for the alarm notifications for any upcoming scheduled events
+    - Sends the notification to the User/client's device
+- [logic/TimeController]()
+    - handles time offset conversion from minutes to milliseconds and milliseconds to minutes
    
 ### Comparators
 [EventEndAscendingComparator](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/logic/comparators/EventEndAscendingComparator.java)
