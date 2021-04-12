@@ -20,6 +20,8 @@
 [activity/CreateAccountActivity](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/presentation/activity/CreateAccountActivity.java)
 - View for user to adding user details and set password before transition to ScrollingActivity
 
+[activity/AlarmActivity]
+- View containing the alarms for a User's scheduled event
 
 ### Adapter 
 [adapter/RecyclerViewAdapter](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/presentation/adapter/RecyclerViewAdapter.java)
@@ -55,6 +57,12 @@
 -[logic/ScheduleController]()
     - Accepts any implementation of SchedulePersistenceInterface
     - Gets the Schedule for the user on the selected date
+-[logic/UserDBManager]()
+    - Used to manage the interaction between the UI Activities and the UserPersistence
+    - Accepts any implementation of UserPersistenceInterface
+    - Handles creating new User accounts, User Login and removing a user account from any implementations of UserPersistenceInterface
+-[logic/AlarmController]()
+-[logic/TimeController]()
    
 ### Comparators
 [EventEndAscendingComparator](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/master/app/src/main/java/comp3350/team7/scheduleapp/logic/comparators/EventEndAscendingComparator.java)
