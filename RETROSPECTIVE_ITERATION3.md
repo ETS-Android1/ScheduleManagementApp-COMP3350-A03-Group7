@@ -11,6 +11,7 @@ The success of our project will be determined by its usefulness for the user. If
 
 ## Project Velocity Documentation and chart
 ![Project Velocity Chart](Project_Velocity.jpg)
+
 Unfortunately, we did not properly document our velocity throughout the iterations. Most of the data in the graph is determined through our discussion in class from when we were discussing velocity as a topic. 
 
 Iteration 1:
