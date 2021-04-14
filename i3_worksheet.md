@@ -63,11 +63,32 @@ Acceptance test/end-to-end
 Write a discussion about an end-to-end test that you wrote. What did you test,
 how did you set up the test so it was not flaky? Provide a link to that test.
 
+Since our project would be working on managing each client's schedules, we would need to enable the users to have their own personal accounts to store the event schedules and so that we can easily find their Events in our Event database by using their userID as the primary key. This means that one of our high priority features would be to let the Users log into their accounts, thats why we had to write an automated End-to-End test (System test) in order to show the users all the possible scenarios that our Login page could do depending on the input that the client has provided. 
+
+For the Login End-to-End test, we would have to test the following
+- If the Components are easily visible
+- The input fields for the Username and password to see whether they would be updating whenever any actions were taken
+- Whether both login button and create new account button are clickable
+- a scenario where the user entered a username but no password
+- a scenario where the user entered a password but no username
+- a scenario where the user entered a username or password that doesnt match the one in our User Database
+- a scenario where the user entered their correct username and password information
+- a scenario where the user clicked on the new account button
+
+In order to prevent the End-to-End test from providing flakey results, we implemented a UserDBManager class that would cohesively handle the interaction between the UserDatabase and the Activity Screen without having them be highly coupled to any implementation of the database. The UserDBManager would be instantiated in the LoginActivity and the CreateAccountActivity and any methods or calls to the database would have to be passed through the UserDBManager. We also prepopulated the UserDatabase with an account for each of the member of the team and have it copied onto the device's memory whenever the App is started so that the device would always have the upto-date copy of the databases, we would then use one of the prepopulated accounts to test each scenario stated above to see whether the feature works as intended and if it provides enough feedback to the user so that they can adjust any input errors that they might have had or explain the input format the Login screen requires (i.e., Entering required input fields).
+
+[LoginSystemTest](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/development/app/src/androidTest/java/comp3350/team7/scheduleapp/LoginSystemTest.java)
+
+[LoginAcceptanceTest](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/blob/development/app/src/androidTest/java/comp3350/team7/scheduleapp/LoginAcceptanceTest.java)
+
 Acceptance test, untestable
 ===============
 
 What challenges did you face when creating acceptance tests? What was difficult
 or impossible to test?
+
+we are currently having an issue writing a reusable automated CreateAccountAcceptanceTest that would produce consistent results and would not require a fresh install everytime we want to test it.
+
 
 Velocity/teamwork
 =================
