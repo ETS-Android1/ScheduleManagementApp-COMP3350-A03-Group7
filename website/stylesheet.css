@@ -21,12 +21,12 @@ body, h1, h2, h3, h4, h5, h6  {
 }
 
 h1 {
-    font-size: 30px;
+    font-size: 40px;
     text-align: center;
 }
 
 h2 {
-    font-size: 25px;
+    font-size: 30px;
 }
 
 .shortMessages {
@@ -49,4 +49,12 @@ h2 {
   border: 3px solid black;
   padding-right: 25px;
   padding-left: 15px
+}
+
+.vGraphText {
+    padding: 15px
+}
+
+.vGraph {
+    padding-left: 15px
 }
