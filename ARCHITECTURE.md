@@ -2,7 +2,8 @@
 
 ## Architecture diagram 
 
-![architecture](Architecture_Iter2.jpg)
+![architecture](Iter3_Architecture.jpg)
+
 
 ## Presentation Layer
 
