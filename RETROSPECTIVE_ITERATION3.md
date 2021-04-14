@@ -9,4 +9,15 @@ A concrete and realistic way to make this improvement is to keep breaking down e
 How its success will be evaluated at the end of the iteration?
 The success of our project will be determined by its usefulness for the user. If the app is something the user feels inclined to use and maintain throughout their day and incorporate into their routine, it will be a success. This would be accomplished through the simplicity and intuitiveness of the application which would allow users of all demographics to manage their time with ease. Although, we were not able to incorporate more exciting features to distinguish our product from competitors, we believe that with a dedicated user base, we would receive valuable feedback pertaining to the growth of the platform from our valued users. We also see this as a success. 
 
-## (add a project velocity image showing 2 data points of project velocity from the last 2 iterations.)
+## Project Velocity Documentation and chart
+![Project Velocity Chart](Project_Velocity.jpg)
+Unfortunately, we did not properly document our velocity throughout the iterations. Most of the data in the graph is determined through our discussion in class from when we were discussing velocity as a topic. 
+
+Iteration 1:
+We did poorly. We assumed to much work in the iteration and underperformed our expectation. We ended up having to assign work for uncompleted features to the next iteration. We ended up with prudent inadvertent technical debt for the user database which was eventually resolved in the next iteration.
+
+Iteration 2:
+Ultimately, the amount of work we completed was closer to what we estimated. Closer to the deadline we realized that we needed to ignore failing tests in order to salvage other parts of the system in order for it to function.
+
+Iteration 3:
+After discussing velocity in class we realized that we had to plan out our time much better in order to maintain our goals for the iteration and end product. We laid out all work that needed to be completed within the time frame of the iteration and improved upon our time management in order to complete these tasks.
