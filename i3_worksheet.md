@@ -27,12 +27,14 @@ it was necessary but we noticed that we have this as a technical debt and we acc
 
 Show links to a commit where you paid off technical debt. Write 2-5 sentences
 that explain what debt was paid, and what its classification is. 
+
 [Technical Debt for UserPersistence Integration Test](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/issues/82)
-How we paid off this Technical Debt
-- [Added a UserDBManager](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/commit/5dadbebdf04acfb48ffcbefab491460ff4824f13)
-    - this would be handling the interactions with the UserPersistenceInterface and any of its implementations
-- [Added Unit test for UserDBManager](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/commit/4a73e768104734dd1e008a49278bb208f32b9565)
-- [Added Integration Test for UserDBManager](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/commit/b7fa5c06ba0cd78866c6b5651fb849c5c74acab8)
+- Debt classification: Prudent and Deliberate Technical Debt
+- How we paid off this Technical Debt
+    - [Added a UserDBManager](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/commit/5dadbebdf04acfb48ffcbefab491460ff4824f13)
+        - this would be handling the interactions with the UserPersistenceInterface and any of its implementations
+    - [Added Unit test for UserDBManager](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/commit/4a73e768104734dd1e008a49278bb208f32b9565)
+    - [Added Integration Test for UserDBManager](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/commit/b7fa5c06ba0cd78866c6b5651fb849c5c74acab8)
 
 What technical debt did you leave?
 ==================================
@@ -51,6 +53,7 @@ What technical debt did you leave?
 
 What one item would you like to fix, and can't? Anything you write will not
 be marked negatively. Classify this debt.
+- Making a reusable Acceptance test for creating a new account, This would be a Prudent and inadvertent Technical debt since we do not know how to fix it and cant trace why its not working.
 
 Discuss a Feature or User Story that was cut/re-prioritized
 ============================================
@@ -61,6 +64,24 @@ to de-prioritize all the future feature and re-prioritized some of our earlier f
 When did you change the priority of a Feature or User Story? Why was it
 re-prioritized? Provide a link to the Feature or User Story. This can be from any
 iteration.
+
+#### Features that were cut/re-prioritized to "FUTURE"
+- [Notification of Event Change](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/issues/33)
+- [Share Event](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/issues/32)
+- [Share Schedule](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/issues/31)
+- [Create a Group](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/issues/18)
+- [Edit group](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/issues/23)
+- [Join a Group](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/issues/20)
+- [Leave a group](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/issues/22)
+- User Stories
+    - [Workplace Schedule](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/issues/26)
+    - [Private Event](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/issues/34)
+
+#### Why were they re-prioritized?
+They have been reprioritized to FUTURE iterations as we do not have enough time and that our initial time estimates were way off on most of our Features which led to technical debt and pushing some features to future iterations as well as the features needed further refined and broken down into smaller more components that we can work.
+
+#### When were they Re-prioritized
+They have been reprioritized near the end of Iteration 3 since we now know that we would not have enough time to implement and develop working products for these features.
 
 Acceptance test/end-to-end
 ==========================
@@ -94,7 +115,7 @@ Acceptance test, untestable
 What challenges did you face when creating acceptance tests? What was difficult
 or impossible to test?
 
-we are currently having an issue writing a reusable automated CreateAccountAcceptanceTest that would produce consistent results and would not require a fresh install everytime we want to test it.
+We are currently having an issue writing an automated test for successfully creating an account using Espresso and ActivityScenarioRule that would produce consistent results and would not require a fresh install everytime we want to test it, this led me to splitting it off from the rest of the End-to-End test for the CreateAccountActivity. The current challenge is to have the setup and teardown run perfectly before the test is started, I have tried making a TestUtility class to do the setup and cleanup as well as hard code the setup into the @Test before the actual test is run and hard code the cleanup after the test has been ran in order to try and ensure the reusability of this part of the End-to-End/Acceptance test. But it was all for naught as it wont do it properly, I assumed that this is because of a weird bug/interaction between the ActivityScenarioRule and having access to the HSQLDB implementation for the UserDatabase. for now, I made a branch just for the this part of the test so the rest of the team can give it a shot and maybe they can solve the issue (maybe i missed something and cant find it due to stressing out too much about the failed test) and if it still turns out as a flop, i would just have to drop it from the AcceptanceTest (100% code coverage tragedy).
 
 
 Velocity/teamwork
@@ -107,7 +128,7 @@ Our Estimates got better and more realistic through the course as we learned to 
 
 A good example of this would be the Login/Create Account feature of our project which we ended up as technical debt that we had to pay off all the way from iteration 1 to fully paying it off at the start of iteration 3. We originally estimated that it would take 2 days worth of work from building from scratch to making the UI and to being fully working versus the over 30 days worth of work it actually took, We didn't fully thought out that we needed to implement a working backend/database and how we are going to implement it, How it would look like and how it would interact with other components of our project. 
 
-In order to improve our Estimates, we decided to break down the features/task/debt we plan on doing into develper tasks and then making a list of steps we needed to do to incrementally complete the task/feature
+In order to improve our Estimates, we decided to break down the features/task/debt we plan on doing into develper tasks and then making a checklist of steps we needed to do to incrementally complete the task/feature, we then focus on working on one step on the list before going down to the next one all the way until we finish the checklist and closing the Dev Tasks.
 
 Evidence
 - how our original estimates were
