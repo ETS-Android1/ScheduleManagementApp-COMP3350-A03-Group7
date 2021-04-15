@@ -6,11 +6,13 @@ import org.junit.Test;
 
 import java.util.Calendar;
 
-import comp3350.team7.scheduleapp.persistence.stubs.EventPersistenceStub;
 import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.objects.Event;
 import comp3350.team7.scheduleapp.persistence.stubs.EventPersistenceStub;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 /*
  * Created By Thai Tran on 12 March,2021
@@ -97,7 +99,7 @@ public class EventDbStubTest {
         eventDbStub.addEvent(event);
 //        assertTrue(3 == eventDbStub.getEventListLength("testuser"));
         assertTrue(event.equals((eventDbStub.getEventList("testuser")).get(2)));
-        eventDbStub.updateEvent(event,freshEvent);
+        eventDbStub.updateEvent(freshEvent);
         assertTrue(freshEvent.equals((eventDbStub.getEventList("testuser")).get(2)));
         System.out.println("\nFinished testUpdateEvent");
     }

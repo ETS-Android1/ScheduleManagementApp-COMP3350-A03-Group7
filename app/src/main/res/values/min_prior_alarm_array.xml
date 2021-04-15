@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created By Thai Tran on 28 March,2021
+  ~
+  -->
+<resources>
+    <integer-array name="min_prior_alarm_array_int">
+        <item>5</item>
+        <item>10</item>
+        <item>25</item>
+    </integer-array>
+    <string-array name="min_prior_alarm_array_string">
+        <item>5 minute</item>
+        <item>10 minute</item>
+        <item>25 minute</item>
+    </string-array>
+
+</resources>

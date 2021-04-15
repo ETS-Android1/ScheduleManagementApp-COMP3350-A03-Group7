@@ -15,19 +15,22 @@
             <solid android:color="@color/white"/>
         </shape>
     </item>
+
     <item android:state_enabled="true">
         <shape android:shape="rectangle">
-            <corners android:radius="@dimen/rad_5" />
+            <corners android:radius="@dimen/rad_5"  />
             <stroke
-                android:color="@color/divider" />
+                android:color="@color/divider"  />
             <padding
                 android:bottom="@dimen/padd_10"
                 android:top="@dimen/padd_10"
                 android:left="@dimen/padd_10"
                 android:right="@dimen/padd_10" />
-            <solid android:color="@color/white"/>
-        </shape>
+            <solid android:color="#f8f8f8"/>
 
+        </shape>
     </item>
+
+
 
 </selector>

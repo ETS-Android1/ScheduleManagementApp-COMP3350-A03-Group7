@@ -8,8 +8,6 @@ package comp3350.team7.scheduleapp.application;
 
 import android.util.Log;
 
-import comp3350.team7.scheduleapp.objects.User;
-
 /*Singleton UserClient extends Application which is a base class for maintaining the application global state  */
 public class UserClient{
     private static final String TAG = "UserClient";

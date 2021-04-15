@@ -16,7 +16,6 @@ import comp3350.team7.scheduleapp.presentation.fragment.ErrorDialog;
 public class BaseActivity extends AppCompatActivity {
 
     private static final String DIALOG_TAG= "DISPLAY_ERROR";
-
     public void onError(String message){
         if(message!= null){
             ErrorDialog dialog = new ErrorDialog(message);
