@@ -9,4 +9,12 @@ package comp3350.team7.scheduleapp.logic.exceptions;
 import comp3350.team7.scheduleapp.logic.exceptions.base.BaseException;
 
 public class EventControllerException extends BaseException {
+    public EventControllerException(String message) {
+        super(message);
+    }
+
+    public EventControllerException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

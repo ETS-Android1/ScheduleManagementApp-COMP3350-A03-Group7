@@ -18,4 +18,12 @@ import comp3350.team7.scheduleapp.logic.exceptions.base.BaseException;
  */
 
 public class DbErrorException extends BaseException {
+
+    public DbErrorException(String message) {
+        super(message);
+    }
+
+    public DbErrorException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

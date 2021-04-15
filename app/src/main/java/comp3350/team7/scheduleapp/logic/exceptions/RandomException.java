@@ -9,4 +9,12 @@ import androidx.annotation.RequiresApi;
 import comp3350.team7.scheduleapp.logic.exceptions.base.BaseException;
 
 public class RandomException extends BaseException {
+    public RandomException(String message) {
+        super(message);
+    }
+
+    public RandomException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }
