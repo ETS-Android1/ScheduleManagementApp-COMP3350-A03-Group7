@@ -5,7 +5,7 @@ package comp3350.team7.scheduleapp.logic;
  *
  */
 
-import comp3350.team7.scheduleapp.application.DbServiceProvider;
+import comp3350.team7.scheduleapp.application.DbClient;
 import comp3350.team7.scheduleapp.logic.exceptions.UserDBException;
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
@@ -18,7 +18,7 @@ public class UserDBManager {
     private static UserPersistenceInterface db;
 
     public UserDBManager(){
-        db = DbServiceProvider.getInstance().getUserPersistence();
+        db = DbClient.getInstance().getUserPersistence();
     }
 
     public UserDBManager(UserPersistenceInterface db){

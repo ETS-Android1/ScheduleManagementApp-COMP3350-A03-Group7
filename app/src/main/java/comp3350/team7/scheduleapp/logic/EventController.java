@@ -34,13 +34,29 @@ public class EventController {
         // default way of sorting
         sortingStrategy = new EventStartAscendingComparator();
     }
+<<<<<<< HEAD
 
     /* dependency inject */
     public EventController(EventPersistenceInterface eventPersistence) {
+=======
+    public EventController(EventPersistenceInterface eventPersistence){
+        this.eventPersistence = eventPersistence;
+        sortingStrategy = new EventStartAscendingComparator();
+        events= null;
+    }
+    public EventController(EventPersistenceInterface eventPersistence, String username){
+>>>>>>> parent of 2ab9576... Get thing done
         this.eventPersistence = eventPersistence;
         sortingStrategy = new EventStartAscendingComparator();
         // default way of sorting
         sortingStrategy = new EventStartAscendingComparator();
+    }
+
+    public EventController(String userName) throws DbErrorException {
+        eventPersistence = DbServiceProvider
+                .getInstance()
+                .getEventPersistence();
+        eventPersistence.getEventList(userName);
     }
 
 
@@ -49,6 +65,7 @@ public class EventController {
         this.sortingStrategy = newSortStrategy;
     }
 
+<<<<<<< HEAD
     public Event buildEvent(String userName, String eventName, String description, Calendar calStart) throws EventControllerException {
         Event newEvent = new Event(userName, eventName, description, calStart);
         try {
@@ -71,6 +88,12 @@ public class EventController {
             Log.d(TAG, err.getMessage() + "Cause by" + err.getCause());
             throw new EventControllerException("Something went wrong, contact admin if needed\n" + err.getMessage());
         }
+=======
+    public Event CreateEvent(String eventName, String description, Calendar calStart){
+        Event newEvent = new Event(eventName,description,calStart);
+        eventPersistence.addEvent(newEvent);
+        return newEvent;
+>>>>>>> parent of 2ab9576... Get thing done
     }
 
     public Event buildEvent(String userName, String eventName, String description, Calendar calStart, Calendar end, Calendar alarm) throws EventControllerException {
@@ -110,6 +133,7 @@ public class EventController {
         return eventList;
     }
 
+<<<<<<< HEAD
     public int getEventListLength(String userId) throws EventControllerException {
         int res = -1;
         try {
@@ -135,6 +159,15 @@ public class EventController {
 
         return eventList;
     }
+=======
+    // Someone use our api to create an invalid event, let them catch it
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public List<Event> addEvent(Event e) throws EventControllerException {
+        if (EventValidator.valid(e)){
+            return eventPersistence.addEvent(e);
+
+        }
+>>>>>>> parent of 2ab9576... Get thing done
 
     // Someone use our api to create an invalid event, let them catch it
     public void addEvent(Event e) throws EventControllerException {

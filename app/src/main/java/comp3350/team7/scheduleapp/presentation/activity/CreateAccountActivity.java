@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import comp3350.team7.scheduleapp.Application.ultil.DbHelper;
+import comp3350.team7.scheduleapp.application.ultil.DbHelper;
 import comp3350.team7.scheduleapp.R;
-import comp3350.team7.scheduleapp.application.DbServiceProvider;
+import comp3350.team7.scheduleapp.application.DbClient;
 import comp3350.team7.scheduleapp.logic.UserDBManager;
 import comp3350.team7.scheduleapp.logic.UserValidator;
 import comp3350.team7.scheduleapp.objects.User;
@@ -48,7 +48,7 @@ public class CreateAccountActivity extends BaseActivity {
 
         DbHelper.copyDatabaseToDevice(this);
 
-        userDB = DbServiceProvider
+        userDB = DbClient
                 .getInstance()
                 .getUserPersistence(); //can be replaced with  = new UserPersistenceStub() for testing
         validator = UserValidator.getValidatorInstance(userDB);
