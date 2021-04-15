@@ -15,7 +15,7 @@ public class UserValidator {
     private static UserValidator validatorInstance;
 
     //DIP
-    private UserValidator(UserPersistenceInterface dbStub) {
+    public UserValidator(UserPersistenceInterface dbStub) {
         userDB = dbStub;
     }
 
@@ -46,33 +46,14 @@ public class UserValidator {
         return isMatching;
     }
 
-    public static boolean isUniqueID(String userID) {
+    public static boolean isUniqueID(String userID, String password) {
         boolean uniqueUserID = false;
-        try {
-            User userInDB = userDB.getUser(userID);
-            if (userInDB == null) {
-                uniqueUserID = true;
-            }
-        } catch (UserDBException err) {
-            Log.d(TAG, err.getMessage() + ", Cause by: " + err.getCause());
+        boolean userInDB = userDB.getUser(userID, password);
+        if (!userInDB) {
+            uniqueUserID = true;
         }
 
         return uniqueUserID;
-    }
-
-    public static User validateLogin(String userID, String password)  {
-        try {
-            User user = userDB.getUser(userID);
-            if (user!=null){
-                if (! user.getPassword().equals(password)) {
-                    user = null;
-                }
-            }
-            return user;
-        } catch (UserDBException err) {
-            Log.d(TAG, err.getMessage());
-        }
-        return null;
     }
 
     public static boolean passwordLengthCheck(String p) {

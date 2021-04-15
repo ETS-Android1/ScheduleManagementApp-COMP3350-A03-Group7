@@ -31,7 +31,8 @@ public class UserPersistenceStub implements UserPersistenceInterface {
     }
 
     @Override
-    public User addUser(User newUser){
+    public boolean addUser(User newUser){
+        boolean returnVal = false;
         boolean existingUser = false;
         User dbEntry;
 
@@ -43,29 +44,50 @@ public class UserPersistenceStub implements UserPersistenceInterface {
             }
         }
 
-        if(existingUser) {
+        if(!existingUser) {
             userDB.add(newUser);
+            returnVal = true;
         }
-        return newUser;
+        return returnVal;
 
     }
 
     @Override
-    public User getUser(String username){
-        User userCheck;
-        User userExists = null;
-        boolean userFound = false;
+    public boolean addUser(String username, String password, String firstname, String lastname){
+        boolean returnVal = false;
+        boolean existingUser = false;
+        User dbEntry;
 
-        for(int index = 0; index < userDB.size() && userFound; index++){
-            userCheck = userDB.get(index);
+        for(int i = 0; i < userDB.size() && !existingUser; i++){
+            dbEntry = userDB.get(i);
 
-            if(userCheck.getUserId().equals(username)){
-                userFound = true;
-                userExists = userCheck;
+            if(dbEntry.getUserId().equals(username)){
+                existingUser = true;
             }
         }
 
-        return userExists;
+        if(!existingUser){
+            userDB.add(new User(firstname, lastname, username, password));
+            returnVal = true;
+        }
+
+        return returnVal;
+    }
+
+    @Override
+    public boolean getUser(String username, String password){
+        User userCheck;
+        boolean userFound = false;
+
+        for(int index = 0; index < userDB.size() && !userFound; index++){
+            userCheck = userDB.get(index);
+
+            if(userCheck.getUserId().equals(username) && userCheck.getPassword().equals(password)){
+                userFound = true;
+            }
+        }
+
+        return userFound;
     }
 
     @Override

@@ -1,28 +1,29 @@
 package comp3350.team7.scheduleapp.presentation.activity;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.*;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import comp3350.team7.scheduleapp.Application.ultil.DbHelper;
 import comp3350.team7.scheduleapp.R;
-import comp3350.team7.scheduleapp.application.DbClient;
+import comp3350.team7.scheduleapp.application.DbServiceProvider;
 import comp3350.team7.scheduleapp.application.UserClient;
-import comp3350.team7.scheduleapp.application.ultil.DbHelper;
+import comp3350.team7.scheduleapp.logic.UserDBManager;
 import comp3350.team7.scheduleapp.logic.UserValidator;
+import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 
-import static android.widget.Toast.LENGTH_SHORT;
+import static android.widget.Toast.*;
 
 public class LoginActivity extends AppCompatActivity{
     static EditText ClientID, ClientPassword;
     static String userID;
     static String userPAC; //Personal access code aka password
     private static UserPersistenceInterface userDB;
-    private static UserValidator validator;
+    private static UserDBManager dbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,18 +31,18 @@ public class LoginActivity extends AppCompatActivity{
         setContentView(R.layout.activity_login);
 
         DbHelper.copyDatabaseToDevice(this);
-        userDB = DbClient
+        userDB = DbServiceProvider
                 .getInstance()
                 .getUserPersistence();
 
-        validator = UserValidator.getValidatorInstance(userDB);          //line 30+31 is pretty much validator = new UserValidator(DbServicesProvicer.getUserPersistence());
-                                                        //broken up for clarity.
+        dbManager = new UserDBManager();
+
         getView();
     }
 
-    protected void getView() {
-        ClientID = findViewById(R.id.LoginUsernameInput);
-        ClientPassword = findViewById(R.id.LoginPasswordInput);
+    protected void getView(){
+        ClientID = (EditText) findViewById(R.id.LoginUsernameInput);
+        ClientPassword = (EditText) findViewById(R.id.LoginPasswordInput);
 
     }
 
@@ -66,11 +67,12 @@ public class LoginActivity extends AppCompatActivity{
     public void logOn(View v) {
         getData();
 
-        if (UserValidator.validateLogin(userID, userPAC) != null) {
+        if(dbManager.login(userID, userPAC) == UserDBManager.SUCCESS){
             UserClient.setUserId(userID);
             launchUserHomePage();
-        } else {
-            Toast.makeText(LoginActivity.this, "Incorrect Username/Password", LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(LoginActivity.this, "Incorrect Username/Password", LENGTH_LONG).show();
         }
     }
 }

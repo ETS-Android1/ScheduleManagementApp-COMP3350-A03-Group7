@@ -3,21 +3,20 @@ package comp3350.team7.scheduleapp.presentation.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import comp3350.team7.scheduleapp.Application.ultil.DbHelper;
 import comp3350.team7.scheduleapp.R;
-import comp3350.team7.scheduleapp.application.DbClient;
-import comp3350.team7.scheduleapp.application.UserClient;
+import comp3350.team7.scheduleapp.application.DbServiceProvider;
+import comp3350.team7.scheduleapp.logic.UserDBManager;
 import comp3350.team7.scheduleapp.logic.UserValidator;
-import comp3350.team7.scheduleapp.logic.exceptions.UserDBException;
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 import comp3350.team7.scheduleapp.presentation.base.BaseActivity;
 
-import static android.widget.Toast.LENGTH_SHORT;
+import static android.widget.Toast.LENGTH_LONG;
 import static android.widget.Toast.makeText;
 
 public class CreateAccountActivity extends BaseActivity {
@@ -26,6 +25,7 @@ public class CreateAccountActivity extends BaseActivity {
     static protected User newUser;
     static UserValidator validator;
     static UserPersistenceInterface userDB;
+    static UserDBManager dbManager;
 
 
     static Button createAccount;
@@ -46,24 +46,28 @@ public class CreateAccountActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
-        userDB = DbClient
+        DbHelper.copyDatabaseToDevice(this);
+
+        userDB = DbServiceProvider
                 .getInstance()
                 .getUserPersistence(); //can be replaced with  = new UserPersistenceStub() for testing
         validator = UserValidator.getValidatorInstance(userDB);
+        dbManager = new UserDBManager(userDB);
+
         getView();
     }
 
-    protected void getView() {
-        firstNameInput = findViewById(R.id.Firstname);
-        lastNameInput = findViewById(R.id.Lastname);
-        usernameInput = findViewById(R.id.Username);
-        passwordInput = findViewById(R.id.newPassword);
-        confirmPasswordInput = findViewById(R.id.confirmPassword);
+    protected void getView(){
+        firstNameInput = (EditText) findViewById(R.id.Firstname);
+        lastNameInput = (EditText) findViewById(R.id.Lastname);
+        usernameInput = (EditText) findViewById(R.id.Username);
+        passwordInput = (EditText) findViewById(R.id.newPassword);
+        confirmPasswordInput = (EditText) findViewById(R.id.confirmPassword);
 
-        createAccount = findViewById(R.id.Create_Account);
+        createAccount = (Button) findViewById(R.id.Create_Account);
     }
 
-    public void getData() {
+    public void getData(){
         firstname = firstNameInput.getText().toString();
         lastname = lastNameInput.getText().toString();
         username = usernameInput.getText().toString();
@@ -83,45 +87,37 @@ public class CreateAccountActivity extends BaseActivity {
 
     public void createOnClick(View v) {
         getData();
-        boolean validInput = UserValidator.validateInput(firstname, lastname, username, password, confirmPassword);
+        boolean validInput = validator.validateInput(firstname, lastname, username, password, confirmPassword);
 
         if(validInput){ //check if all the fields arent empty
-            if (UserValidator.userIDLengthCheck(username) && UserValidator.passwordLengthCheck(password)) {
+            if(validator.userIDLengthCheck(username) && validator.passwordLengthCheck(password)){
 
-                if (UserValidator.validateConfirmPassword(password, confirmPassword)) {
+                if (validator.validateConfirmPassword(password, confirmPassword)) {
 
-                    if (UserValidator.isUniqueID(username)) {
+                    if(validator.isUniqueID(username, password)) {
 
-                        newUser = new User(firstname, lastname, username, password);
-                        try {
-                            userDB.addUser(newUser);
-                            UserClient.setUserId(username);
-                        } catch (UserDBException err) {
-                            Log.e(TAG, "Error cause by:" + err.getCause());
-                            err.printStackTrace();
-                            onError(err.getMessage());
-                        }
+                        dbManager.register(firstname,lastname,username,password);
 
-                        makeText(CreateAccountActivity.this, "Account has been successfully created.", LENGTH_SHORT).show();
+                        makeText(CreateAccountActivity.this, "Account has been successfully created.", LENGTH_LONG).show();
                         launchUserHomePage();
 
-                    }else{ makeText(CreateAccountActivity.this, "Username is already taken.", LENGTH_SHORT).show(); }
+                    }else { makeText(CreateAccountActivity.this, "Username is already taken.", LENGTH_LONG).show(); }
 
                 }else{ confirmPasswordInput.setError("Must match the password entered."); }
             }//end if password and userIDLengthCheck
 
             else{ //Give the user a Useful message
-                if (UserValidator.userIDLengthCheck(username) == false) {
-                    makeText(CreateAccountActivity.this, "UserID must be 8-16 characters.", LENGTH_SHORT).show();
+                if(validator.userIDLengthCheck(username) == false){
+                    makeText(CreateAccountActivity.this, "UserID must be 8-16 characters.", LENGTH_LONG).show();
                 }
-                if (UserValidator.passwordLengthCheck(password) == false) {
-                    makeText(CreateAccountActivity.this, "Password must be 8-16 characters.", LENGTH_SHORT).show();
+                if(validator.passwordLengthCheck(password) == false){
+                    makeText(CreateAccountActivity.this, "Password must be 8-16 characters.", LENGTH_LONG).show();
                 }
 
             }
         }//end if validInput
 
-        else{ makeText(CreateAccountActivity.this, "Please Enter all required fields.", LENGTH_SHORT).show();}
+        else{ makeText(CreateAccountActivity.this, "Please Enter all required fields.", LENGTH_LONG).show();}
 
     } //end createOnclick
 
