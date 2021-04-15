@@ -2,18 +2,18 @@ What technical debt has been cleaned up
 ========================================
 
 Prudent and Inadvertent Technical Debt
-- we were storing int day, int hour, int minute ..etc in our database, This is due to we was not 
-figure out the existence of hsqldb's bultin function as well as it's type system. This makes the 
+- We were storing int day, int hour, int minute, etc in our database. This is due to us not 
+being aware of HSQLDB's built-in function and as its type system. This makes the 
 database become error prone that generate a lot of silent bugs. That why we fail to ship one of our 
-feature(Select Schedule on date)in iteration 2.
-- we fixed this by relying in on the hsqldb date time type and using it's supported date time builtin 
- function to query date time relate data.  
+feature (Select Schedule on date) in Iteration 2.
+- We fixed this by relying in on the HSQLDB date time type and using its supported date time built-in 
+ function to query date-time related data.  
  
 Reckless and Inadvertent Technical Debt
-- we did not have a centralize utility time helper, all the code support get time and date , set time and date format, display time,set timezone... 
+- We did not have a centralized utility time helper, all the code support: get time and date, set time and date format, display time, set timezone... 
 is repeatedly scattered over the whole app. This created inconsistenties in timezone setting and the display format of time/day. 
-- we fixed this by modularize these helper function into a singleton called TimeController where we can change timezone 
-and date and time's format in one place and have it's affective everywhere.  
+- We fixed this by modularizing the helper function into a singleton called TimeController where we can change timezone 
+and date and time's format in one place and have it be effective everywhere.  
 
 Reckless and Deliberate Technical debt (Code-Like-Hell)
 - Before, after everytime we initialize new event object, we have to call EventValidator to validate the event and surrounding 
@@ -38,18 +38,18 @@ that explain what debt was paid, and what its classification is.
 
 What technical debt did you leave?
 ==================================
--   As stated above, there is technical debt in (buildEvent method) in which we break the OCP(open-close principle).
+-   As stated above, there is technical debt in (buildEvent method) in which we break the OCP (open-close principle).
     We only validate one type of event but we know in the future, we would want to add more type of event and therefore 
     need different validator to validate each type of event. 
 -   Improved Option:
     -   dependency injection: inject validator to buildEvent method 
--   Currently, our application work with fix time zone. This will not work correctly when users change their 
-    location while the app is running. In deployment environment the app should be dynamically changing the time 
-    zone base on where the user currently at.  
-    -  The app is also currently tested using fix time zone, so testing can fail.  
+-   Currently, our application works with a fixed time zone. This will not work correctly when users change their 
+    location while the app is running. In deployment environment, the app should be dynamically changing the time 
+    zone based on where the user is currently located.  
+    -  The app is also currently tested using fixed time zone, so testing can fail.  
 -   Improved Option: 
-    -  Allow user to select their time-zone of choice before using the app 
-    -  Or, Dynamically change the time-zone whenever the users change their location    
+    -  Allow user to select their time-zone of choice before using the app, or
+    -  Dynamically change the time-zone whenever the users change time zones    
 
 What one item would you like to fix, and can't? Anything you write will not
 be marked negatively. Classify this debt.
@@ -57,9 +57,9 @@ be marked negatively. Classify this debt.
 
 Discuss a Feature or User Story that was cut/re-prioritized
 ============================================
-### De-prioritize User story(show details of single event view, swipe left to remove,sorting event by date) and prioritize User story(show list of all event). 
-this is because we were integrate database into our app and all developed feature was not functioning as expected. So we have 
-to de-prioritize all the future feature and re-prioritized some of our earlier feature. 
+### De-prioritize User story (show details of single event view, swipe left to remove, sorting event by date) and prioritize User story (show list of all event). 
+This is because we were integrating the database into our app and not all developed features were functioning as expected. So we had 
+to de-prioritize all the future features and re-prioritize some of our earlier features. 
 
 When did you change the priority of a Feature or User Story? Why was it
 re-prioritized? Provide a link to the Feature or User Story. This can be from any
@@ -78,7 +78,7 @@ iteration.
     - [Private Event](https://code.cs.umanitoba.ca/3350-winter-2021-a03/Team-7/-/issues/34)
 
 #### Why were they re-prioritized?
-They have been reprioritized to FUTURE iterations as we do not have enough time and that our initial time estimates were way off on most of our Features which led to technical debt and pushing some features to future iterations as well as the features needed further refined and broken down into smaller more components that we can work.
+They have been reprioritized to FUTURE iterations as we do not have enough time and that our initial time estimates were way off on most of our features which led to technical debt and pushing some features to future iterations as well as the features needed further refined and broken down into smaller more components that we can work.
 
 #### When were they Re-prioritized
 They have been reprioritized near the end of Iteration 3 since we now know that we would not have enough time to implement and develop working products for these features.
