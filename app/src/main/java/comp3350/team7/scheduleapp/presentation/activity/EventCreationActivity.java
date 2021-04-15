@@ -274,32 +274,6 @@ public class EventCreationActivity extends BaseActivity {
         });
     }
 
-
-  /*  private String setAlarmContetent(String eventName, int minPiorAlarm) {
-        return String.format(String.valueOf(R.string.alarm_content), minPiorAlarm, eventName);
-    }
-
-    private long getAlarmTriggerAtMilliSecondFromMin(long millisStart, int minPiorAlarm) {
-        long minPiorAlarmAtMillis = minPiorAlarm * 60000L;
-        //Log.d(TAG,minPiorAlarmAtMillis +" | " + (startCalendar.getTimeInMillis() - minPiorAlarmAtMillis) );
-        return millisStart - minPiorAlarmAtMillis;
-    }
-
-    private int getAlarmTriggerAtMinFromMillis(long millisStart, long millisPiorAlarm) {
-        return (int) (millisStart - millisPiorAlarm) / 60000;
-    }
-
-    private void setAlarmService(String eventName, long triggerAtMillis) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(EventCreationActivity.this, AlarmReceiver.class);
-        String alertContent = String.format(getString(R.string.alarm_content), minPiorAlarm, eventName);
-        intent.putExtra("ALERT_TITLE", "Event Reminder");
-        intent.putExtra("ALERT_CONTENT", alertContent);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(EventCreationActivity.this, ALARM_BROADCAST_REQUEST_CODE, intent, 0);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent);
-
-    }*/
-
     private void setAlarmInfo(int minPiorAlarm) {
         String alarm_info = String.format(String.valueOf(res.getString(R.string.alarm_reminder_before_2)), minPiorAlarm);
         reminder_info.setText(alarm_info);
