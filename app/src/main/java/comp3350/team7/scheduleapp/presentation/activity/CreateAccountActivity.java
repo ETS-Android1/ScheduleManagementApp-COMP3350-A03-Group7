@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.application.ultil.DbHelper;
 import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.application.DbClient;
@@ -97,7 +98,7 @@ public class CreateAccountActivity extends BaseActivity {
                     if(validator.isUniqueID(username, password)) {
 
                         dbManager.register(firstname,lastname,username,password);
-
+                        UserClient.setUserId(username);
                         makeText(CreateAccountActivity.this, "Account has been successfully created.", LENGTH_LONG).show();
                         launchUserHomePage();
 
