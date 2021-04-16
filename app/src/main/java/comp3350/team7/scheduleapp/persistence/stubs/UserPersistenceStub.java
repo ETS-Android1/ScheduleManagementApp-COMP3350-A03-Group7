@@ -99,4 +99,12 @@ public class UserPersistenceStub implements UserPersistenceInterface {
             userDB.remove(userIndex);
         }
     }
+
+    @Override
+    public void deleteUser(String username) {
+        for (User user:userDB) {
+           if(user.getUserId().equals(username))
+               userDB.remove(user);
+        }
+    }
 }

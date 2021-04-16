@@ -7,9 +7,13 @@ import org.junit.Test;
 import java.util.Calendar;
 
 import comp3350.team7.scheduleapp.Helper.TestHelper;
+import comp3350.team7.scheduleapp.application.DbClient;
 import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
 import comp3350.team7.scheduleapp.objects.Event;
+import comp3350.team7.scheduleapp.objects.User;
+import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
+import comp3350.team7.scheduleapp.persistence.hsqldb.UserPersistenceHSQLDB;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -24,6 +28,7 @@ import static org.junit.Assert.assertThrows;
 public class EventControllerTest {
 
     private EventController eventController;
+    private UserPersistenceInterface userPersistence;
     private Calendar startTestDate;
     private Calendar endTestDate;
     private Event testEvent;
@@ -33,8 +38,10 @@ public class EventControllerTest {
     @Before
     public void setup() {
         eventController = new EventController();
+        userPersistence = DbClient.getInstance().getUserPersistence();
         startTestDate = TestHelper.getCustomizeCalendarInstance(Calendar.DAY_OF_MONTH, 1);
         endTestDate = TestHelper.getCustomizeCalendarInstance(Calendar.DAY_OF_MONTH, 5);
+        userPersistence.addUser("username", "12345678", "just a", "test");
         testEvent = new Event("username", "sample event", "the description", startTestDate);
         finalTestEvent = new Event("username", "fresh sample event", "this is the fresh test description", startTestDate);
         beforeCount = 0;
@@ -46,6 +53,8 @@ public class EventControllerTest {
         eventController = null;
         startTestDate = null;
         endTestDate = null;
+        //userPersistence.deleteUser("username");
+
     }
 
     @Test
@@ -53,12 +62,11 @@ public class EventControllerTest {
         System.out.println("\nStarting testCreateEvent");
         assertNotNull(eventController.buildEvent("username", "first test", "this is the first test description", startTestDate));
         assertNotNull(eventController.buildEvent("second test", "second test", "this is the second test description", startTestDate, endTestDate));
-        assertNotNull(eventController.getEventList("username"));
         System.out.println("\nFinish testCreateEvent");
     }
 
     @Test
-    public void testAddEvent() throws InvalidEventException, EventControllerException {
+    public void testAddEvent() throws EventControllerException {
         System.out.println("\nStarting testAddEvent");
         eventController.addEvent(testEvent);
         System.out.println("\nFinish testAddEvent");

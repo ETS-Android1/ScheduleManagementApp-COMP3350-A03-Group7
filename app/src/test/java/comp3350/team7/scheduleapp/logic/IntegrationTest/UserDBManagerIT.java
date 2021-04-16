@@ -24,24 +24,24 @@ import static org.junit.Assert.assertEquals;
 
 public class UserDBManagerIT {
     private File tempDatabase;
-
+    private UserDBManager userDBManager;
     @Before
     public void setup() throws IOException{
         tempDatabase = TestHelper.cloneDb();
         UserPersistenceInterface userDB = new UserPersistenceHSQLDB(tempDatabase.getAbsolutePath().replace(".script",""));
-        new UserDBManager(userDB);
+        userDBManager = new UserDBManager(userDB);
     }
 
     @Test
     public void testLogin(){
         //Fetch Aaron Joson as login test
-        assertEquals(UserDBManager.SUCCESS, UserDBManager.login("ajoson", "123456"));
+        assertEquals(UserDBManager.SUCCESS, userDBManager.login("ajoson", "123456"));
     }
 
     @Test
     public void testRegister(){
-        UserDBManager.register("Mike","Hawk", "mikehawk123", "12345678");
-        assertEquals(UserDBManager.SUCCESS, UserDBManager.login("mikehawk123","12345678"));
+        userDBManager.register("Mike","Hawk", "mikehawk123", "12345678");
+        assertEquals(UserDBManager.SUCCESS, userDBManager.login("mikehawk123","12345678"));
     }
 
     @After

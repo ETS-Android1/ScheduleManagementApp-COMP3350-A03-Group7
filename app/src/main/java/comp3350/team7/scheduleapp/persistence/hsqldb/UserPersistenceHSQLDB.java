@@ -137,4 +137,16 @@ public class UserPersistenceHSQLDB implements UserPersistenceInterface {
             e.printStackTrace();
         }
     }
+    @Override
+    public void deleteUser(String username) {
+        try(final Connection c = connection()){
+            final PreparedStatement msg = c.prepareStatement("DELETE FROM USER WHERE USERID = ? ");
+            msg.setString(1, username);
+            msg.executeUpdate();
+
+        }catch (final SQLException e){
+            Log.w("Deleting user", e.toString());
+            e.printStackTrace();
+        }
+    }
 }

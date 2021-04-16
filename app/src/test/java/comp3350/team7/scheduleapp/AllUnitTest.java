@@ -10,7 +10,6 @@ import comp3350.team7.scheduleapp.logic.UserValidatorTest;
 import comp3350.team7.scheduleapp.objects.EventTest;
 import comp3350.team7.scheduleapp.objects.UserTest;
 import comp3350.team7.scheduleapp.persistence.EventDbStubTest;
-import comp3350.team7.scheduleapp.persistence.UserPersistenceStubTest;
 
 /*
  * Created By Thai Tran on 12 April,2021
@@ -24,7 +23,6 @@ import comp3350.team7.scheduleapp.persistence.UserPersistenceStubTest;
         EventControllerTest.class,
         UserTest.class,
         EventTest.class,
-        UserPersistenceStubTest.class,
         EventDbStubTest.class
         }
 )

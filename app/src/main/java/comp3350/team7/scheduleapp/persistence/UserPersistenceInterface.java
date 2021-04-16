@@ -23,4 +23,5 @@ public interface UserPersistenceInterface {
 
    void deleteUser(User user);
 
+   void deleteUser(String username);
 }

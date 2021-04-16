@@ -10,6 +10,7 @@ import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 import comp3350.team7.scheduleapp.objects.Event;
 import comp3350.team7.scheduleapp.persistence.stubs.EventPersistenceStub;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
@@ -46,7 +47,6 @@ public class EventDbStubTest {
         System.out.println("\nStarting testEventDbStub");
         assertNotNull(eventDbStub);
         assertNotNull(eventDbStub.getEventList("testuser"));
-        assertTrue(2 == eventDbStub.getEventListLength("testuser"));
         System.out.println("\nFinished testEventDbStub");
     }
 
@@ -54,16 +54,17 @@ public class EventDbStubTest {
     public void testAddEvent() {
         System.out.println("\nStarting testAddEvent");
         eventDbStub.addEvent(event);
-        assertTrue(3 == eventDbStub.getEventListLength("testuser"));
+        assertTrue( (eventDbStub.getEventList("testuser")).contains(event));
         System.out.println("\nFinished testAddEvent");
     }
 
     @Test
     public void testRemoveEventByIndex() throws DbErrorException {
         System.out.println("\nStarting testRemoveEventByIndex");
-        assertTrue(1 == eventDbStub.getEventListLength("testuser"));
-        eventDbStub.removeEvent("testuser", (eventDbStub.getEventListLength("testuser")-1));
-        assertTrue(0 == eventDbStub.getEventListLength("testuser"));
+        eventDbStub.addEvent(event);
+        assertTrue( (eventDbStub.getEventList("testuser")).contains(event));
+        eventDbStub.removeEvent("testuser", (eventDbStub.getEventList("testuser")).indexOf(event));
+        assertFalse( (eventDbStub.getEventList("testuser")).contains(event));
         System.out.println("\nFinished testRemoveEventByIndex");
     }
 
@@ -78,9 +79,9 @@ public class EventDbStubTest {
     public void testRemoveEventByEvent() throws DbErrorException {
         System.out.println("\nStarting testRemoveEvent");
         eventDbStub.addEvent(event);
-        assertTrue(3 == eventDbStub.getEventListLength("testuser"));
+        assertTrue( (eventDbStub.getEventList("testuser")).contains(event));
         eventDbStub.removeEvent(event);
-        assertTrue(2 == eventDbStub.getEventListLength("testuser"));
+        assertFalse(eventDbStub.getEventList("testuser").contains(event));
         System.out.println("\nFinished testRemoveEvent");
     }
 
@@ -98,9 +99,9 @@ public class EventDbStubTest {
         System.out.println("\nStarting testUpdateEvent");
         eventDbStub.addEvent(event);
 //        assertTrue(3 == eventDbStub.getEventListLength("testuser"));
-        assertTrue(event.equals((eventDbStub.getEventList("testuser")).get(2)));
+        assertTrue((eventDbStub.getEventList("testuser")).contains(event));
         eventDbStub.updateEvent(freshEvent);
-        assertTrue(freshEvent.equals((eventDbStub.getEventList("testuser")).get(2)));
+        assertTrue((eventDbStub.getEventList("testuser")).contains(freshEvent));
         System.out.println("\nFinished testUpdateEvent");
     }
 }

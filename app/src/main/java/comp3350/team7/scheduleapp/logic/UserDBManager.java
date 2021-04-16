@@ -15,7 +15,7 @@ public class UserDBManager {
     public static final int SUCCESS = 1;
     public static final int DB_FAIL = 0;
     public static final int INPUT_FAILURE = 2;
-    private static UserPersistenceInterface db;
+    private UserPersistenceInterface db;
 
     public UserDBManager(){
         db = DbClient.getInstance().getUserPersistence();
@@ -26,7 +26,7 @@ public class UserDBManager {
     }
 
 
-    public static int register(String firstname, String lastname, String username, String password) {
+    public int register(String firstname, String lastname, String username, String password) {
         int returnVal = SUCCESS;
 
         if(username.length() <=16 && username.length() >= 8 && password.length() <= 16 && password.length() >=8){
@@ -40,7 +40,7 @@ public class UserDBManager {
         return  returnVal;
     }
 
-    public static int login(String username, String password){
+    public int login(String username, String password){
         int returnVal = SUCCESS;
 
         if(username.length() > 0 && password.length() > 0){

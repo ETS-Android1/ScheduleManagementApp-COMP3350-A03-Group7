@@ -47,7 +47,7 @@ public class CreateAccountActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
-        DbHelper.copyDatabaseToDevice(this);
+        //DbHelper.copyDatabaseToDevice(this);
 
         userDB = DbClient
                 .getInstance()
