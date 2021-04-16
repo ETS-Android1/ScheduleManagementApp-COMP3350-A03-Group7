@@ -9,11 +9,12 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        /* AddEventSystemTest.class,
-        ViewScheduleOnDateSystemTest.class,
+        /* 
+        ViewScheduleOnDateSystemTest.class,*/
+        AddEventSystemTest.class,
         AlarmServiceSystemTest.class,
         EditEventSystemTest.class,
-        RemoveUndoEventSystemTest.class, */
+        RemoveUndoEventSystemTest.class,
         CreateAccountSystemTest.class,
         LoginSystemTest.class,
         LoginAcceptanceTest.class
