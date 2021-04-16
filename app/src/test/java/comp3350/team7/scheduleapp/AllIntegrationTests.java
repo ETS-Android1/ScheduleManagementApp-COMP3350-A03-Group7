@@ -7,8 +7,9 @@ import comp3350.team7.scheduleapp.logic.EventControllerIntergrationTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        EventControllerIntergrationTest.class
+        EventControllerIntergrationTest.class,
+        UserDBManagerIT.class
 })
 
-public class AllIntegration {
+public class AllIntegrationTests {
 }

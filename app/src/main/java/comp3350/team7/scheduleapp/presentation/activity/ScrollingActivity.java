@@ -17,12 +17,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import comp3350.team7.scheduleapp.R;
-import comp3350.team7.scheduleapp.application.DbServiceProvider;
+import comp3350.team7.scheduleapp.application.DbClient;
 import comp3350.team7.scheduleapp.application.UserClient;
+import comp3350.team7.scheduleapp.application.ultil.DbHelper;
 import comp3350.team7.scheduleapp.logic.EventController;
 import comp3350.team7.scheduleapp.logic.comparators.EventStartAscendingComparator;
 import comp3350.team7.scheduleapp.logic.comparators.EventStartDescendingComparator;
@@ -65,11 +68,18 @@ public class ScrollingActivity extends BaseActivity {
         onClickListenerHelper();
         initRecyclerView();
     }
-
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG,"onResume called, updated view");
+        eventList= getEventList(eventController);
+        UpdateView(adapter, eventList);
+    }
 
     private void getView() {
         recyclerView = findViewById(R.id.recylerview);
-        scrollingLayout = (View) findViewById(R.id.ScrollingLayout);
+        scrollingLayout = findViewById(R.id.ScrollingLayout);
         fba = findViewById(R.id.include);
         sortAsc = findViewById(R.id.sortAsc);
         sortDesc = findViewById( R.id.sortDes);
@@ -78,20 +88,30 @@ public class ScrollingActivity extends BaseActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void init() {
-        EventPersistenceInterface eventPersistence  = DbServiceProvider.getInstance().getEventPersistence();
-        eventController = new EventController(eventPersistence);
-        try{
-            eventList = eventController.getEventList(UserClient.getUserId());
-        }catch (EventControllerException err){
-            Log.e(TAG,"Cause by: " + err.getCause());
-            err.printStackTrace();
-            onError(err.getMessage());
+        if (DbClient.getDBPathName() == null) {
+            DbHelper.copyDatabaseToDevice(this);
         }
+        EventPersistenceInterface eventPersistence = DbClient.getInstance().getEventPersistence();
+        eventController = new EventController(eventPersistence);
+        eventList = getEventList(eventController);
 
         ourCalendar = Calendar.getInstance();
 
 
     }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private List<Event> getEventList(EventController eventController){
+        List<Event> list = new ArrayList<>();
+        try{
+            list = eventController.getEventList(UserClient.getUserId());
+        }catch (EventControllerException err){
+            Log.e(TAG,"Cause by: " + err.getCause());
+            err.printStackTrace();
+            onError(err.getMessage());
+        }
+        return list;
+    }
+
 
     private void onClickListenerHelper() {
         fba.setOnClickListener(new View.OnClickListener() {
@@ -108,13 +128,7 @@ public class ScrollingActivity extends BaseActivity {
             public void onClick(View v) {
                 eventController.setSortStrategy(new EventStartAscendingComparator());
                 List<Event> list= null;
-                try {
-                    list = eventController.getEventList(UserClient.getUserId());
-                } catch (EventControllerException e) {
-                    Log.d(TAG,"Cause by: "+ e.getCause());
-                    onError(e.getMessage());
-                    e.printStackTrace();
-                }
+                list = getEventList(eventController);
                 UpdateView(adapter, list);
             }
         });
@@ -126,13 +140,7 @@ public class ScrollingActivity extends BaseActivity {
             public void onClick(View v) {
                 eventController.setSortStrategy(new EventStartDescendingComparator());
                 List<Event> list= null;
-                try {
-                    list = eventController.getEventList(UserClient.getUserId());
-                } catch (EventControllerException e) {
-                    Log.d(TAG,"Cause by: "+ e.getCause());
-                    onError(e.getMessage());
-                    e.printStackTrace();
-                }
+                list = getEventList(eventController);
                 UpdateView(adapter, list);
             }
         });
@@ -155,11 +163,12 @@ public class ScrollingActivity extends BaseActivity {
                         try{
                             List<Event> list;
                             list = eventController.getScheduleForUserOnDate(UserClient.getUserId(), ourCalendar);
+                            //Log.d(TAG,list.get(0).getEventEnd().getTime().toString());
                             if(list!=null)
                                 UpdateView(adapter,list);
-                            else{
-                                Toast.makeText(v.getContext(), "No event found", Toast.LENGTH_SHORT).show();
-                            }
+                            if (list.size() ==0)
+                                Toast.makeText(v.getContext(), "No event found on date " + ourCalendar.getTime().toString(), Toast.LENGTH_SHORT).show();
+
                         }catch(EventControllerException err){
                            Log.e(TAG,"Cause by: " + err.getCause());
                            onError(err.getMessage());
@@ -180,7 +189,7 @@ public class ScrollingActivity extends BaseActivity {
         adapter = new RecyclerViewAdapter(this);
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(this, R.dimen.item_offset);
         recyclerView.addItemDecoration(itemDecoration);
-        ((SimpleItemAnimator)recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        ((SimpleItemAnimator) Objects.requireNonNull(recyclerView.getItemAnimator())).setSupportsChangeAnimations(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
@@ -202,34 +211,10 @@ public class ScrollingActivity extends BaseActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_CODE && data != null) {
-                Log.d(TAG,"Got back from CreateEvent Activity");
-                //Event returnEvent = data.getParcelableExtra("RETURN_DATA");
-                try {
-                    eventList = eventController.getEventList(UserClient.getUserId());
-                    UpdateView(adapter,eventList);
-                } catch ( EventControllerException err) {
-                    Log.e(TAG,"Cause by: " + err.getCause());
-                    err.printStackTrace();
-                    onError(err.getMessage());
-                }
-                /*Toast.makeText(ScrollingActivity.this, "Event Object Received :" + returnEvent.getTitle()
-                        , Toast.LENGTH_LONG).show();*/
-            }
-        }
-    }
-
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void UpdateView(RecyclerViewAdapter a,List<Event> events) {
+    public void UpdateView(RecyclerViewAdapter a, List<Event> events) {
         a.setList(events);
-        recyclerView.setAdapter(a);
-        Log.d(TAG,"Updated View");
+        recyclerView.setAdapter(a); // redraw
+        Log.d(TAG, "Updated View");
     }
 
 

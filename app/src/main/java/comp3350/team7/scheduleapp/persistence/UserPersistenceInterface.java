@@ -13,12 +13,14 @@ import comp3350.team7.scheduleapp.logic.exceptions.DbErrorException;
 
 public interface UserPersistenceInterface {
 
-   List<User> getUserDB() throws  UserDBException;
+   List<User> getUserDB();
 
-   User addUser(User newUser) throws UserDBException;
+   boolean addUser(User newUser);
 
-   User getUser(String username) throws  UserDBException;
+   boolean addUser(String username, String password, String firstname, String lastname);
 
-   void deleteUser(User user) throws  UserDBException;
+   boolean getUser(String username, String password);
+
+   void deleteUser(User user);
 
 }

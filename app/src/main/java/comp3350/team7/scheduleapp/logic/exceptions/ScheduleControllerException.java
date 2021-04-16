@@ -9,8 +9,6 @@ package comp3350.team7.scheduleapp.logic.exceptions;
 import comp3350.team7.scheduleapp.logic.exceptions.base.BaseException;
 
 public class ScheduleControllerException extends BaseException {
-
-
     public ScheduleControllerException(String message) {
         super(message);
     }

@@ -12,8 +12,6 @@ import androidx.annotation.RequiresApi;
 import comp3350.team7.scheduleapp.logic.exceptions.base.BaseException;
 
 public class InvalidEventException extends BaseException {
-
-
     public InvalidEventException(String message) {
         super(message);
     }

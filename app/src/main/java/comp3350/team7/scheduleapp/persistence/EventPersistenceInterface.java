@@ -15,10 +15,10 @@ public interface EventPersistenceInterface {
     List<Event> getEventList(String userName) throws DbErrorException;
     Event getEvent(String userName, int eventID) throws DbErrorException;
     void addEvent(Event e) throws DbErrorException;
-    void addEventNoEnd(Event newEvent) throws DbErrorException;
+    //void addEventNoEnd(Event newEvent) throws DbErrorException;
     void removeEvent(Event e) throws DbErrorException;
     void removeEvent(String username, int eventId) throws DbErrorException;
-    Event updateEvent(Event old, Event fresh) throws DbErrorException;
+    void updateEvent(Event fresh) throws DbErrorException;
     List<Event> getScheduleForUserOnDate(String username, Calendar date) throws DbErrorException;
 
     int getEventListLength(String userid) throws DbErrorException;

@@ -6,11 +6,15 @@ import org.junit.Test;
 
 import java.util.Calendar;
 
+import comp3350.team7.scheduleapp.Helper.TestHelper;
 import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
 import comp3350.team7.scheduleapp.logic.exceptions.InvalidEventException;
 import comp3350.team7.scheduleapp.objects.Event;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 
 /*
  * Created By Thai Tran on 12 March,2021
@@ -29,11 +33,10 @@ public class EventControllerTest {
     @Before
     public void setup() {
         eventController = new EventController();
-        startTestDate = Calendar.getInstance();
-        endTestDate = Calendar.getInstance();
-        endTestDate.add(Calendar.DATE, 5);
-        testEvent = new Event("username","sample event", "the description", startTestDate);
-        finalTestEvent = new Event("username","fresh sample event", "this is the fresh test description", startTestDate);
+        startTestDate = TestHelper.getCustomizeCalendarInstance(Calendar.DAY_OF_MONTH, 1);
+        endTestDate = TestHelper.getCustomizeCalendarInstance(Calendar.DAY_OF_MONTH, 5);
+        testEvent = new Event("username", "sample event", "the description", startTestDate);
+        finalTestEvent = new Event("username", "fresh sample event", "this is the fresh test description", startTestDate);
         beforeCount = 0;
         afterCount = 0;
     }
@@ -48,8 +51,8 @@ public class EventControllerTest {
     @Test
     public void testCreateEvent() throws EventControllerException {
         System.out.println("\nStarting testCreateEvent");
-        assertNotNull(eventController.addEvent("username","first test", "this is the first test description", startTestDate));
-        assertNotNull(eventController.addEvent("second test","second test","this is the second test description", startTestDate, endTestDate));
+        assertNotNull(eventController.buildEvent("username", "first test", "this is the first test description", startTestDate));
+        assertNotNull(eventController.buildEvent("second test", "second test", "this is the second test description", startTestDate, endTestDate));
         assertNotNull(eventController.getEventList("username"));
         System.out.println("\nFinish testCreateEvent");
     }
