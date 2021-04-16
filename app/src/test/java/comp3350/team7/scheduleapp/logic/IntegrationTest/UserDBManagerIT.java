@@ -35,7 +35,7 @@ public class UserDBManagerIT {
     @Test
     public void testLogin(){
         //Fetch Aaron Joson as login test
-        assertEquals(UserDBManager.SUCCESS, userDBManager.login("ajoson", "123456"));
+        assertEquals(UserDBManager.SUCCESS, userDBManager.login("ajoson", "12345678"));
     }
 
     @Test
