@@ -47,7 +47,7 @@ public class LoginAcceptanceTest {
     @Before
     public void setup(){
         usernameInput = "ajoson";
-        passwordInput = "123456";
+        passwordInput = "12345678";
     }
 
 
