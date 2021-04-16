@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 import comp3350.team7.scheduleapp.R;
-import comp3350.team7.scheduleapp.ToastMatcher;
+import comp3350.team7.scheduleapp.SystemTest.ToastMatcher;
 import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.EventController;
 import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;

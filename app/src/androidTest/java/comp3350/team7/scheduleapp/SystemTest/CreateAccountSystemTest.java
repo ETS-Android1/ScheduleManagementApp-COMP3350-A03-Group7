@@ -1,7 +1,8 @@
-package comp3350.team7.scheduleapp;
+package comp3350.team7.scheduleapp.SystemTest;
 
 
 import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.SmallTest;
@@ -12,6 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.logic.exceptions.UserDBException;
 import comp3350.team7.scheduleapp.presentation.activity.CreateAccountActivity;
 
@@ -64,7 +66,7 @@ public class CreateAccountSystemTest {
         System.out.println("Starting visibilityTest.");
 
         //check if Firstname textbox is visible
-        onView(withId(R.id.Firstname)).check(matches(isDisplayed()));
+        onView(ViewMatchers.withId(R.id.Firstname)).check(matches(isDisplayed()));
 
         //check if Lastname textbox is visible
         onView(withId(R.id.Lastname)).check(matches(isDisplayed()));
@@ -146,7 +148,7 @@ public class CreateAccountSystemTest {
         onView(withId(R.id.Create_Account)).perform(click());
 
         //pressing the button with empty fields should send a toast makeText display
-        onView(withId(R.id.CreateAccountLayout)).check(matches(isDisplayed()));
+        onView(withId(R.id.Create_Account)).check(matches(isDisplayed()));
         //figure out how to test for toast display using ActivityScenarioRule
 
         System.out.println("Finished testCreateAccountWithAllEmptyFields.\n");
@@ -167,7 +169,7 @@ public class CreateAccountSystemTest {
         onView(withId(R.id.Create_Account)).perform(click());
 
         //pressing the button with empty fields should send a toast makeText display
-        onView(withId(R.id.CreateAccountLayout)).check(matches(isDisplayed()));
+        onView(withId(R.id.Create_Account)).check(matches(isDisplayed()));
         //figure out how to test for toast display using ActivityScenarioRule
 
         System.out.println("Finished testCreateAccountWithSomeEmptyFields.\n");
@@ -191,7 +193,7 @@ public class CreateAccountSystemTest {
 
         //pressing the button with confirmPassword =/= password should display a toast message stating that "Must match the password entered."
         //and stay on CreateAccountActivity
-        onView(withId(R.id.CreateAccountLayout)).check(matches(isDisplayed()));
+        onView(withId(R.id.Create_Account)).check(matches(isDisplayed()));
         //figure out how to test for toast display using ActivityScenarioRule
 
         System.out.println("Finished testCreateAccountWithMismatchedPassword.\n");
@@ -214,7 +216,7 @@ public class CreateAccountSystemTest {
 
         //Pressing CreateAccount button with a not unique username should display a toast message stating that "Username is taken"
         //and stay on CreateAccountActivity
-        onView(withId(R.id.CreateAccountLayout)).check(matches(isDisplayed()));
+        onView(withId(R.id.Create_Account)).check(matches(isDisplayed()));
         //figure out how to test for toast display using ActivityScenarioRule
 
         System.out.println("Finished testCreateNotUniqueAccount.\n");

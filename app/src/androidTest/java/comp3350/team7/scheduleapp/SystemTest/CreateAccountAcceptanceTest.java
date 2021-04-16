@@ -1,10 +1,11 @@
-package comp3350.team7.scheduleapp;
+package comp3350.team7.scheduleapp.SystemTest;
 
 /*
  * Created By Thai Tran on 05 April,2021
  *
  */
 
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -14,12 +15,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import comp3350.team7.scheduleapp.Utils.TestUtils;
-import comp3350.team7.scheduleapp.Utils.UserInfo.FakeUserInfo;
-import comp3350.team7.scheduleapp.application.DbServiceProvider;
+import comp3350.team7.scheduleapp.R;
+import comp3350.team7.scheduleapp.application.DbClient;
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 import comp3350.team7.scheduleapp.presentation.activity.LoginActivity;
+import comp3350.team7.scheduleapp.ultils.TestUtils;
+import comp3350.team7.scheduleapp.ultils.UserInfo.FakeUserInfo;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -38,7 +40,7 @@ public class CreateAccountAcceptanceTest {
 
     @Before
     public void setup(){
-        db = DbServiceProvider.getInstance().getUserPersistence();
+        db = DbClient.getInstance().getUserPersistence();
         //User removeTestUser = new User(FakeUserInfo.firstname, FakeUserInfo.lastname, FakeUserInfo.username,FakeUserInfo.password);
         //db.deleteUser(removeTestUser);
     }
@@ -53,7 +55,7 @@ public class CreateAccountAcceptanceTest {
         User removeTestUser = new User(FakeUserInfo.firstname, FakeUserInfo.lastname, FakeUserInfo.username,FakeUserInfo.password);
         db.deleteUser(removeTestUser);
 
-        onView(withId(R.id.NewAccountButton)).perform((click()));
+        onView(ViewMatchers.withId(R.id.NewAccountButton)).perform((click()));
 
         //At CreateAccount Screen
         onView(withId(R.id.Firstname)).perform(typeText(FakeUserInfo.firstname), closeSoftKeyboard());

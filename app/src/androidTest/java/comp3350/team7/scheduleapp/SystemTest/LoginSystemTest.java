@@ -1,7 +1,9 @@
-package comp3350.team7.scheduleapp;
+package comp3350.team7.scheduleapp.SystemTest;
 
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.LargeTest;
 
 import org.junit.After;
 import org.junit.Before;
@@ -9,6 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.presentation.activity.LoginActivity;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -19,6 +22,11 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
+/*
+ * Created By Thai Tran on 16 April,2021
+ *
+ */
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -52,7 +60,7 @@ public class LoginSystemTest {
         System.out.println("Starting testVisibility");
 
         //Check if LoginUsername text box is visible
-        onView(withId(R.id.LoginUsernameInput)).check(matches(isDisplayed()));
+        onView(ViewMatchers.withId(R.id.LoginUsernameInput)).check(matches(isDisplayed()));
 
         //Check if LoginPassword text box is visible
         onView(withId(R.id.LoginPasswordInput)).check(matches(isDisplayed()));

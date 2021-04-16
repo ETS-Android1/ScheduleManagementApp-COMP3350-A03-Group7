@@ -1,4 +1,4 @@
-package comp3350.team7.scheduleapp.Utils.UserInfo;
+package comp3350.team7.scheduleapp.ultils.UserInfo;
 
 /*
  * Created By Thai Tran on 31 March,2021

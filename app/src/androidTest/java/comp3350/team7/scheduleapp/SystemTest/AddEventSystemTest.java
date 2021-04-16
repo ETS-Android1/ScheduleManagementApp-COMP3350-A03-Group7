@@ -1,4 +1,4 @@
-package comp3350.team7.scheduleapp;
+package comp3350.team7.scheduleapp.SystemTest;
 
 /*
  * Created By Thai Tran on 28 March,2021
@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 
 import java.util.Calendar;
 
+import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.EventController;
 import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
@@ -38,6 +39,11 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static comp3350.team7.scheduleapp.ultils.TestHelper.pickAlarmSpinnerItems;
 
 // for assertions on Java 8 types (Streams and java.util.Optional)
+
+/*
+ * Created By Thai Tran on 16 April,2021
+ *
+ */
 
 @RunWith(AndroidJUnit4.class)
 public class AddEventSystemTest {

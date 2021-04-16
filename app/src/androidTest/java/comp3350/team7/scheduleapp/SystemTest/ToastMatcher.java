@@ -1,4 +1,4 @@
-package comp3350.team7.scheduleapp;
+package comp3350.team7.scheduleapp.SystemTest;
 
 /*
  * Created By Thai Tran on 25 March,2021

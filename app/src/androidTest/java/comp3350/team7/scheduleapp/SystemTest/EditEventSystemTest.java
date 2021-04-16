@@ -1,4 +1,4 @@
-package comp3350.team7.scheduleapp;
+package comp3350.team7.scheduleapp.SystemTest;
 
 /*
  * Created By Thai Tran on 28 March,2021
@@ -8,8 +8,10 @@ package comp3350.team7.scheduleapp;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -18,6 +20,7 @@ import org.junit.Test;
 
 import java.util.Calendar;
 
+import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.EventController;
 import comp3350.team7.scheduleapp.logic.TimeController;
@@ -36,6 +39,11 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
+
+/*
+ * Created By Thai Tran on 16 April,2021
+ *
+ */
 
 public class EditEventSystemTest {
     @Rule
@@ -71,7 +79,7 @@ public class EditEventSystemTest {
 
     @Ignore
     public static void matchEditButtonOnRecyclerView(int Position) {
-        ViewInteraction viewInteraction = onView(allOf(withId(R.id.recylerview),
+        ViewInteraction viewInteraction = onView(Matchers.allOf(ViewMatchers.withId(R.id.recylerview),
                 isDisplayed()));
         viewInteraction.perform(RecyclerViewActions.actionOnItemAtPosition(Position, click()));
         onView(withId(R.id.edit_ic)).perform(click());

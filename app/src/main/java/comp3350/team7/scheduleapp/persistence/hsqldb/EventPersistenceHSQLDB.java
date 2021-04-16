@@ -220,7 +220,6 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
         try(final Connection c = connection()) {
             final PreparedStatement msg = c.prepareStatement(
                     "SELECT * FROM EVENTS WHERE USERID = ? AND CAST(START AS DATE) = ?");
-
             msg.setString(1, username);
             msg.setDate(2, new Date(date.getTimeInMillis()));
 
@@ -238,5 +237,4 @@ public class EventPersistenceHSQLDB implements EventPersistenceInterface {
             throw new DbErrorException("Can not retrieve schedule on date: " + date.getTime().toString() , e);
         }
     }
-
 }

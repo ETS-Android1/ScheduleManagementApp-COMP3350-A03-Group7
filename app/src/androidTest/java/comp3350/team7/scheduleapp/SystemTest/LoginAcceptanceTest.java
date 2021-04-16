@@ -1,16 +1,16 @@
-package comp3350.team7.scheduleapp;
+package comp3350.team7.scheduleapp.SystemTest;
 
 /*
  * Created By Thai Tran on 03 April,2021
  *
  */
 
+import android.os.SystemClock;
+
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.filters.LargeTest;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -24,10 +24,8 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 
@@ -47,7 +45,7 @@ public class LoginAcceptanceTest {
     @Before
     public void setup(){
         usernameInput = "ajoson";
-        passwordInput = "123456";
+        passwordInput = "12345678";
     }
 
 
@@ -64,7 +62,7 @@ public class LoginAcceptanceTest {
 
         System.out.println("Clicking Login Button");
         onView(withId(R.id.loginButton)).perform(click());
-
+        SystemClock.sleep(500);
         intended(hasComponent(ScrollingActivity.class.getName()));
         Intents.release();
 

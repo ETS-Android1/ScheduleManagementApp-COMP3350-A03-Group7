@@ -1,4 +1,4 @@
-package comp3350.team7.scheduleapp;
+package comp3350.team7.scheduleapp.SystemTest;
 
 /*
  * Created By Thai Tran on 28 March,2021
@@ -21,6 +21,7 @@ import org.junit.Test;
 
 import java.util.Calendar;
 
+import comp3350.team7.scheduleapp.R;
 import comp3350.team7.scheduleapp.application.UserClient;
 import comp3350.team7.scheduleapp.logic.EventController;
 import comp3350.team7.scheduleapp.logic.exceptions.EventControllerException;
@@ -77,7 +78,7 @@ public class RemoveUndoEventSystemTest {
     public void testSwipeLeft() {
         TestHelper.swipeRecyclerItemInDir("LEFT")
                 .check(ViewAssertions.matches(allOf(
-                        ViewMatchers.hasDescendant(withId(R.id.backGround)),
+                        ViewMatchers.hasDescendant(ViewMatchers.withId(R.id.backGround)),
                         ViewMatchers.hasDescendant(withText(containsString("Done!"))),
                         withRecyclerViewSize(ItemsTestSize - 1)))); /* item removed on swiped left,
                                                                      the size should be reduced by 1 */
