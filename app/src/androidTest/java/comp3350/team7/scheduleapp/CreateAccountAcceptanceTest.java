@@ -16,7 +16,7 @@ import org.junit.runner.RunWith;
 
 import comp3350.team7.scheduleapp.Utils.TestUtils;
 import comp3350.team7.scheduleapp.Utils.UserInfo.FakeUserInfo;
-import comp3350.team7.scheduleapp.application.DbServiceProvider;
+import comp3350.team7.scheduleapp.application.DbClient;
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 import comp3350.team7.scheduleapp.presentation.activity.LoginActivity;
@@ -38,7 +38,7 @@ public class CreateAccountAcceptanceTest {
 
     @Before
     public void setup(){
-        db = DbServiceProvider.getInstance().getUserPersistence();
+        db = DbClient.getInstance().getUserPersistence();
         //User removeTestUser = new User(FakeUserInfo.firstname, FakeUserInfo.lastname, FakeUserInfo.username,FakeUserInfo.password);
         //db.deleteUser(removeTestUser);
     }

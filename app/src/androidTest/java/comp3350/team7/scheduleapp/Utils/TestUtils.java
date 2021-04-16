@@ -6,7 +6,7 @@ package comp3350.team7.scheduleapp.Utils;
  */
 
 import comp3350.team7.scheduleapp.Utils.UserInfo.FakeUserInfo;
-import comp3350.team7.scheduleapp.application.DbServiceProvider;
+import comp3350.team7.scheduleapp.application.DbClient;
 import comp3350.team7.scheduleapp.objects.User;
 import comp3350.team7.scheduleapp.persistence.UserPersistenceInterface;
 
@@ -14,7 +14,7 @@ public class TestUtils {
 
     public static void setUp(){
         User u = new User(FakeUserInfo.firstname,FakeUserInfo.lastname,FakeUserInfo.username,FakeUserInfo.password);
-        UserPersistenceInterface db = DbServiceProvider.getInstance().getUserPersistence();
+        UserPersistenceInterface db = DbClient.getInstance().getUserPersistence();
 
         db.addUser(u);
 
@@ -22,7 +22,7 @@ public class TestUtils {
 
     public static void clean() {
         User u = new User(FakeUserInfo.firstname,FakeUserInfo.lastname,FakeUserInfo.username,FakeUserInfo.password);
-        UserPersistenceInterface db = DbServiceProvider.getInstance().getUserPersistence();
+        UserPersistenceInterface db = DbClient.getInstance().getUserPersistence();
         db.deleteUser(u);
     }
 
