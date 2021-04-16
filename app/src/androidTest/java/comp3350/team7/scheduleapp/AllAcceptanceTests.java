@@ -29,8 +29,8 @@ import comp3350.team7.scheduleapp.SystemTest.ViewScheduleOnDateSystemTest;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         AddEventSystemTest.class,
-        ViewScheduleOnDateSystemTest.class,
         EditEventSystemTest.class,
+        ViewScheduleOnDateSystemTest.class,
         RemoveUndoEventSystemTest.class,
         CreateAccountSystemTest.class,
         CreateAccountAcceptanceTest.class,
